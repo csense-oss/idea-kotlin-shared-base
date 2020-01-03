@@ -1,3 +1,6 @@
+## 0.0.6
+- even more stuff that was missing..
+
 ## 0.0.5
 - more extensions & bll. 
 - more refactoring

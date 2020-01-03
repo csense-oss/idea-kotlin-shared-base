@@ -1,5 +1,7 @@
 package csense.idea.base.bll.kotlin
 
+import com.intellij.psi.PsiElement
+import org.jetbrains.kotlin.idea.references.mainReference
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 
@@ -14,3 +16,13 @@ fun KtCallExpression.findInvocationArgumentNames(): List<String?> {
         isNamed?.getReferencedName()
     }
 }
+
+/**
+ * Resolves the original method.
+ * @receiver KtCallExpression
+ * @return PsiElement?
+ */
+fun KtCallExpression.resolveMainReference(): PsiElement? {
+    return calleeExpression?.mainReference?.resolve()
+}
+

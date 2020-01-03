@@ -28,3 +28,19 @@ fun UClass.computeSuperMppAnnotations(extManager: ExternalAnnotationsManager): L
     }
     return annotations
 }
+
+
+fun UClass.isSubTypeOf(other: UClass) = isChildOfSafe(other)
+
+fun UClass.isChildOfSafe(other: UClass): Boolean {
+    var currentClass: UClass? = this
+    while (currentClass != null) {
+        if (currentClass == other) {
+            return true
+        }
+        currentClass = currentClass.javaPsi.superClass?.toUElementOfType()
+    }
+    return false
+}
+
+
