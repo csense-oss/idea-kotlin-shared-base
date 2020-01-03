@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'csense-idea-base'
-version '0.0.1'
+version '0.0.5'
 
 ext.csenseUserOrg = "csense-oss"
 ext.csenseRepoName = "idea"
@@ -16,6 +16,7 @@ ext.csenseGit = "https://github.com/csense-oss/idea-kotkin-shared-base.git"
 ext.csenseLicense = "MIT"
 ext.readme = "readme.md"
 ext.csenseArtifactId = "csense-idea-base"
+ext.csenseGroupId = "csense.idea.base"
 
 ext.ideaVersion = "2019.2"
 
@@ -94,7 +95,7 @@ publishing {
             from components.java
             artifact javaDocJarTask
             artifact sourcesJar
-            groupId group
+            groupId csenseGroupId
             artifactId csenseArtifactId
             version version
         }

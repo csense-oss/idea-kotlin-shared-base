@@ -1,4 +1,4 @@
-package csense.idea.base.annotationss
+package csense.idea.base.externalAnnotations
 
 import com.intellij.codeInsight.externalAnnotation.AnnotationProvider
 import com.intellij.openapi.project.Project
