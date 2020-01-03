@@ -1,4 +1,4 @@
-package csense.idea.base.bll
+package csense.idea.base.bll.psi
 
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
@@ -15,7 +15,6 @@ import org.jetbrains.kotlin.psi.psiUtil.forEachDescendantOfType
 inline fun <reified T : PsiElement> PsiElement.findParentOfType(): T? {
     return findParentAndBeforeFromType<T>()?.first
 }
-
 
 inline fun <reified T : PsiElement> PsiElement.findParentAndBeforeFromType(): Pair<T, PsiElement>? {
     var currentElement: PsiElement? = this

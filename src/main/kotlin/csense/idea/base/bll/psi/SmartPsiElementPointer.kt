@@ -1,4 +1,4 @@
-package csense.idea.base.bll
+package csense.idea.base.bll.psi
 
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiElement

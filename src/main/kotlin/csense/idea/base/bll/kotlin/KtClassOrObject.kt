@@ -14,6 +14,13 @@ fun KtClassOrObject.findNonDelegatingProperties(): List<KtProperty> {
     return getProperties().filterNot { prop -> prop.hasDelegate() }
 }
 
+
+fun KtClassOrObject.isSealed(): Boolean = hasModifier(KtTokens.SEALED_KEYWORD)
+
+fun KtClassOrObject.isAbstract(): Boolean = hasModifier(KtTokens.ABSTRACT_KEYWORD)
+
+fun KtClassOrObject.isAnonymous(): Boolean = name == null
+
 fun KtClassOrObject.getAllFunctions(): List<KtNamedFunction> = collectDescendantsOfType()
 
 val KtClassOrObject.superClass: KtClassOrObject?

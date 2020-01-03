@@ -2,7 +2,7 @@
 
 package csense.idea.base.bll.kotlin
 
-import csense.idea.base.bll.countDescendantOfType
+import csense.idea.base.bll.psi.countDescendantOfType
 import org.jetbrains.kotlin.idea.core.isOverridable
 import org.jetbrains.kotlin.idea.refactoring.isAbstract
 import org.jetbrains.kotlin.psi.KtClassOrObject
@@ -41,3 +41,8 @@ inline fun KtNamedFunction.haveOverloads(containerClassOrObject: KtClassOrObject
     } > 1
 }
 //endregion
+
+
+fun KtNamedFunction.isBodyEmpty(): Boolean {
+    return bodyExpression?.children?.isEmpty() ?: true
+}

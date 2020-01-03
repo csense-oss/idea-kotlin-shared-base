@@ -1,4 +1,4 @@
-package csense.idea.base.bll
+package csense.idea.base.bll.uast
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
 import csense.idea.base.annotationss.resolveAllClassAnnotations
