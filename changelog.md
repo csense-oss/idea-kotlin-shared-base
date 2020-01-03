@@ -1,3 +1,6 @@
+## 0.0.7
+- thinning out in the new additions.
+
 ## 0.0.6
 - even more stuff that was missing..
 
