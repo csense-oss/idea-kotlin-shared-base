@@ -28,14 +28,3 @@ fun KtExpression.isConstant(): Boolean = when (this) {
 fun KtStringTemplateExpression.isConstant(): Boolean =
     isPlainWithEscapes()
 
-
-inline fun <reified T> KtExpression.findParentOfType(limit: PsiElement? = null): T? {
-    var currentParent: PsiElement? = this
-    while (currentParent != null && currentParent != limit) {
-        if (currentParent is T) {
-            return currentParent
-        }
-        currentParent = currentParent.parent
-    }
-    return null
-}

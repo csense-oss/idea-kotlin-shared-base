@@ -1,3 +1,6 @@
+## 0.0.8
+- cleaning up
+
 ## 0.0.7
 - thinning out in the new additions.
 
