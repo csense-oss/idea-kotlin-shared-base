@@ -1,3 +1,7 @@
+## 0.1.2
+- added computeTypeAsString for KtExpression
+- added convertToBlockFunction for KtNamedFunction 
+
 ## 0.1.1
 - fix project setup (dependencies)
 

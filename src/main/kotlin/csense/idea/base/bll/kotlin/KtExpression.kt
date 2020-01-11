@@ -1,6 +1,8 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.PsiElement
+import org.jetbrains.kotlin.idea.caches.resolve.analyze
+import org.jetbrains.kotlin.js.descriptorUtils.nameIfStandardType
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
 
@@ -28,3 +30,12 @@ fun KtExpression.isConstant(): Boolean = when (this) {
 fun KtStringTemplateExpression.isConstant(): Boolean =
     isPlainWithEscapes()
 
+/**
+ * Tries to analyze what type this expression resolves to and then get it as a string
+ * @receiver KtExpression
+ * @return String?
+ */
+fun KtExpression.computeTypeAsString(): String? {
+    val type = analyze().getType(this)
+    return type?.nameIfStandardType?.asString()
+}

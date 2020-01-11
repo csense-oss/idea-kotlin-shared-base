@@ -5,6 +5,7 @@ package csense.idea.base.bll.kotlin
 import com.intellij.psi.PsiNamedElement
 import csense.idea.base.UastKtPsi.resolvePsi
 import csense.idea.base.bll.psi.countDescendantOfType
+import csense.kotlin.extensions.primitives.indexOfSafe
 import org.jetbrains.kotlin.idea.core.isOverridable
 import org.jetbrains.kotlin.idea.refactoring.isAbstract
 import org.jetbrains.kotlin.psi.*
@@ -87,4 +88,40 @@ fun KtNamedFunction.doesCallSuperFunction(): Boolean {
         val name = resolved?.name
         fncName == name
     }
+}
+
+
+/**
+ * Tries to convert an body expression function to a block body function
+ * @receiver KtNamedFunction what function to create a copy of with a block body instead of a body expression
+ * @param factory KtPsiFactory the factory to use to create the real KtNamedFunction
+ * @param manipulateBodyCode Function1<String, String> if you want to inject code before / after
+ * and or manipulate the existing code
+ * @return KtNamedFunction
+ */
+fun KtNamedFunction.convertToBlockFunction(
+    factory: KtPsiFactory,
+    manipulateBodyCode: Function1<String, String> = { it }
+): KtNamedFunction {
+    val bodyExp = bodyExpression ?: return this
+    val text = text
+    val equalIndex = text.indexOfSafe("=", 0, false)
+    if (equalIndex.isError) {
+        return this
+    }
+    val subStrTo = text.substring(0, equalIndex.value)
+    val end = subStrTo.lastIndexOf(")")
+    if (end == -1) {
+        return this
+    }
+
+    val computedResultText = if (subStrTo.indexOf(':', end) != -1) {
+        ""
+    } else {
+        val computedReturnType = bodyExp.computeTypeAsString() ?: "Unit"
+        ":$computedReturnType"
+    }
+    val bodyCode = manipulateBodyCode(bodyExp.text)
+    val superFncText = subStrTo + "$computedResultText{\n${bodyCode}\n}"
+    return factory.createFunction(superFncText)
 }
