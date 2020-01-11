@@ -1,3 +1,12 @@
+## 0.1.1
+- fix project setup (dependencies)
+
+## 0.1.0
+- added addFirstInScope &  addLastInScope to KtBlockExpression
+
+## 0.0.9
+- added findOverridingImpl &  doesCallSuperFunction to KtNamedFunction
+
 ## 0.0.8
 - cleaning up
 - class annotations cache updated
