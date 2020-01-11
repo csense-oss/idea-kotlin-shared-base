@@ -1,5 +1,6 @@
 ## 0.0.8
 - cleaning up
+- class annotations cache updated
 
 ## 0.0.7
 - thinning out in the new additions.

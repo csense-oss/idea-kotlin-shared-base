@@ -1,5 +1,6 @@
 package csense.idea.base.bll.kotlin
 
+import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.js.resolve.diagnostics.findPsi
 import org.jetbrains.kotlin.lexer.KtTokens

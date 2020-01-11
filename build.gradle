@@ -7,12 +7,12 @@ plugins {
 }
 
 group 'csense-idea-base'
-version '0.0.7'
+version '0.0.8'
 
 ext.csenseUserOrg = "csense-oss"
 ext.csenseRepoName = "idea"
-ext.csenseGithub = "csense-oss/idea-kotkin-shared-base"
-ext.csenseGit = "https://github.com/csense-oss/idea-kotkin-shared-base.git"
+ext.csenseGithub = "csense-oss/idea-kotlin-shared-base"
+ext.csenseGit = "https://github.com/csense-oss/idea-kotlin-shared-base.git"
 ext.csenseLicense = "MIT"
 ext.readme = "readme.md"
 ext.csenseArtifactId = "csense-idea-base"
