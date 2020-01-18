@@ -21,3 +21,15 @@ fun KtValueArgumentList.addAllArguments(newParameters: Array<out KtValueArgument
         addArgument(it)
     }
 }
+
+
+fun KtValueArgumentList.replaceArguments(newParameters: List<KtValueArgument>) {
+    clearArguments()
+    addAllArguments(newParameters)
+}
+
+fun KtValueArgumentList.addAllArguments(newParameters: List<KtValueArgument>) {
+    newParameters.forEach {
+        addArgument(it)
+    }
+}

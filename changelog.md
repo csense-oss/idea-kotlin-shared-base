@@ -1,3 +1,6 @@
+## 0.1.3
+- more extensions
+
 ## 0.1.2
 - added computeTypeAsString for KtExpression
 - added convertToBlockFunction for KtNamedFunction 
