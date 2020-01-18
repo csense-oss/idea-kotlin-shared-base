@@ -1,3 +1,6 @@
+## 0.1.4
+- some more on types and parameters (inline eg) 
+
 ## 0.1.3
 - more extensions
 

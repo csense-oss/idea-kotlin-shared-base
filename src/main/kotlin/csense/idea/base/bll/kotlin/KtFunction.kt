@@ -14,3 +14,11 @@ fun KtFunction.isInline(): Boolean {
     return modifierList?.getModifier(KtTokens.INLINE_KEYWORD) != null
 }
 
+fun KtFunction.isInlineWithInlineParameters(): Boolean {
+    if (!isInline()) {
+        return false
+    }
+    return valueParameters.any {
+        it.isFunctionalAndNotNoInline()
+    }
+}
