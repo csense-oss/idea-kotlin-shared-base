@@ -5,9 +5,12 @@ import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiModifierListOwner
+import csense.idea.base.bll.kotlin.resolve
+import csense.idea.base.bll.psi.getKotlinFqName
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.asJava.toLightAnnotation
+import org.jetbrains.kotlin.nj2k.postProcessing.resolve
 import org.jetbrains.kotlin.psi.*
 
 /**
@@ -27,11 +30,19 @@ fun KtAnnotation.toMppAnnotation(): MppAnnotation? {
 }
 
 fun KtAnnotationEntry.toMppAnnotation(): MppAnnotation? {
-    //TODO make me..
-    val asLight = toLightAnnotation()
 
-    val qualifiedName = asLight?.qualifiedName ?: return null
-    return MppAnnotation(qualifiedName)
+    //first light
+    val qualifiedName = toLightAnnotation()?.qualifiedName
+    if (qualifiedName != null) {
+        return MppAnnotation(qualifiedName)
+    }
+    //then the "direct" kotlin way.
+    val ktName = this.typeReference?.resolve()?.getKotlinFqName()
+    if (ktName != null) {
+        return MppAnnotation(ktName.asString())
+    }
+    //failed.
+    return null
 }
 
 fun PsiElement.getItemMppAnnotations(): List<MppAnnotation> = when (this) {
@@ -41,11 +52,8 @@ fun PsiElement.getItemMppAnnotations(): List<MppAnnotation> = when (this) {
     else -> emptyList()
 }
 
-fun List<KtAnnotationEntry>.toMppAnnotations():List<MppAnnotation> = mapNotNull { it.toMppAnnotation() }
+fun List<KtAnnotationEntry>.toMppAnnotations(): List<MppAnnotation> = mapNotNull { it.toMppAnnotation() }
 fun Array<PsiAnnotation>.toMppAnnotations(): List<MppAnnotation> = mapNotNull { it.toMppAnnotation() }
-
-
-
 
 
 fun PsiElement.resolveAllClassMppAnnotation(externalAnnotationsManager: ExternalAnnotationsManager? = null): List<MppAnnotation> {

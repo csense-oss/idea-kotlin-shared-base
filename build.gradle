@@ -7,7 +7,7 @@ plugins {
 }
 
 group 'csense-idea-base'
-version '0.1.4'
+version '0.1.7'
 
 ext.csenseUserOrg = "csense-oss"
 ext.csenseRepoName = "idea"

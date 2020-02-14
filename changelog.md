@@ -1,3 +1,11 @@
+## 0.1.6
+- started on KtPropertyAccessor.findOverridingImpl
+- minor update to superClass 
+
+## 0.1.5
+- more work on MPP annotations (so now pure kotlin annotations that cannot become UAST should somewhat work.) 
+- more type reference resolving (can fix some work on superclass analysis for Kotlin)
+
 ## 0.1.4
 - some more on types and parameters (inline eg) 
 
