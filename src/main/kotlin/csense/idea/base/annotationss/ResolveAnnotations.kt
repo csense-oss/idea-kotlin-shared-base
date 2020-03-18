@@ -80,15 +80,29 @@ fun List<KtParameter>.getAllAnnotations(
     it.annotationEntries.toUAnnotation(extManager)
 }
 
-fun List<KtAnnotationEntry>.toUAnnotation(extManager: ExternalAnnotationsManager) = mapNotNull { it.toUElementOfType<UAnnotation>() }
+fun List<KtAnnotationEntry>.toUAnnotation(extManager: ExternalAnnotationsManager) = mapNotNull {
+    it.toUElementOfType<UAnnotation>()
+}
 
 fun PsiParameterList.getAllAnnotations(extManager: ExternalAnnotationsManager): List<List<UAnnotation>> {
     val internal = parameters.map {
-        it.annotations.mapNotNull { it.toUElementOfType<UAnnotation>() }
+        it.annotations.mapNotNull { param -> param.toUElementOfType<UAnnotation>() }
     }
     val external = parameters.map {
-        extManager.findExternalAnnotations(it)?.mapNotNull { it.toUElementOfType<UAnnotation>() }
+        extManager.findExternalAnnotations(it)?.mapNotNull { param -> param.toUElementOfType<UAnnotation>() }
             ?: emptyList()
     }
-    return internal + external
+    return internal.combine(external)
+}
+//TODO remove when in csense kotlin
+/**
+ * Combines the inner list of the other with this.
+ * @receiver List<List<T>>
+ * @param other List<List<T>>
+ * @return List<List<T>>
+ */
+fun <T> List<List<T>>.combine(
+    other: List<List<T>>
+): List<List<T>> = mapIndexed { index, list ->
+    list + other.getOrNull(index).orEmpty()
 }

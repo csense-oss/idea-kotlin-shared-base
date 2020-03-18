@@ -1,3 +1,6 @@
+## 0.1.8
+- fixed a bug with getAllAnnotations (combining lists)
+
 ## 0.1.7
 - updates to UClass handling of annotations
 
