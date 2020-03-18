@@ -1,3 +1,6 @@
+## 0.1.7
+- updates to UClass handling of annotations
+
 ## 0.1.6
 - started on KtPropertyAccessor.findOverridingImpl
 - minor update to superClass 

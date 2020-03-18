@@ -12,6 +12,8 @@ import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.asJava.toLightAnnotation
 import org.jetbrains.kotlin.nj2k.postProcessing.resolve
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.uast.kotlin.AbstractKotlinUClass
+import org.jetbrains.uast.kotlin.KotlinUClass
 
 /**
  * Shared concept of a MPP capable annotation (UAST does not work for MPP projects.)
@@ -59,6 +61,7 @@ fun Array<PsiAnnotation>.toMppAnnotations(): List<MppAnnotation> = mapNotNull { 
 fun PsiElement.resolveAllClassMppAnnotation(externalAnnotationsManager: ExternalAnnotationsManager? = null): List<MppAnnotation> {
     val extManager = externalAnnotationsManager ?: ExternalAnnotationsManager.getInstance(project)
     val internal = when (this) {
+        is AbstractKotlinUClass -> annotations.mapNotNull { it.javaPsi?.toMppAnnotation() }
         is KtLightClass -> annotations.mapNotNull { it.toMppAnnotation() }
         is KtClass -> annotationEntries.mapNotNull { it.toMppAnnotation() }
         is KtClassOrObject -> annotationEntries.mapNotNull { it.toMppAnnotation() }
