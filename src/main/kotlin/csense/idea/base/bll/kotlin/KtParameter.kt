@@ -13,12 +13,7 @@ import org.jetbrains.uast.UClass
 import org.jetbrains.uast.toUElement
 
 fun KtParameter.resolveTypeClass(): UClass? {
-    return (this.resolveToDescriptorIfAny() as? ValueDescriptor)
-        ?.type
-        ?.constructor
-        ?.declarationDescriptor
-        ?.findPsi()
-        ?.toUElement(UClass::class.java)
+    return this.typeReference?.resolve()?.toUElement(UClass::class.java)
 }
 
 fun KtParameter.isSubtypeOf(otherType: UClass): Boolean {

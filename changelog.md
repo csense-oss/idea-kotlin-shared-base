@@ -1,3 +1,6 @@
+## 0.1.9
+- improved resolveTypeClass for KtParamter (fixes issue with issubtypeof) 
+
 ## 0.1.8
 - fixed a bug with getAllAnnotations (combining lists)
 
