@@ -1,3 +1,6 @@
+## 0.1.10
+- improved findInvocationArgumentName (now looks at more types of expressions)
+
 ## 0.1.9
 - improved resolveTypeClass for KtParamter (fixes issue with issubtypeof) 
 
