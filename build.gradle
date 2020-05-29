@@ -27,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    implementation("csense.kotlin:csense-kotlin-jvm:0.0.33")
+    implementation("csense.kotlin:csense-kotlin-jvm:0.0.34")
     implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.17")
     implementation("csense.kotlin:csense-kotlin-ds-jvm:0.0.24")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
