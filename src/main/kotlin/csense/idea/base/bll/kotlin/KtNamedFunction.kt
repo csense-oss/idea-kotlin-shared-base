@@ -29,9 +29,9 @@ fun KtNamedFunction.isAbstractOrOpen(): Boolean {
 
 //region have overloads
 inline fun KtNamedFunction.haveOverloads(): Boolean {
-    //use class or object if there, or if we are toplevel use the file to search.
+    //use class or object if there, or if we are top level use the file to search.
     containingClassOrObject?.let {
-        return haveOverloads(it)
+        return@haveOverloads haveOverloads(it)
     }
     return haveOverloads(containingKtFile)
 }
@@ -68,7 +68,7 @@ fun KtNamedFunction.findOverridingImpl(): KtNamedFunction? {
         if (currentParentFunction != null && currentParentFunction.hasBody()) {
             return currentParentFunction
         }
-        currentParent = parentClass.superClass
+        currentParent = currentParent.superClass
     }
     return null
 }
@@ -84,7 +84,7 @@ fun KtNamedFunction.doesCallSuperFunction(): Boolean {
     return anyDescendantOfType<KtSuperExpression>() {
         val superExp = it.parent as? KtDotQualifiedExpression
         val callExp = superExp?.selectorExpression as? KtCallExpression
-        val resolved = callExp?.resolvePsi() as? PsiNamedElement
+        val resolved = callExp?.resolveMainReference() as? PsiNamedElement
         val name = resolved?.name
         fncName == name
     }

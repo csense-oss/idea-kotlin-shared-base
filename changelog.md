@@ -1,3 +1,9 @@
+## 0.0.13 
+- fixed issue with doesCallSuperFunction
+
+## 0.1.12 (since 0.1.11 had an issue)
+- fixed infinite recursive loop in findOverridingImpl
+
 ## 0.1.10
 - improved findInvocationArgumentName (now looks at more types of expressions)
 
