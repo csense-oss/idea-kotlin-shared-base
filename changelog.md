@@ -1,3 +1,6 @@
+## 0.0.14
+- more extensions and some minor naming updated
+
 ## 0.0.13 
 - fixed issue with doesCallSuperFunction
 
