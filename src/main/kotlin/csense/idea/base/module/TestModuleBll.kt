@@ -3,7 +3,6 @@ package csense.idea.base.module
 import com.intellij.openapi.module.Module
 import com.intellij.openapi.module.ModuleUtil
 import com.intellij.openapi.project.Project
-import com.intellij.openapi.project.rootManager
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.ProjectFileIndex
 import com.intellij.openapi.vfs.VirtualFile
@@ -11,6 +10,8 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import csense.idea.base.bll.toPsiDirectory
 import csense.kotlin.extensions.primitives.doesNotEndsWith
+import org.jetbrains.kotlin.idea.caches.project.SourceType
+import org.jetbrains.kotlin.idea.caches.project.sourceType
 import org.jetbrains.kotlin.idea.util.projectStructure.allModules
 import org.jetbrains.kotlin.idea.util.sourceRoots
 
@@ -27,7 +28,7 @@ fun PsiElement.isInTestModule(): Boolean {
 
 
 fun Module.isTestModule(): Boolean {
-    return name.endsWith("_test") || name.endsWith(".test")
+    return sourceType == SourceType.TEST
 }
 
 

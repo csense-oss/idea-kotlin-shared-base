@@ -1,8 +1,8 @@
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.js.descriptorUtils.nameIfStandardType
+import org.jetbrains.kotlin.nj2k.postProcessing.resolve
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
 
@@ -12,6 +12,11 @@ import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
  * @return Boolean
  */
 fun KtExpression.isConstant(): Boolean = when (this) {
+    is KtNameReferenceExpression -> {
+        //looking at a constant property ?
+        val asProp = resolve() as? KtProperty
+        asProp != null && asProp.isVal && asProp.isGetterConstant()
+    }
     is KtConstantExpression -> {
         true
     }
@@ -23,6 +28,9 @@ fun KtExpression.isConstant(): Boolean = when (this) {
     }
     is KtReturnExpression -> {
         children.size == 1 && (children[0] as KtExpression).isConstant()
+    }
+    is KtBinaryExpression -> {
+        (left?.isConstant() ?: false) && (right?.isConstant() ?: false)
     }
     else -> false
 }

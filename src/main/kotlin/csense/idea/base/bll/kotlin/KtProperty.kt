@@ -16,7 +16,7 @@ fun KtProperty.hasConstantCustomGetterOnly(): Boolean {
 }
 
 fun KtProperty.isGetterConstant(): Boolean {
-    val exp = getterBody ?: return false
+    val exp = getterBody ?: return isVal //if no custom getter then if it is a val it will be constant.
     return exp.isConstant()
 }
 
@@ -28,3 +28,6 @@ fun KtProperty.isOverriding(): Boolean = modifierList?.isOverriding() ?: false
 
 fun KtProperty.isAbstractOrOpen(): Boolean = isAbstract() || isOverridable()
 
+
+inline val KtProperty.isVal: Boolean
+    get() = !isVar

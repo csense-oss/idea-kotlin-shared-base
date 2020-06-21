@@ -1,3 +1,9 @@
+## 0.0.16
+- improved KtExpression.isConstant & KtProperty.isGetterConstant 
+
+## 0.0.15
+- isTestModule improved
+
 ## 0.0.14
 - more extensions and some minor naming updated
 
