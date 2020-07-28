@@ -27,7 +27,7 @@ fun PsiElement.getKotlinFqName(): FqName? = when (val element = namedUnwrappedEl
     else -> null
 }
 
-fun PsiElement.getKotlinFqNameString():String? = getKotlinFqName()?.asString()
+fun PsiElement.getKotlinFqNameString(): String? = getKotlinFqName()?.asString()
 
 fun UExpression.asLong(): Long? = asT(kotlin.String::toLongOrNull)
 fun UExpression.asInt(): Int? = asT(kotlin.String::toIntOrNull)

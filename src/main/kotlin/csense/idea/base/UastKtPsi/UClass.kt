@@ -1,7 +1,7 @@
 package csense.idea.base.UastKtPsi
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
-import csense.idea.base.annotationss.resolveAllClassAnnotations
+import csense.idea.base.annotations.resolveAllClassAnnotations
 import csense.idea.base.mpp.MppAnnotation
 import csense.idea.base.mpp.resolveAllClassMppAnnotation
 import org.jetbrains.uast.UAnnotation

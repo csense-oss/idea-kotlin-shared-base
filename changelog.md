@@ -1,3 +1,12 @@
+## 0.0.19
+- resolve & type aliases 
+
+## 0.0.18
+- findValidProblemElement extension and changed registerProblemSafe to use it instead of hiding exception(s) 
+
+## 0.0.17
+- more extensions and major improvements to resolve (ktTypeReference)
+
 ## 0.0.16
 - improved KtExpression.isConstant & KtProperty.isGetterConstant 
 

@@ -1,4 +1,4 @@
-package csense.idea.base.annotationss
+package csense.idea.base.annotations
 
 import com.intellij.psi.PsiModifierListOwner
 import org.jetbrains.kotlin.psi.KtAnnotated

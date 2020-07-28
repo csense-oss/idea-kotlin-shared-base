@@ -51,7 +51,6 @@ inline fun <reified T : PsiElement> PsiElement.haveDescendantOfType(
 }
 
 
-
 //from https://github.com/JetBrains/kotlin/blob/master/idea/idea-analysis/src/org/jetbrains/kotlin/idea/refactoring/fqName/fqNameUtil.kt
 /**
  * Returns FqName for given declaration (either Java or Kotlin)

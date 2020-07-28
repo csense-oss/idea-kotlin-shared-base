@@ -42,7 +42,6 @@ fun KtExpression.resolvePotentialArgumentName(): String? = when (this) {
 }
 
 
-
 /**
  * Resolves the original method.
  * @receiver KtCallExpression

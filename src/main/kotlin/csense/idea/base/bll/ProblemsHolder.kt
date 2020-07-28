@@ -1,10 +1,12 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll
 
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.psi.PsiElement
-import csense.kotlin.extensions.toUnit
-import csense.kotlin.extensions.tryAndLog
+import org.jetbrains.kotlin.psi.KtCallExpression
+import org.jetbrains.kotlin.psi.stubs.elements.KtNameReferenceExpressionElementType
 
 
 /**
@@ -13,9 +15,9 @@ import csense.kotlin.extensions.tryAndLog
  * @param psiElement PsiElement
  * @param descriptionTemplate String
  */
-fun ProblemsHolder.registerProblemSafe(psiElement: PsiElement, descriptionTemplate: String) = tryAndLog {
-    registerProblem(psiElement, descriptionTemplate)
-}.toUnit()
+fun ProblemsHolder.registerProblemSafe(psiElement: PsiElement, descriptionTemplate: String) {
+    registerProblem(psiElement.findValidProblemElement(), descriptionTemplate)
+}
 
 /**
  * since register problem can throw if the types are "error" psi types...
@@ -24,6 +26,27 @@ fun ProblemsHolder.registerProblemSafe(psiElement: PsiElement, descriptionTempla
  * @param descriptionTemplate String
  * @param fixes Array<out LocalQuickFix>
  */
-fun ProblemsHolder.registerProblemSafe(psiElement: PsiElement, descriptionTemplate: String, vararg fixes: LocalQuickFix) = tryAndLog {
-    registerProblem(psiElement, descriptionTemplate, *fixes)
-}.toUnit()
+fun ProblemsHolder.registerProblemSafe(
+    psiElement: PsiElement,
+    descriptionTemplate: String,
+    vararg fixes: LocalQuickFix
+) {
+    registerProblem(psiElement.findValidProblemElement(), descriptionTemplate, *fixes)
+}
+
+/**
+ * Finds a "better" element to use for "registerProblem";
+ * since there are a lot of element types that causes assertion issues ect.
+ * @receiver [PsiElement]
+ * @return [PsiElement] a better alternative
+ */
+fun PsiElement.findValidProblemElement(): PsiElement {
+    if (this is KtNameReferenceExpressionElementType) {
+        return parent ?: this
+    }
+    return if (this is KtCallExpression) {
+        calleeExpression ?: parent ?: this
+    } else {
+        this
+    }
+}

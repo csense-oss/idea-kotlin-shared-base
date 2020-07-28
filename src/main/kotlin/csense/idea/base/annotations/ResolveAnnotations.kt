@@ -1,8 +1,9 @@
-package csense.idea.base.annotationss
+package csense.idea.base.annotations
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
 import com.intellij.psi.*
 import csense.idea.base.UastKtPsi.resolvePsi
+import csense.kotlin.extensions.collections.list.combine
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.psi.*
@@ -93,16 +94,4 @@ fun PsiParameterList.getAllAnnotations(extManager: ExternalAnnotationsManager): 
             ?: emptyList()
     }
     return internal.combine(external)
-}
-//TODO remove when in csense kotlin
-/**
- * Combines the inner list of the other with this.
- * @receiver List<List<T>>
- * @param other List<List<T>>
- * @return List<List<T>>
- */
-fun <T> List<List<T>>.combine(
-    other: List<List<T>>
-): List<List<T>> = mapIndexed { index, list ->
-    list + other.getOrNull(index).orEmpty()
 }

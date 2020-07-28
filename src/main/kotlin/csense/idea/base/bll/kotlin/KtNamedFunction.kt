@@ -2,8 +2,8 @@
 
 package csense.idea.base.bll.kotlin
 
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
-import csense.idea.base.UastKtPsi.resolvePsi
 import csense.idea.base.bll.psi.countDescendantOfType
 import csense.kotlin.extensions.primitives.indexOfSafe
 import org.jetbrains.kotlin.idea.core.isOverridable
@@ -124,4 +124,9 @@ fun KtNamedFunction.convertToBlockFunction(
     val bodyCode = manipulateBodyCode(bodyExp.text)
     val superFncText = subStrTo + "$computedResultText{\n${bodyCode}\n}"
     return factory.createFunction(superFncText)
+}
+
+
+fun KtNamedFunction.getDeclaredReturnType(): PsiElement? {
+    return typeReference?.resolve()
 }

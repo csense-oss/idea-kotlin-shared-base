@@ -2,13 +2,10 @@ package csense.idea.base.cache
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
 import com.intellij.psi.PsiClass
-import csense.idea.base.UastKtPsi.computeSuperAnnotations
-import csense.idea.base.annotationss.resolveAllClassAnnotations
 import csense.idea.base.bll.uast.computeSuperMppAnnotations
 import csense.idea.base.mpp.MppAnnotation
 import csense.idea.base.mpp.resolveAllClassMppAnnotation
 import org.jetbrains.kotlin.psi.KtClassOrObject
-import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.toUElementOfType
 import java.util.concurrent.ConcurrentHashMap
@@ -28,7 +25,8 @@ object ClassHierarchyAnnotationsCache {
      */
     fun getClassHierarchyAnnotations(
         clazz: UClass?,
-        extManager: ExternalAnnotationsManager): List<MppAnnotation> {
+        extManager: ExternalAnnotationsManager
+    ): List<MppAnnotation> {
         if (clazz == null) {
             return emptyList()
         }
@@ -46,7 +44,8 @@ object ClassHierarchyAnnotationsCache {
 
     fun getClassHierarchyAnnotations(
         clazz: PsiClass?,
-        extManager: ExternalAnnotationsManager): List<MppAnnotation> {
+        extManager: ExternalAnnotationsManager
+    ): List<MppAnnotation> {
         return getClassHierarchyAnnotations(clazz?.toUElementOfType<UClass>(), extManager)
     }
 

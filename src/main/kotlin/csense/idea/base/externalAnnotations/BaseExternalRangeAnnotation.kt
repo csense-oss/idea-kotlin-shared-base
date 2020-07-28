@@ -58,7 +58,7 @@ abstract class BaseExternalRangeAnnotation<Min, Max> : BaseIntentionAction() {
     override fun invoke(project: Project, editor: Editor?, file: PsiFile?) {
         val owner: PsiModifierListOwner = findOwner(editor, file) ?: return
         val annotation = ExternalAnnotationsManager.getInstance(project)
-                .findExternalAnnotation(owner, annotationName)
+            .findExternalAnnotation(owner, annotationName)
         val parsed = getValueFrom(annotation)
         val min = parsed.first.toString()
         val max = parsed.second.toString()
@@ -91,19 +91,23 @@ abstract class BaseExternalRangeAnnotation<Min, Max> : BaseIntentionAction() {
         return validate(min?.toMin(), max?.toMax())
     }
 
-    open fun createDialog(project: Project,
-                          minText: JBTextField,
-                          maxText: JBTextField): DialogBuilder? {
+    open fun createDialog(
+        project: Project,
+        minText: JBTextField,
+        maxText: JBTextField
+    ): DialogBuilder? {
         val panel = JPanel(GridBagLayout())
         val c = GridBag()
-                .setDefaultAnchor(GridBagConstraints.WEST)
-                .setDefaultFill(GridBagConstraints.HORIZONTAL)
-                .setDefaultInsets(JBUI.insets(2))
-                .setDefaultWeightX(0, 1.0)
-                .setDefaultWeightX(1, 3.0)
-                .setDefaultWeightY(1.0)
-        panel.add(Messages.configureMessagePaneUi(JTextPane(), promptText),
-                c.nextLine().next().coverLine())
+            .setDefaultAnchor(GridBagConstraints.WEST)
+            .setDefaultFill(GridBagConstraints.HORIZONTAL)
+            .setDefaultInsets(JBUI.insets(2))
+            .setDefaultWeightX(0, 1.0)
+            .setDefaultWeightX(1, 3.0)
+            .setDefaultWeightY(1.0)
+        panel.add(
+            Messages.configureMessagePaneUi(JTextPane(), promptText),
+            c.nextLine().next().coverLine()
+        )
         val fromLabel = JLabel(fromText)
         fromLabel.setDisplayedMnemonic('f')
         fromLabel.labelFor = minText
@@ -128,6 +132,7 @@ abstract class BaseExternalRangeAnnotation<Min, Max> : BaseIntentionAction() {
     abstract fun String.toMin(): Min?
 
     abstract fun String.toMax(): Max?
+
     /**
      *
      * @param min Min
@@ -143,10 +148,12 @@ abstract class BaseExternalRangeAnnotation<Min, Max> : BaseIntentionAction() {
         val manager = ExternalAnnotationsManager.getInstance(project)
         manager.deannotate(owner, annotationName)
         val mockAnno = JavaPsiFacade.getElementFactory(project)
-                .createAnnotationFromText(createAnnotationCode(minReal, maxReal), null)
+            .createAnnotationFromText(createAnnotationCode(minReal, maxReal), null)
         try {
-            manager.annotateExternally(owner, annotationName, owner.containingFile,
-                    mockAnno.parameterList.attributes)
+            manager.annotateExternally(
+                owner, annotationName, owner.containingFile,
+                mockAnno.parameterList.attributes
+            )
         } catch (ignored: CanceledConfigurationException) {
 
         }

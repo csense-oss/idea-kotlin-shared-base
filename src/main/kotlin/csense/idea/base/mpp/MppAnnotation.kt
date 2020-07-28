@@ -10,10 +10,8 @@ import csense.idea.base.bll.psi.getKotlinFqName
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.asJava.toLightAnnotation
-import org.jetbrains.kotlin.nj2k.postProcessing.resolve
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.uast.kotlin.AbstractKotlinUClass
-import org.jetbrains.uast.kotlin.KotlinUClass
 
 /**
  * Shared concept of a MPP capable annotation (UAST does not work for MPP projects.)

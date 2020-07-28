@@ -9,7 +9,8 @@ fun ValueArgument.resolveClassLiterals(): List<KtClassLiteralExpression> {
     return when (val argumentExpression = getArgumentExpression()) {
         is KtClassLiteralExpression -> listOf(argumentExpression)
         is KtCollectionLiteralExpression -> argumentExpression.getInnerExpressions().filterIsInstance(
-            KtClassLiteralExpression::class.java)
+            KtClassLiteralExpression::class.java
+        )
         is KtCallExpression -> argumentExpression.valueArguments.mapNotNull { it.getArgumentExpression() as? KtClassLiteralExpression }
         else -> emptyList()
     }
