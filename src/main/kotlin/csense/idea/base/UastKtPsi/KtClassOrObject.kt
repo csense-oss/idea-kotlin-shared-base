@@ -1,6 +1,7 @@
 package csense.idea.base.UastKtPsi
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
+import csense.idea.base.bll.uast.computeSuperAnnotations
 import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UClass

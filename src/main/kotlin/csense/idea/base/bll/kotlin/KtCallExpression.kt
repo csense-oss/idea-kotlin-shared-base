@@ -1,9 +1,14 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiMember
 import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.idea.references.mainReference
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.uast.UClass
+import org.jetbrains.uast.toUElement
 
 
 /**
@@ -49,6 +54,25 @@ fun KtExpression.resolvePotentialArgumentName(): String? = when (this) {
  */
 fun KtCallExpression.resolveMainReference(): PsiElement? {
     return calleeExpression?.mainReference?.resolve()
+}
+
+fun KtCallExpression.resolveMainReferenceWithTypeAlias(): PsiElement? {
+    val resolved = calleeExpression?.mainReference?.resolve()
+    return if (resolved is KtTypeAlias) {
+        resolved.getTypeReference()?.resolve()
+    } else {
+        resolved
+    }
+}
+
+fun KtCallExpression.resolveMainReferenceWithTypeAliasForClass(): UClass? {
+    val resolved = resolveMainReferenceWithTypeAlias()
+    val clz = if (resolved is PsiMember) {
+        resolved.containingClass
+    } else {
+        resolved
+    }
+    return clz?.toUElement(UClass::class.java)
 }
 
 /**

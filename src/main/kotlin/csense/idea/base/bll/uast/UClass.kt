@@ -1,7 +1,10 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll.uast
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
 import csense.idea.base.annotations.resolveAllClassAnnotations
+import csense.idea.base.bll.psi.getKotlinFqNameString
 import csense.idea.base.mpp.MppAnnotation
 import csense.idea.base.mpp.resolveAllClassMppAnnotation
 import org.jetbrains.uast.UAnnotation
@@ -43,4 +46,21 @@ fun UClass.isChildOfSafe(other: UClass): Boolean {
     return false
 }
 
+fun UClass.anyParentOf(function: Function1<UClass, Boolean>): Boolean {
+    var parent: UClass? = this
+    while (parent != null) {
+        if (function(parent)) {
+            return true
+        }
+        parent = parent.supers.firstOrNull()?.toUElementOfType()
+    }
+    return false
+}
 
+
+fun UClass.isRuntimeExceptionClass(): Boolean {
+    return anyParentOf {
+        val fqName = it.getKotlinFqNameString()
+        fqName == "java.lang.RuntimeException" || fqName == "kotlin.RuntimeException"
+    }
+}

@@ -1,22 +1,26 @@
-## 0.0.19
+## 0.1.20
+- fixes and type alias handling
+- runtime exception detection code
+
+## 0.1.19
 - resolve & type aliases 
 
-## 0.0.18
+## 0.1.18
 - findValidProblemElement extension and changed registerProblemSafe to use it instead of hiding exception(s) 
 
-## 0.0.17
+## 0.1.17
 - more extensions and major improvements to resolve (ktTypeReference)
 
-## 0.0.16
+## 0.1.16
 - improved KtExpression.isConstant & KtProperty.isGetterConstant 
 
-## 0.0.15
+## 0.1.15
 - isTestModule improved
 
-## 0.0.14
+## 0.1.14
 - more extensions and some minor naming updated
 
-## 0.0.13 
+## 0.1.13 
 - fixed issue with doesCallSuperFunction
 
 ## 0.1.12 (since 0.1.11 had an issue)
