@@ -1,11 +1,11 @@
-@file:Suppress("NOTHING_TO_INLINE")
+@file:Suppress("NOTHING_TO_INLINE", "unused")
 
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import csense.idea.base.bll.psi.countDescendantOfType
-import csense.kotlin.extensions.primitives.indexOfSafe
+import csense.kotlin.extensions.primitives.indexOfOrNull
 import org.jetbrains.kotlin.idea.core.isOverridable
 import org.jetbrains.kotlin.idea.refactoring.isAbstract
 import org.jetbrains.kotlin.psi.*
@@ -105,11 +105,8 @@ fun KtNamedFunction.convertToBlockFunction(
 ): KtNamedFunction {
     val bodyExp = bodyExpression ?: return this
     val text = text
-    val equalIndex = text.indexOfSafe("=", 0, false)
-    if (equalIndex.isError) {
-        return this
-    }
-    val subStrTo = text.substring(0, equalIndex.value)
+    val equalIndex = text.indexOfOrNull("=", 0, false) ?: return this
+    val subStrTo = text.substring(0, equalIndex)
     val end = subStrTo.lastIndexOf(")")
     if (end == -1) {
         return this
@@ -130,3 +127,7 @@ fun KtNamedFunction.convertToBlockFunction(
 fun KtNamedFunction.getDeclaredReturnType(): PsiElement? {
     return typeReference?.resolve()
 }
+
+fun KtNamedFunction.isReceiver(): Boolean =
+    receiverTypeReference != null
+

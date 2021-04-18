@@ -23,26 +23,18 @@ fun KtCallExpression.findInvocationArgumentNamesNew(): List<String?> {
 }
 
 /**
- * Used to try and find a potential name for a given argument. (
+ * Used to try and find a potential name for a given argument.
  * @receiver KtExpression
  * @return String?
  */
-fun KtExpression.resolvePotentialArgumentName(): String? = when (this) {
+tailrec fun KtExpression.resolvePotentialArgumentName(): String? = when (this) {
     is KtNameReferenceExpression -> getReferencedName()
     is KtDotQualifiedExpression -> {
-        val lhs = receiverExpression as? KtNameReferenceExpression
-        val rhs = selectorExpression as? KtNameReferenceExpression
-        rhs?.resolvePotentialArgumentName() ?: lhs?.resolvePotentialArgumentName()
-    }//todo callexpression,akk class with a name then something in that.
-    //akk
-    /*
-    data class Bottom(val top: Double)
-    data class Top(val bottom: Bottom)
-    fun use(top:Double) {}
-    fun test() {
-        use(Top(Bottom(42.0)).bottom.top)
+        (selectorExpression ?: receiverExpression).resolvePotentialArgumentName()
     }
-    */
+    is KtCallExpression -> {
+        calleeExpression?.resolvePotentialArgumentName()
+    }
     else -> null
 }
 
@@ -91,4 +83,10 @@ fun KtCallExpression.resolveMainReferenceAsKtFunction(): KtFunction? {
  */
 fun KtCallExpression.resolveMainReferenceAsPsiMethod(): PsiMethod? {
     return resolveMainReference() as? PsiMethod
+}
+
+fun KtCallExpression.findArgumentNames(): List<String?> {
+    return valueArguments.map {
+        it?.getArgumentName()?.text
+    }
 }

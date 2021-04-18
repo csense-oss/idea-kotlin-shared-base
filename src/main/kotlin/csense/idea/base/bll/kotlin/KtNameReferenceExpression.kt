@@ -28,3 +28,7 @@ fun KtNameReferenceExpression.resolveAliasType(): KtTypeElement? {
 
 fun KtNameReferenceExpression.isTypeAliasFunctional(): Boolean =
     resolveAliasType()?.isFunctional() ?: false
+
+fun KtNameReferenceExpression.isMethodReference(): Boolean {
+    return this.parent is KtDoubleColonExpression
+}

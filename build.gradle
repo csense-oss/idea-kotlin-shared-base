@@ -1,35 +1,43 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.3.72'
+    id 'org.jetbrains.kotlin.jvm' version '1.4.32'
+    id("org.jetbrains.dokka") version "1.4.20"
     id "maven-publish"
-    id 'org.jetbrains.dokka' version '0.10.1'
-    id "com.jfrog.bintray" version "1.8.5"
-    id 'java'
+    id "net.linguica.maven-settings" version "0.5"
 }
 
-group 'csense-idea-base'
-version '0.1.20'
-
 ext.csenseUserOrg = "csense-oss"
-ext.csenseRepoName = "idea"
-ext.csenseGithub = "csense-oss/idea-kotlin-shared-base"
 ext.csenseGit = "https://github.com/csense-oss/idea-kotlin-shared-base.git"
 ext.csenseLicense = "MIT"
-ext.readme = "readme.md"
+ext.csenseLicenseUrl = "https://mit-license.org/"
+
 ext.csenseArtifactId = "csense-idea-base"
 ext.csenseGroupId = "csense.idea.base"
+ext.csenseVersionName = "0.1.22"
+ext.csenseDeveloperAlias = "tvede-dk"
+ext.csenseDeveloperName = "Kasper Tvede"
+ext.csenseDeveloperEmail = "csenseoss@tvedesys.dk"
 
 ext.ideaVersion = "2019.2"
+ext.csenseArtifactDescription = ""
+ext.csenseWebsite = "https://github.com/csense-oss/idea-kotlin-shared-base"
+
+project.group = ext.csenseArtifactId
+project.version = ext.csenseVersionName
+
 
 repositories {
-    jcenter()
-    maven { url = "https://dl.bintray.com/csense-oss/maven" }
+    mavenCentral()
+    maven {
+        url 'https://pkgs.dev.azure.com/csense-oss/csense-oss/_packaging/csense-oss/maven/v1'
+        name 'csense-oss'
+    }
     maven { url "https://www.jetbrains.com/intellij-repository/releases" }
 }
 
 dependencies {
-    implementation("csense.kotlin:csense-kotlin-jvm:0.0.36")
-    implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.18")
-    implementation("csense.kotlin:csense-kotlin-ds-jvm:0.0.25")
+    implementation("csense.kotlin:csense-kotlin-jvm:0.0.46")
+    implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.41")
+    implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/')
     implementation fileTree(include: ['*.jar'], dir: 'libs/java-lib/')
@@ -47,56 +55,6 @@ kotlin.sourceSets.all {
     languageSettings.progressiveMode = true
 }
 
-bintray {
-    Properties properties = new Properties()
-    try {
-        properties.load(project.rootProject.file('local.properties')?.newDataInputStream())
-        user = properties.getProperty('bintrayUser')
-        key = properties.getProperty('bintrayApiKey')
-    } catch (Exception ignored) {
-        print "could not read local.properties"
-    }
-    publications = ["jvm"]
-    override = true
-    publish = false
-    pkg {
-        repo = project.csenseRepoName
-        userOrg = project.csenseUserOrg
-        vcsUrl = project.csenseGit
-        licenses = project.csenseLicense
-        name = project.csenseArtifactId
-    }
-}
+apply from: "$rootDir/gradle/publish.gradle"
 
-
-task uploadProd(dependsOn: ["assemble", "test", "dokka", "javadocJar", "bintrayUpload"])
-
-
-task dokkaJavadoc(type: org.jetbrains.dokka.gradle.DokkaTask) {
-    outputFormat = "javadoc"
-    outputDirectory = "$buildDir/dokkaJavadoc"
-}
-
-final def sourcesJar = task sourcesJar(type: Jar, dependsOn: classes) {
-    archiveClassifier.set("sources")
-    from sourceSets.main.allSource
-}
-
-
-final def javaDocJarTask = task("javadocJar", type: Jar, dependsOn: "dokkaJavadoc") {
-    archiveClassifier.set('javadoc')
-    from "${project.buildDir}/dokkaJavadoc"
-}
-
-publishing {
-    publications {
-        jvm(MavenPublication) {
-            from components.java
-            artifact javaDocJarTask
-            artifact sourcesJar
-            groupId csenseGroupId
-            artifactId csenseArtifactId
-            version version
-        }
-    }
-}
+task uploadProd(dependsOn: ["assemble", "test", "publish"])
