@@ -13,9 +13,8 @@ import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
  */
 fun KtExpression.isConstant(): Boolean = when (this) {
     is KtNameReferenceExpression -> {
-        //looking at a constant property ?
         val asProp = resolve() as? KtProperty
-        asProp != null && asProp.isVal && asProp.isGetterConstant()
+        asProp?.isGetterConstant() ?: false
     }
     is KtConstantExpression -> {
         true
@@ -24,10 +23,10 @@ fun KtExpression.isConstant(): Boolean = when (this) {
         this.isConstant()
     }
     is KtBlockExpression -> {
-        children.size == 1 && (children[0] as KtExpression).isConstant()
+        children.size == 1 && (children[0] as? KtExpression)?.isConstant() == true
     }
     is KtReturnExpression -> {
-        children.size == 1 && (children[0] as KtExpression).isConstant()
+        children.size == 1 && (children[0] as? KtExpression)?.isConstant() == true
     }
     is KtBinaryExpression -> {
         (left?.isConstant() ?: false) && (right?.isConstant() ?: false)
@@ -46,4 +45,8 @@ fun KtStringTemplateExpression.isConstant(): Boolean =
 fun KtExpression.computeTypeAsString(): String? {
     val type = analyze().getType(this)
     return type?.nameIfStandardType?.asString()
+}
+
+fun KtExpression.isTypeReference(): Boolean {
+    return parent is KtUserType
 }

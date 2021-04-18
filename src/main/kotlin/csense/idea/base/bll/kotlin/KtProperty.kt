@@ -16,7 +16,8 @@ fun KtProperty.hasConstantCustomGetterOnly(): Boolean {
 }
 
 fun KtProperty.isGetterConstant(): Boolean {
-    val exp = getterBody ?: return isVal //if no custom getter then if it is a val it will be constant.
+    val exp = getterBody
+        ?: return isVal && initializer?.isConstant() == true //if no custom getter then if it is a val it will be constant.
     return exp.isConstant()
 }
 
