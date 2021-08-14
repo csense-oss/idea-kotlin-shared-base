@@ -1,3 +1,10 @@
+## 0.1.40 
+- attempt at sources
+- added resolveRealType
+- added toUExceptionClass 
+
+## 0.1.30 
+- reupload
 ## 0.1.23
 
 - updated KtExpression.isConstant & KtProperty.isGetterConstant

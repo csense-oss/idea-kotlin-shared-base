@@ -1,9 +1,8 @@
 package csense.idea.base.bll.psi
 
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiMember
-import com.intellij.psi.PsiPackage
+import com.intellij.psi.*
+import com.intellij.psi.search.GlobalSearchScope
+import csense.idea.base.bll.getJavaLangThrowableUClass
 import csense.kotlin.Function0
 import csense.kotlin.extensions.isNotNull
 import org.jetbrains.kotlin.asJava.namedUnwrappedElement
@@ -11,6 +10,8 @@ import org.jetbrains.kotlin.name.FqName
 import org.jetbrains.kotlin.psi.KtNamedDeclaration
 import org.jetbrains.kotlin.psi.psiUtil.findDescendantOfType
 import org.jetbrains.kotlin.psi.psiUtil.forEachDescendantOfType
+import org.jetbrains.uast.UClass
+import org.jetbrains.uast.toUElementOfType
 
 inline fun <reified T : PsiElement> PsiElement.findParentOfType(): T? {
     return findParentAndBeforeFromType<T>()?.first
@@ -74,5 +75,13 @@ inline fun PsiElement.goUpUntil(parent: PsiElement, action: Function0<PsiElement
     while (current != null && current != parent) {
         action(current)
         current = current.parent
+    }
+}
+
+fun PsiElement.toUExceptionClass(cachedJavaLangThrowableUClass: UClass? = null): UClass? {
+    return if (getKotlinFqNameString() == "kotlin.Throwable") {
+        cachedJavaLangThrowableUClass ?: project.getJavaLangThrowableUClass()
+    } else {
+        toUElementOfType<UClass>()
     }
 }

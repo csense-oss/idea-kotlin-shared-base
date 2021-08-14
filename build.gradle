@@ -12,7 +12,7 @@ ext.csenseLicenseUrl = "https://mit-license.org/"
 
 ext.csenseArtifactId = "csense-idea-base"
 ext.csenseGroupId = "csense.idea.base"
-ext.csenseVersionName = "0.1.30"
+ext.csenseVersionName = "0.1.40"
 ext.csenseDeveloperAlias = "tvede-dk"
 ext.csenseDeveloperName = "Kasper Tvede"
 ext.csenseDeveloperEmail = "csenseoss@tvedesys.dk"
@@ -52,6 +52,10 @@ compileTestKotlin {
 
 kotlin.sourceSets.all {
     languageSettings.progressiveMode = true
+}
+
+java {
+    withSourcesJar()
 }
 
 apply from: "$rootDir/gradle/publish.gradle"

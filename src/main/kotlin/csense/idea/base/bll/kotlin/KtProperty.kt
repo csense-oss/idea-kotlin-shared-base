@@ -1,5 +1,6 @@
 package csense.idea.base.bll.kotlin
 
+import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.core.isOverridable
 import org.jetbrains.kotlin.idea.refactoring.isAbstract
 import org.jetbrains.kotlin.psi.KtExpression
@@ -32,3 +33,11 @@ fun KtProperty.isAbstractOrOpen(): Boolean = isAbstract() || isOverridable()
 
 inline val KtProperty.isVal: Boolean
     get() = !isVar
+
+//fun KtProperty.resolveRealType(): PsiElement? {
+//    val type = typeReference
+//    if (type != null) {
+//        return type.resolve()
+//    }
+//
+//}
