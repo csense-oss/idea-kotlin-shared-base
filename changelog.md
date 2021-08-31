@@ -1,3 +1,6 @@
+## 0.1.41
+- improved Module.isTestModule() 
+
 ## 0.1.40 
 - attempt at sources
 - added resolveRealType

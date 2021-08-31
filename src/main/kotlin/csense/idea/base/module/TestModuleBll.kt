@@ -28,7 +28,9 @@ fun PsiElement.isInTestModule(): Boolean {
 
 
 fun Module.isTestModule(): Boolean {
-    return sourceType == SourceType.TEST
+    return sourceType == SourceType.TEST ||
+            ModuleRootManager.getInstance(this).getSourceRoots(false).isEmpty() &&
+            ModuleRootManager.getInstance(this).getSourceRoots(true).isNotEmpty()
 }
 
 
