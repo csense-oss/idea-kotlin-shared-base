@@ -1,3 +1,6 @@
+## 0.1.50
+- added restartLineMarkers
+- 
 ## 0.1.41
 
 - improved Module.isTestModule()
