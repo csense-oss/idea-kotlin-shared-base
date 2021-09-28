@@ -1,4 +1,4 @@
-package csense.idea.base.UastKtPsi
+package csense.idea.base.uastKtPsi
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
 import csense.idea.base.bll.uast.computeSuperAnnotations

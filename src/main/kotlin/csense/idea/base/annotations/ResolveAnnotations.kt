@@ -2,7 +2,7 @@ package csense.idea.base.annotations
 
 import com.intellij.codeInsight.ExternalAnnotationsManager
 import com.intellij.psi.*
-import csense.idea.base.UastKtPsi.resolvePsi
+import csense.idea.base.uastKtPsi.resolvePsi
 import csense.kotlin.extensions.collections.list.combine
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod

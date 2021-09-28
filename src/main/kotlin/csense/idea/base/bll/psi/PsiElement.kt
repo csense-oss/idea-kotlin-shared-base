@@ -1,5 +1,6 @@
 package csense.idea.base.bll.psi
 
+import com.intellij.pom.*
 import com.intellij.psi.*
 import com.intellij.psi.search.GlobalSearchScope
 import csense.idea.base.bll.getJavaLangThrowableUClass
@@ -84,4 +85,15 @@ fun PsiElement.toUExceptionClass(cachedJavaLangThrowableUClass: UClass? = null):
     } else {
         toUElementOfType<UClass>()
     }
+}
+
+
+fun PsiElement.tryNavigate(requestFocus: Boolean) {
+    if (this is Navigatable) {
+        this.navigate(requestFocus)
+    } else {
+        val navElement = navigationElement as? Navigatable ?: return
+        navElement.tryNavigate(requestFocus)
+    }
+
 }

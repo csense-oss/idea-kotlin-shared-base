@@ -30,7 +30,7 @@ fun PsiDirectory.createPackageFolders(packageName: String): PsiDirectory? = tryA
             return@tryAndLog null
         }
     }
-    return dir
+    return@tryAndLog dir
 }
 
 fun PsiDirectory.findPackageDir(file: KtFile): PsiDirectory? {

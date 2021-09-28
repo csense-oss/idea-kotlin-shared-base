@@ -1,4 +1,4 @@
-package csense.idea.base.UastKtPsi
+package csense.idea.base.uastKtPsi
 
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors

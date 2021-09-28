@@ -1,13 +1,20 @@
 ## 0.1.41
-- improved Module.isTestModule() 
 
-## 0.1.40 
+- improved Module.isTestModule()
+- added tryNavigate (for PsiElement and for Navigateable)
+- other minor functions
+- fix sources not included by default / visible in IDEA
+
+## 0.1.40
+
 - attempt at sources
 - added resolveRealType
-- added toUExceptionClass 
+- added toUExceptionClass
 
-## 0.1.30 
+## 0.1.30
+
 - reupload
+
 ## 0.1.23
 
 - updated KtExpression.isConstant & KtProperty.isGetterConstant

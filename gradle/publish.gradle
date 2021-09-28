@@ -7,7 +7,8 @@ publishing {
             groupId = csenseGroupId
             artifactId = csenseArtifactId
             version = csenseVersionName
-            from components.java
+            from components.kotlin
+            artifact sourcesJar
             pom {
                 name = csenseArtifactId
                 description = csenseArtifactDescription
