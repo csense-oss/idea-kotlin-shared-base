@@ -1,6 +1,8 @@
 ## 0.1.50
 - added restartLineMarkers
-- 
+- kotlin 1.6.10
+- updated resolveRealType  and renamed it to resolveFirstClassType
+
 ## 0.1.41
 
 - improved Module.isTestModule()

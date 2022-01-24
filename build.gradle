@@ -1,8 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.31'
-    id("org.jetbrains.dokka") version "1.5.0"
+    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
     id "maven-publish"
-    id "net.linguica.maven-settings" version "0.5"
 }
 
 ext.csenseUserOrg = "csense-oss"
@@ -12,7 +10,7 @@ ext.csenseLicenseUrl = "https://mit-license.org/"
 
 ext.csenseArtifactId = "csense-idea-base"
 ext.csenseGroupId = "csense.idea.base"
-ext.csenseVersionName = "0.1.41"
+ext.csenseVersionName = "0.1.50"
 ext.csenseDeveloperAlias = "tvede-dk"
 ext.csenseDeveloperName = "Kasper Tvede"
 ext.csenseDeveloperEmail = "csenseoss@tvedesys.dk"
@@ -34,10 +32,12 @@ repositories {
 }
 
 dependencies {
-    implementation("csense.kotlin:csense-kotlin-jvm:0.0.50")
-    implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.41")
+    implementation("csense.kotlin:csense-kotlin-jvm:0.0.54")
+    implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.50")
     implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
+    //extracted from the maven artifact of intellij ce/ the dir names.
+    //eg your local maven: <localuser>/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2020.3/
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/')
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/ant/lib')
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/cds/')

@@ -1,7 +1,7 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.PsiElement
-import csense.idea.base.mapIfInstance
+import csense.kotlin.extensions.*
 import org.jetbrains.kotlin.psi.*
 
 fun KtTypeReference.isFunctional(): Boolean = typeElement?.isFunctional() ?: false
@@ -17,7 +17,7 @@ fun KtTypeReference.resolve(): PsiElement? {
         ?.referenceExpression
         ?.references?.firstOrNull()
         ?.resolve()
-        ?.mapIfInstance { it: KtTypeAlias ->
+        ?.mapIfInstanceOrThis { it: KtTypeAlias ->
             it.getTypeReference()?.resolve()
         }
 }
