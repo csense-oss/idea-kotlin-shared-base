@@ -5,6 +5,7 @@ import com.intellij.openapi.module.ModuleUtil
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.roots.ModuleRootManager
 import com.intellij.openapi.roots.ProjectFileIndex
+import com.intellij.openapi.roots.TestSourcesFilter
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
@@ -15,20 +16,15 @@ import org.jetbrains.kotlin.idea.caches.project.sourceType
 import org.jetbrains.kotlin.idea.util.projectStructure.allModules
 import org.jetbrains.kotlin.idea.util.sourceRoots
 
-
-fun PsiElement.isInTestSourceRoot(): Boolean {
-    val file = this.containingFile ?: return false
-    return ProjectFileIndex.SERVICE.getInstance(project).isInTestSourceContent(file.virtualFile)
-}
-
 fun PsiElement.isInTestModule(): Boolean {
-    val module = ModuleUtil.findModuleForPsiElement(this) ?: return false
-    return module.isTestModule()
+    //works for android.. & idea 203 + 213
+    return TestSourcesFilter.isTestSources(containingFile.virtualFile, project)
 }
 
 
 fun Module.isTestModule(): Boolean {
-    if(sourceType == SourceType.TEST){
+    //TODO use testSourcesFilter or study isInTestSourceContent's docs..
+    if (sourceType == SourceType.TEST) {
         return true
     }
     val rootMgr = ModuleRootManager.getInstance(this)

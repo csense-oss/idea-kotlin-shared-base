@@ -14,3 +14,9 @@ fun restartLineMarkers(forProject: Project, forFile: PsiFile? = null) {
         DaemonCodeAnalyzer.getInstance(forProject).restart()
     }
 }
+
+fun restartLineMarkersForAllProjects() {
+    ProjectManager.getInstance().openProjects.forEach {
+        DaemonCodeAnalyzer.getInstance(it).restart()
+    }
+}

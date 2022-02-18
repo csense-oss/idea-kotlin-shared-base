@@ -6,6 +6,7 @@
 - added
     - PsiElement.endOffset
     - PsiElement.startOffset
+- improved isInTestModule drastically
 
 ## 0.1.41
 
