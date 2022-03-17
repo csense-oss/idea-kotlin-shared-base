@@ -7,7 +7,9 @@
     - PsiElement.endOffset
     - PsiElement.startOffset
 - improved isInTestModule drastically
-
+- isNumberType should be more "stabile" 
+- added resolveType (which does not use on !!)
+- 
 ## 0.1.41
 
 - improved Module.isTestModule()

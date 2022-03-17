@@ -2,9 +2,11 @@ package csense.idea.base.bll.kotlin
 
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
 import org.jetbrains.kotlin.js.descriptorUtils.nameIfStandardType
-import org.jetbrains.kotlin.nj2k.postProcessing.resolve
+
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
+import org.jetbrains.kotlin.resolve.lazy.*
+import org.jetbrains.kotlin.types.*
 
 /**
  * Simple heuristic / not fully done.
@@ -13,7 +15,7 @@ import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
  */
 fun KtExpression.isConstant(): Boolean = when (this) {
     is KtNameReferenceExpression -> {
-        val asProp = resolve() as? KtProperty
+        val asProp = resolveFirstClassType() as? KtProperty
         asProp?.isGetterConstant() ?: false
     }
     is KtConstantExpression -> {
@@ -50,3 +52,6 @@ fun KtExpression.computeTypeAsString(): String? {
 fun KtExpression.isTypeReference(): Boolean {
     return parent is KtUserType
 }
+
+fun KtExpression.resolveType(): KotlinType? =
+    this.analyze(BodyResolveMode.PARTIAL).getType(this)
