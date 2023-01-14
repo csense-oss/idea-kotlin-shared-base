@@ -1,5 +1,5 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.6.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.0'
     id "maven-publish"
 }
 
@@ -10,12 +10,12 @@ ext.csenseLicenseUrl = "https://mit-license.org/"
 
 ext.csenseArtifactId = "csense-idea-base"
 ext.csenseGroupId = "csense.idea.base"
-ext.csenseVersionName = "0.1.50"
+ext.csenseVersionName = "0.1.60"
 ext.csenseDeveloperAlias = "tvede-dk"
 ext.csenseDeveloperName = "Kasper Tvede"
 ext.csenseDeveloperEmail = "csenseoss@tvedesys.dk"
 
-ext.ideaVersion = "2020.3"
+ext.ideaVersion = "2021.3"
 ext.csenseArtifactDescription = ""
 ext.csenseWebsite = "https://github.com/csense-oss/idea-kotlin-shared-base"
 
@@ -32,24 +32,32 @@ repositories {
 }
 
 dependencies {
-    implementation("csense.kotlin:csense-kotlin-jvm:0.0.54")
+    implementation("csense.kotlin:csense-kotlin-jvm:0.0.59")
     implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.50")
     implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"
+
     //extracted from the maven artifact of intellij ce/ the dir names.
     //eg your local maven: <localuser>/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2020.3/
+
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/')
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/ant/lib')
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/cds/')
+
     implementation fileTree(include: ['*.jar'], dir: 'libs/java/')
+
     implementation fileTree(include: ['*.jar'], dir: 'libs/kotlin/')
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+    testImplementation("csense.kotlin:csense-kotlin-tests:0.0.59")
+    testImplementation("csense.idea.test:csense-idea-test:0.2.0")
 }
 
 compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+    kotlinOptions.jvmTarget = "11"
 }
 
 kotlin.sourceSets.all {

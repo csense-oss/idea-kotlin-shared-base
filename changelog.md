@@ -1,15 +1,16 @@
 ## 0.1.50
 
+- uses IDEA 213 as base now
 - added restartLineMarkers
-- kotlin 1.6.10
+- kotlin 1.8.0
 - updated resolveRealType and renamed it to resolveFirstClassType
 - added
     - PsiElement.endOffset
     - PsiElement.startOffset
 - improved isInTestModule drastically
-- isNumberType should be more "stabile" 
+- isNumberType should be more "stable"
 - added resolveType (which does not use on !!)
-- 
+
 ## 0.1.41
 
 - improved Module.isTestModule()

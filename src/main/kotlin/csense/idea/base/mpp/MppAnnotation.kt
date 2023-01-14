@@ -59,7 +59,7 @@ fun Array<PsiAnnotation>.toMppAnnotations(): List<MppAnnotation> = mapNotNull { 
 fun PsiElement.resolveAllClassMppAnnotation(externalAnnotationsManager: ExternalAnnotationsManager? = null): List<MppAnnotation> {
     val extManager = externalAnnotationsManager ?: ExternalAnnotationsManager.getInstance(project)
     val internal = when (this) {
-        is AbstractKotlinUClass -> annotations.mapNotNull { it.javaPsi?.toMppAnnotation() }
+        is AbstractKotlinUClass -> annotations.mapNotNull { it.toMppAnnotation() }
         is KtLightClass -> annotations.mapNotNull { it.toMppAnnotation() }
         is KtClass -> annotationEntries.mapNotNull { it.toMppAnnotation() }
         is KtClassOrObject -> annotationEntries.mapNotNull { it.toMppAnnotation() }

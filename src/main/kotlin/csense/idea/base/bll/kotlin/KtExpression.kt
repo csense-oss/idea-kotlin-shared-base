@@ -52,6 +52,3 @@ fun KtExpression.computeTypeAsString(): String? {
 fun KtExpression.isTypeReference(): Boolean {
     return parent is KtUserType
 }
-
-fun KtExpression.resolveType(): KotlinType? =
-    this.analyze(BodyResolveMode.PARTIAL).getType(this)
