@@ -2,8 +2,7 @@
 
 package csense.idea.base.bll
 
-import com.intellij.codeInspection.LocalQuickFix
-import com.intellij.codeInspection.ProblemsHolder
+import com.intellij.codeInspection.*
 import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.KtCallExpression
 import org.jetbrains.kotlin.psi.stubs.elements.KtNameReferenceExpressionElementType
@@ -49,4 +48,24 @@ fun PsiElement.findValidProblemElement(): PsiElement {
     } else {
         this
     }
+}
+
+
+/**
+ * Will report a problem and highlight the error'ed element rather han just underlining it.
+ */
+fun ProblemsHolder.registerProblemHighlightElement(
+    psiElement: PsiElement,
+    descriptionTemplate: String,
+    fixes: Array<LocalQuickFix> = arrayOf()
+) {
+    val error: ProblemDescriptor = InspectionManager.getInstance(project).createProblemDescriptor(
+        /* psiElement = */ psiElement,
+        /* descriptionTemplate = */ descriptionTemplate,
+        /* fixes = */ fixes,
+        /* highlightType = */ ProblemHighlightType.ERROR,
+        /* onTheFly = */ true,
+        /* isAfterEndOfLine = */ false
+    )
+    registerProblem(error)
 }

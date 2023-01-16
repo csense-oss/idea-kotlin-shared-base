@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll.kotlin
 
 import csense.idea.base.bll.uast.isChildOfSafe
@@ -6,6 +8,7 @@ import org.jetbrains.kotlin.psi.KtFunctionType
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.psiUtil.anyDescendantOfType
+import org.jetbrains.kotlin.types.typeUtil.*
 import org.jetbrains.uast.UClass
 import org.jetbrains.uast.toUElement
 
@@ -33,5 +36,11 @@ fun KtParameter.isFunctionalType(): Boolean {
         it.isTypeAliasFunctional()
     }
 }
+
+fun KtParameter.isNumberTypeWithDefaultValue(): Boolean =
+    isNumberType() && hasDefaultValue()
+
+fun KtParameter.isNumberType(): Boolean =
+    resolveType()?.isPrimitiveNumberOrNullableType() == true
 
 

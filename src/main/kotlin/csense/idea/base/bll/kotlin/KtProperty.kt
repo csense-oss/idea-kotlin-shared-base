@@ -1,11 +1,9 @@
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.idea.core.isOverridable
-import org.jetbrains.kotlin.idea.refactoring.isAbstract
-import org.jetbrains.kotlin.psi.KtExpression
-import org.jetbrains.kotlin.psi.KtProperty
-import org.jetbrains.kotlin.psi.psiUtil.getChildOfType
+import org.jetbrains.kotlin.idea.core.*
+import org.jetbrains.kotlin.idea.refactoring.*
+import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 
 fun KtProperty.hasCustomSetterGetter(): Boolean {
@@ -34,10 +32,5 @@ fun KtProperty.isAbstractOrOpen(): Boolean = isAbstract() || isOverridable()
 inline val KtProperty.isVal: Boolean
     get() = !isVar
 
-//fun KtProperty.resolveRealType(): PsiElement? {
-//    val type = typeReference
-//    if (type != null) {
-//        return type.resolve()
-//    }
-//
-//}
+fun KtProperty.initalizerOrGetter(): KtExpression? =
+    initializer ?: getterBody
