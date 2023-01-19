@@ -1,28 +1,35 @@
 package csense.idea.base.bll.kotlin.models
 
-import csense.idea.base.bll.kotlin.*
 import org.jetbrains.kotlin.psi.*
 
 
 sealed interface ParameterToValueExpression {
     val parameter: KtParameter
-    val valueArgument: KtExpression?
-    val parameterAnnotations: List<KtAnnotationEntry>
+    val valueArguments: List<KtExpression>
+    val parameterValueAnnotations: List<KtAnnotationEntry>
+    val parameterTypeAnnotations: List<KtAnnotationEntry>
 }
+
+val ParameterToValueExpression.allAnnotations: List<KtAnnotationEntry>
+    get() = parameterValueAnnotations + parameterTypeAnnotations
 
 fun ParameterToValueExpression(
     parameter: KtParameter,
-    valueArgument: KtExpression?,
-    annotations: List<KtAnnotationEntry>
-): ParameterToValueExpression = MutableParameterToValueExpression(
+    valueArguments: List<KtExpression>,
+    parameterValueAnnotations: List<KtAnnotationEntry>,
+    parameterTypeAnnotations: List<KtAnnotationEntry>
+): ParameterToValueExpression = MutableParameterToValueExpressions(
     parameter = parameter,
-    valueArgument = valueArgument,
-    parameterAnnotations = annotations
+    valueArguments = valueArguments,
+    parameterValueAnnotations = parameterValueAnnotations,
+    parameterTypeAnnotations = parameterTypeAnnotations
 )
 
-data class MutableParameterToValueExpression(
+data class MutableParameterToValueExpressions(
     override var parameter: KtParameter,
-    override var valueArgument: KtExpression?,
-    override var parameterAnnotations: List<KtAnnotationEntry>
+    override var valueArguments: List<KtExpression>,
+    override var parameterValueAnnotations: List<KtAnnotationEntry>,
+    override val parameterTypeAnnotations: List<KtAnnotationEntry>
+
 ) : ParameterToValueExpression
 

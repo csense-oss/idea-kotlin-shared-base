@@ -1,6 +1,6 @@
 plugins {
     id 'org.jetbrains.kotlin.jvm' version '1.8.0'
-    id "maven-publish"
+
 }
 
 ext.csenseUserOrg = "csense-oss"
@@ -33,8 +33,11 @@ repositories {
 
 dependencies {
     implementation("csense.kotlin:csense-kotlin-jvm:0.0.59")
+
     implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.50")
+
     implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
+
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.8.0"
 
     //extracted from the maven artifact of intellij ce/ the dir names.
@@ -49,25 +52,31 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs/kotlin/')
 
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
+
     testImplementation("csense.kotlin:csense-kotlin-tests:0.0.59")
-    testImplementation("csense.idea.test:csense-idea-test:0.2.0")
+
+    testImplementation("csense.idea.test:csense-idea-test:0.3.0")
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "11"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "11"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+    withJavadocJar()
+    withSourcesJar()
 }
 
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
 kotlin.sourceSets.all {
     languageSettings.progressiveMode = true
 }
 
-task sourcesJar(type: Jar) {
-    archiveClassifier.set("sources")
-    from sourceSets.main.allSource
-}
+
 
 apply from: "$rootDir/gradle/publish.gradle"
 

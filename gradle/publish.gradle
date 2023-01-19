@@ -3,12 +3,12 @@ apply plugin: "maven-publish"
 
 publishing {
     publications {
-        maven(MavenPublication) {
+        mavenJava(MavenPublication) {
             groupId = csenseGroupId
             artifactId = csenseArtifactId
             version = csenseVersionName
-            from components.kotlin
-            artifact sourcesJar
+            from components.java
+
             pom {
                 name = csenseArtifactId
                 description = csenseArtifactDescription

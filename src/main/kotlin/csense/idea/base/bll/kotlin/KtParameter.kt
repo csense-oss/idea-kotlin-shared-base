@@ -4,6 +4,8 @@ package csense.idea.base.bll.kotlin
 
 import csense.idea.base.bll.uast.isChildOfSafe
 import org.jetbrains.kotlin.lexer.KtTokens
+import org.jetbrains.kotlin.nj2k.postProcessing.*
+import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.psi.KtFunctionType
 import org.jetbrains.kotlin.psi.KtNameReferenceExpression
 import org.jetbrains.kotlin.psi.KtParameter
@@ -43,4 +45,5 @@ fun KtParameter.isNumberTypeWithDefaultValue(): Boolean =
 fun KtParameter.isNumberType(): Boolean =
     resolveType()?.isPrimitiveNumberOrNullableType() == true
 
-
+fun KtParameter.allAnnotations(): List<KtAnnotationEntry> =
+    annotationEntries + typeReference?.annotationEntries.orEmpty()
