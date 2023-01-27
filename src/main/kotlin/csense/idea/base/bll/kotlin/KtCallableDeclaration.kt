@@ -5,7 +5,6 @@ package csense.idea.base.bll.kotlin
 import csense.idea.base.*
 import csense.idea.base.bll.kotlin.models.*
 import csense.kotlin.extensions.collections.*
-import csense.kotlin.extensions.collections.generic.*
 import csense.kotlin.extensions.collections.map.*
 import org.jetbrains.kotlin.psi.*
 
