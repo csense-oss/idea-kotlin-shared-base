@@ -25,6 +25,7 @@ project.version = ext.csenseVersionName
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url 'https://pkgs.dev.azure.com/csense-oss/csense-oss/_packaging/csense-oss/maven/v1'
         name 'csense-oss'
