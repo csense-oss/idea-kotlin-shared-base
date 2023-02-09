@@ -1,6 +1,8 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
+import com.intellij.psi.*
 import csense.kotlin.extensions.*
 import org.jetbrains.kotlin.psi.*
 
@@ -15,10 +17,10 @@ fun KtTypeReference.isFunctional(): Boolean = typeElement?.isFunctional() ?: fal
 fun KtTypeReference.resolve(): PsiElement? {
     return (typeElement as? KtUserType)
         ?.referenceExpression
-        ?.references?.firstOrNull()
-        ?.resolve()
-        ?.mapIfInstanceOrThis { it: KtTypeAlias ->
-            it.getTypeReference()?.resolve()
+        ?.references?.firstNotNullOfOrNull { it: PsiReference? ->
+            it?.resolve()?.mapIfInstanceOrThis { alias: KtTypeAlias ->
+                alias.getTypeReference()?.resolve()
+            }
         }
 }
 

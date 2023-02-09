@@ -27,8 +27,10 @@ fun KtFunction.throwsTypes(): List<KtPsiClass> {
         it.valueArguments.mapNotNull { annotation ->
             annotation.getArgumentExpression()?.resolveFirstClassType()?.asKtOrPsiClass()
         }
-    }.flatten().nullOnEmpty()
-        ?: TODO("needs root exception type here... :/")
+    }.flatten().nullOnEmpty() ?: listOfNotNull(
+        //TODO cache etc.. this is horrible..
+        KtPsiClass.resolve("kotlin.Throwable", project)
+    )
 }
 
 fun PsiMethod.throwsTypes(): List<KtPsiClass> {

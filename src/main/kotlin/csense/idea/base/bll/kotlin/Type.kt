@@ -61,7 +61,7 @@ tailrec fun KtElement.resolveFirstClassType(): PsiElement? {
             this.containingClass()
         }
 
-        is KtNameReferenceExpression -> this.references.firstNotNullOf { it.resolveFirstClassType() } //for class literals the first reference is a synthetic...
+        is KtNameReferenceExpression -> this.references.firstNotNullOfOrNull { it.resolveFirstClassType() } //for class literals the first reference is a synthetic...
         is KtReferenceExpression -> {
             resolve()?.resolveFirstClassType()
         }
