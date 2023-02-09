@@ -3,6 +3,7 @@ package csense.idea.base.bll.kotlin
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.*
 import com.intellij.psi.search.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
@@ -25,6 +26,7 @@ fun PsiElement.resolveFirstClassType(): PsiElement? {
             return JavaPsiFacade.getInstance(project)
                 .findClass(this.type.canonicalText, this.type.resolveScope ?: GlobalSearchScope.allScope(project))
         }
+
         else -> null
     }
 }
@@ -52,19 +54,24 @@ tailrec fun KtElement.resolveFirstClassType(): PsiElement? {
             val ref = resolveMainReferenceWithTypeAlias()
             ref?.resolveFirstClassType()
         }
+
         is KtDotQualifiedExpression -> rightMostSelectorExpression()?.resolveFirstClassType()
         is KtProperty -> resolveFirstClassType()
         is KtSecondaryConstructor, is KtPrimaryConstructor -> {
             this.containingClass()
         }
-        is KtNameReferenceExpression -> this.references.firstOrNull()?.resolveFirstClassType()
+
+        is KtNameReferenceExpression -> this.references.firstNotNullOf { it.resolveFirstClassType() } //for class literals the first reference is a synthetic...
         is KtReferenceExpression -> {
             resolve()?.resolveFirstClassType()
         }
+
         is KtNamedFunction -> {
             this.getDeclaredReturnType()
         }
+
         is KtCallableReferenceExpression -> callableReference.resolveFirstClassType()
+        is KtClassLiteralExpression -> receiverExpression?.resolveFirstClassType()
         //TODO should be "first" non null instead of assuming the first is the right one?
         else -> null
     }

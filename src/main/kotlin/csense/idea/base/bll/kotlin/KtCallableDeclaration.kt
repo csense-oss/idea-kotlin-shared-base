@@ -106,15 +106,3 @@ fun List<ValueArgument>.fillValueArgumentsInto(
         }
     }
 }
-
-
-//fun manyParams(a: Int = 11, b: Int, c: Int, vararg d: Int) {
-//
-//}
-//
-//fun useParams() {
-//    manyParams(
-//        b = 42,
-//        c = 1
-//    )
-//}

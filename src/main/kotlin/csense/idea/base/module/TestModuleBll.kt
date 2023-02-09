@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package csense.idea.base.module
 
 import com.intellij.openapi.module.Module
@@ -18,7 +20,10 @@ import org.jetbrains.kotlin.idea.util.sourceRoots
 
 fun PsiElement.isInTestModule(): Boolean {
     //works for android.. & idea 203 + 213
-    return TestSourcesFilter.isTestSources(containingFile.virtualFile, project)
+    return TestSourcesFilter.isTestSources(
+        /* file = */ containingFile.virtualFile,
+        /* project = */ project
+    )
 }
 
 
