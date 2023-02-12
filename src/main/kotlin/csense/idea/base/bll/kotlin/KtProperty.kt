@@ -45,6 +45,15 @@ fun KtProperty.annotationEntriesWithGetterAnnotations(): List<KtAnnotationEntry>
     return annotationEntries + getterAnnotations
 }
 
+fun KtProperty.annotationEntriesWithSetterAnnotations(): List<KtAnnotationEntry> {
+    val getterAnnotations = setter?.annotationEntries.orEmpty()
+    return annotationEntries + getterAnnotations
+}
+
 fun KtProperty.throwsTypesWithGetter(): List<KtPsiClass> {
     return annotationEntriesWithGetterAnnotations().throwsTypes(project)
+}
+
+fun KtProperty.throwsTypesWithSetter(): List<KtPsiClass> {
+    return annotationEntriesWithSetterAnnotations().throwsTypes(project)
 }
