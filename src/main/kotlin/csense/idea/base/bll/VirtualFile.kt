@@ -6,4 +6,6 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiManager
 
 
-fun VirtualFile.toPsiDirectory(project: Project): PsiDirectory? = PsiManager.getInstance(project).findDirectory(this)
+fun VirtualFile.toPsiDirectory(
+    project: Project
+): PsiDirectory? = PsiManager.getInstance(project).findDirectory(this)

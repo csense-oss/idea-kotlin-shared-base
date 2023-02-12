@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package csense.idea.base.module
 
 import com.intellij.openapi.module.Module
@@ -22,5 +24,5 @@ fun Module.findKotlinRootDir(): PsiDirectory? {
     val sourceRoot = sourceRoots.find {
         it.name == "kotlin"
     } ?: return null
-    return sourceRoot.toPsiDirectory(project) ?: return null
+    return sourceRoot.toPsiDirectory(project)
 }

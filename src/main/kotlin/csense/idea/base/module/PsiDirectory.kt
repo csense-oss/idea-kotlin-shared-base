@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package csense.idea.base.module
 
 import com.intellij.psi.PsiDirectory

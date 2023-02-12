@@ -59,16 +59,6 @@ fun PsiElement.resolveTypeAliasOrThis(): PsiElement? = when (this) {
     else -> this
 }
 
-fun KtCallExpression.resolveMainReferenceWithTypeAliasForClass(): UClass? {
-    val resolved = resolveMainReferenceWithTypeAlias()
-    val clz = if (resolved is PsiMember) {
-        resolved.containingClass
-    } else {
-        resolved
-    }
-    return clz?.toUElement(UClass::class.java)
-}
-
 /**
  * Resolves the original method.
  * @receiver KtCallExpression
@@ -88,7 +78,7 @@ fun KtCallExpression.resolveMainReferenceAsPsiMethod(): PsiMethod? {
 }
 
 fun KtCallExpression.findArgumentNames(): List<String?> {
-    return valueArguments.map {
+    return valueArguments.map { it: KtValueArgument? ->
         it?.getArgumentName()?.text
     }
 }
