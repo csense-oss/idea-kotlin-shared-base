@@ -37,6 +37,7 @@ fun KtPsiClass.Companion.resolveByKotlin(fqName: String, project: Project): KtPs
 
 val KtPsiClass.Companion.kotlinThrowableFqName: String
     get() = "kotlin.Throwable"
+
 val KtPsiClass.Companion.javaThrowableFqName: String
     get() = "java.lang.Throwable"
 

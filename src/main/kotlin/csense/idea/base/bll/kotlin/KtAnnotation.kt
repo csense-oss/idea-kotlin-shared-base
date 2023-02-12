@@ -20,11 +20,9 @@ fun List<KtAnnotationEntry>.filterThrowsAnnotations(): List<KtAnnotationEntry> =
 fun List<KtAnnotationEntry>.resolveAsThrowTypes(
     project: Project
 ): List<KtPsiClass> {
-    //TODO varargs!?... :(
-    //TODO this might be wrong..
     return map { it: KtAnnotationEntry ->
         it.valueArguments.mapNotNull { annotation: ValueArgument ->
-            //TODO..
+            //TODO. if for some cool reason the code contains "arrayOf" or alike (with star operator etc) then this will fail badly.
             annotation.getArgumentExpression()?.resolveFirstClassType2()
         }
     }.flatten().nullOnEmpty() ?: listOfNotNull(
