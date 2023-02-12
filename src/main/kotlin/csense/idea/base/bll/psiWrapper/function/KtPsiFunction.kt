@@ -5,18 +5,12 @@ import org.jetbrains.kotlin.psi.*
 
 sealed interface KtPsiFunction {
 
-    val fqName: String?
-
     class Psi(
         val function: PsiMethod
-    ) : KtPsiFunction {
-        override val fqName: String = function.name
-    }
+    ) : KtPsiFunction
 
     class Kt(
         val function: KtFunction
-    ) : KtPsiFunction {
-        override val fqName: String? = function.fqName?.asString()
-    }
+    ) : KtPsiFunction
 }
 
