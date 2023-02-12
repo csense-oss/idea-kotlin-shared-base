@@ -32,9 +32,11 @@ tailrec fun KtExpression.resolvePotentialArgumentName(): String? = when (this) {
     is KtDotQualifiedExpression -> {
         (selectorExpression ?: receiverExpression).resolvePotentialArgumentName()
     }
+
     is KtCallExpression -> {
         calleeExpression?.resolvePotentialArgumentName()
     }
+
     else -> null
 }
 
@@ -49,12 +51,12 @@ fun KtCallExpression.resolveMainReference(): PsiElement? {
 }
 
 fun KtCallExpression.resolveMainReferenceWithTypeAlias(): PsiElement? {
-    val resolved = calleeExpression?.mainReference?.resolve()
-    return if (resolved is KtTypeAlias) {
-        resolved.getTypeReference()?.resolve()
-    } else {
-        resolved
-    }
+    return resolveMainReference()?.resolveTypeAliasOrThis()
+}
+//TODO move?
+fun PsiElement.resolveTypeAliasOrThis(): PsiElement? = when (this) {
+    is KtTypeAlias -> getTypeReference()?.resolve()
+    else -> this
 }
 
 fun KtCallExpression.resolveMainReferenceWithTypeAliasForClass(): UClass? {

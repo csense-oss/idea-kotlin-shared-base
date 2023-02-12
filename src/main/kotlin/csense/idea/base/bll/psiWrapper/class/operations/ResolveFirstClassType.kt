@@ -11,9 +11,12 @@ import org.jetbrains.kotlin.psi.psiUtil.*
 
 //TODO better name / replace other function?!
 
-fun PsiElement.resolveFirstClassType2(): KtPsiClass? {
+//shouldResolveTypeAlias only works for kotlin. unless java one day gets a typealias operator / construct...
+fun PsiElement.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? {
     return when (this) {
-        is KtElement -> resolveFirstClassType2()
+        is KtElement -> resolveFirstClassType2(shouldResolveTypeAlias)
         is PsiClass -> asKtOrPsiClass()
         is PsiMethod -> {
             if (this.isConstructor) {
@@ -37,49 +40,84 @@ fun PsiElement.resolveFirstClassType2(): KtPsiClass? {
     }
 }
 
-fun KtProperty.resolveFirstClassType2(): KtPsiClass? {
+fun KtProperty.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? {
     val type: KtTypeReference? = typeReference
     if (type != null) {
-        return type.resolve()?.resolveFirstClassType2()
+        return type.resolve()?.resolveFirstClassType2(shouldResolveTypeAlias)
     }
     val init: KtExpression? = initializer
     if (init != null) {
-        return init.resolveFirstClassType2()
+        return init.resolveFirstClassType2(shouldResolveTypeAlias)
     }
     val getter: KtPropertyAccessor? = getter
     if (getter != null) {
-        return getter.resolveFirstClassType2()
+        return getter.resolveFirstClassType2(shouldResolveTypeAlias)
     }
     return null
 }
 
 tailrec fun KtElement.resolveFirstClassType2(
-
+    shouldResolveTypeAlias: Boolean = false
 ): KtPsiClass? {
     return when (this) {
-        is KtClass -> asKtOrPsiClass()
-        is KtCallExpression -> {
-            val ref: PsiElement? = resolveMainReferenceWithTypeAlias()
-            ref?.resolveFirstClassType2()
-        }
-
-        is KtDotQualifiedExpression -> rightMostSelectorExpression()?.resolveFirstClassType2()
-        is KtProperty -> resolveFirstClassType2()
-        is KtSecondaryConstructor, is KtPrimaryConstructor -> {
+        is KtClass -> resolveFirstClassType2()
+        is KtCallExpression -> resolveFirstClassType2(shouldResolveTypeAlias)
+        is KtDotQualifiedExpression -> rightMostSelectorExpression()?.resolveFirstClassType2(shouldResolveTypeAlias)
+        is KtProperty -> resolveFirstClassType2(shouldResolveTypeAlias)
+        is KtConstructor<*> -> {
             //TODO make containingClass our own.
             containingClass()?.asKtOrPsiClass()
         }
 
-        is KtNameReferenceExpression -> references.firstOrNull()?.resolveFirstClassType2()
-        is KtReferenceExpression -> resolve()?.resolveFirstClassType2()
-        is KtNamedFunction -> getDeclaredReturnType()?.asKtOrPsiClass()
-        is KtCallableReferenceExpression -> callableReference.resolveFirstClassType2()
-        is KtClassLiteralExpression -> receiverExpression?.resolveFirstClassType2()
-        is KtTypeAlias -> getTypeReference()?.resolve()?.resolveFirstClassType2()
+        is KtNameReferenceExpression -> resolveFirstClassType2(shouldResolveTypeAlias)
+        is KtReferenceExpression -> resolveFirstClassType2(shouldResolveTypeAlias)
+        is KtNamedFunction -> resolveFirstClassType2()
+        is KtCallableReferenceExpression -> resolveFirstClassType2(shouldResolveTypeAlias)
+        is KtClassLiteralExpression -> resolveFirstClassType2(shouldResolveTypeAlias)
+        is KtTypeAlias -> getTypeReference()?.resolve()?.resolveFirstClassType2(shouldResolveTypeAlias)
 
         //TODO should be "first" non null instead of assuming the first is the right one?
         else -> null
     }
 }
 
-fun PsiReference.resolveFirstClassType2(): KtPsiClass? = resolve()?.resolveFirstClassType2()
+
+fun KtClass.resolveFirstClassType2(): KtPsiClass.Kt = asKtOrPsiClass()
+
+fun KtCallExpression.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? {
+    //TODO?! shouldResolveTypeAlias ??
+    val ref: PsiElement? = resolveMainReferenceWithTypeAlias()
+    return ref?.resolveFirstClassType2(shouldResolveTypeAlias)
+}
+
+
+
+
+
+fun KtNameReferenceExpression.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? = references.firstNotNullOfOrNull { it.resolveFirstClassType2(shouldResolveTypeAlias) }
+
+fun KtCallableReferenceExpression.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? = callableReference.resolveFirstClassType2(shouldResolveTypeAlias)
+
+fun KtClassLiteralExpression.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? = receiverExpression?.resolveFirstClassType2(shouldResolveTypeAlias)
+
+
+fun KtNamedFunction.resolveFirstClassType2(
+): KtPsiClass? = getDeclaredReturnType()?.asKtOrPsiClass()
+
+fun KtReferenceExpression.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? = resolve()?.resolveFirstClassType2(shouldResolveTypeAlias)
+
+fun PsiReference.resolveFirstClassType2(
+    shouldResolveTypeAlias: Boolean = false
+): KtPsiClass? = resolve()?.resolveFirstClassType2(shouldResolveTypeAlias)
