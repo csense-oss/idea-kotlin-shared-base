@@ -2,6 +2,7 @@
 
 package csense.idea.base.bll.psiWrapper.function.operations
 
+import com.intellij.lang.jvm.*
 import com.intellij.psi.*
 import csense.idea.base.bll.kotlin.*
 import csense.idea.base.bll.psi.*
@@ -35,11 +36,20 @@ fun KtFunction.throwsTypes(): List<KtPsiClass> {
 
 fun PsiMethod.throwsTypes(): List<KtPsiClass> {
     val throws: List<PsiAnnotation> = annotations.filter { it.isThrowsAnnotation() }
-    //TODO varargs!?... :(
-    val result = throws.mapNotNull { it.resolveFirstClassType2() }
-    if (result.isNotEmpty()) {
-        return result
+    if (throws.isEmpty()) {
+        return emptyList()
     }
+    //TODO
+    //TODO varargs!?... :(
+//    val result: List<KtPsiClass> = throws.map { it: PsiAnnotation ->
+//        parameters.mapNotNull { annotationParameter: JvmParameter ->
+//            annotationParameter.type
+//        }
+//        it.resolveFirstClassType2()
+//    }
+//    if (result.isNotEmpty()) {
+//        return result
+//    }
     return listOfNotNull(KtPsiClass.getJavaThrowable(project))
 }
 
