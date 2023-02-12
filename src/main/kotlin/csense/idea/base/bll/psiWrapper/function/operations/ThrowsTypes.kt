@@ -3,6 +3,7 @@
 package csense.idea.base.bll.psiWrapper.function.operations
 
 import com.intellij.lang.jvm.*
+import com.intellij.openapi.project.*
 import com.intellij.psi.*
 import csense.idea.base.bll.kotlin.*
 import csense.idea.base.bll.psi.*
@@ -18,20 +19,15 @@ fun KtPsiFunction.throwsTypes(): List<KtPsiClass> = when (this) {
     is KtPsiFunction.Psi -> function.throwsTypes()
 }
 
-fun KtFunction.throwsTypes(): List<KtPsiClass> {
-    val throws: List<KtAnnotationEntry> = annotationEntries.filter { it.isThrowsAnnotation() }
+fun KtAnnotated.throwsTypes(): List<KtPsiClass> =
+    annotationEntries.throwsTypes(project)
+
+fun List<KtAnnotationEntry>.throwsTypes(project: Project): List<KtPsiClass> {
+    val throws = filter { it.isThrowsAnnotation() }
     if (throws.isEmpty()) {
         return emptyList()
     }
-    //TODO varargs!?... :(
-    return throws.map { it: KtAnnotationEntry ->
-        it.valueArguments.mapNotNull { annotation: ValueArgument ->
-            annotation.getArgumentExpression()?.resolveFirstClassType2()
-        }
-    }.flatten().nullOnEmpty() ?: listOfNotNull(
-        //TODO cache etc.. this is horrible..
-        KtPsiClass.getKotlinThrowable(project)
-    )
+    return throws.resolveAsThrowTypes(project)
 }
 
 fun PsiMethod.throwsTypes(): List<KtPsiClass> {
@@ -51,14 +47,4 @@ fun PsiMethod.throwsTypes(): List<KtPsiClass> {
 //        return result
 //    }
     return listOfNotNull(KtPsiClass.getJavaThrowable(project))
-}
-
-//TODO move and fix
-fun PsiAnnotation.isThrowsAnnotation(): Boolean {
-    return qualifiedName == "Throws"
-}
-
-//TODO move?..
-fun KtAnnotationEntry.isThrowsAnnotation(): Boolean {
-    return shortName?.asString() == "Throws"
 }

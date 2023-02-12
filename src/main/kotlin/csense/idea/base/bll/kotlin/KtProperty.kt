@@ -1,5 +1,9 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll.kotlin
 
+import csense.idea.base.bll.psiWrapper.`class`.*
+import csense.idea.base.bll.psiWrapper.function.operations.*
 import org.jetbrains.kotlin.idea.core.*
 import org.jetbrains.kotlin.idea.refactoring.*
 import org.jetbrains.kotlin.psi.*
@@ -34,3 +38,13 @@ inline val KtProperty.isVal: Boolean
 
 fun KtProperty.initalizerOrGetter(): KtExpression? =
     initializer ?: getterBody
+
+
+fun KtProperty.annotationEntriesWithGetterAnnotations(): List<KtAnnotationEntry> {
+    val getterAnnotations = getter?.annotationEntries.orEmpty()
+    return annotationEntries + getterAnnotations
+}
+
+fun KtProperty.throwsTypesWithGetter(): List<KtPsiClass> {
+    return annotationEntriesWithGetterAnnotations().throwsTypes(project)
+}
