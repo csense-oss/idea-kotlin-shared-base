@@ -18,7 +18,7 @@ fun KtCallableDeclaration.parametersFromCallWithAnnotations(
     val parametersToCallValues: LinkedHashMap<String, ParameterToValueExpression> =
         resolveValueParametersTo(invocationSite)
 
-    parametersToCallValues.forEachIndexed { (_: String, parameterToValueExpression: ParameterToValueExpression), index ->
+    parametersToCallValues.forEach { (_: String, parameterToValueExpression: ParameterToValueExpression) ->
         result.addIf(
             condition = filter(parameterToValueExpression),
             item = parameterToValueExpression

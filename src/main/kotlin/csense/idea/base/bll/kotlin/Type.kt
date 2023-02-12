@@ -4,6 +4,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.*
 import com.intellij.psi.search.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
+import org.jetbrains.kotlin.idea.references.*
 import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
@@ -24,7 +25,10 @@ fun PsiElement.resolveFirstClassType(): PsiElement? {
         is PsiField -> {
             val project = project
             return JavaPsiFacade.getInstance(project)
-                .findClass(this.type.canonicalText, this.type.resolveScope ?: GlobalSearchScope.allScope(project))
+                .findClass(
+                    this.type.canonicalText,
+                    this.type.resolveScope ?: GlobalSearchScope.allScope(project)
+                )
         }
 
         else -> null
@@ -62,6 +66,7 @@ tailrec fun KtElement.resolveFirstClassType(): PsiElement? {
         }
 
         is KtNameReferenceExpression -> this.references.firstNotNullOfOrNull { it.resolveFirstClassType() } //for class literals the first reference is a synthetic...
+
         is KtReferenceExpression -> {
             resolve()?.resolveFirstClassType()
         }

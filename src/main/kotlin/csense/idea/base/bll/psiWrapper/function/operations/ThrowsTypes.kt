@@ -23,20 +23,24 @@ fun KtFunction.throwsTypes(): List<KtPsiClass> {
         return emptyList()
     }
     //TODO varargs!?... :(
-    return throws.map {
-        it.valueArguments.mapNotNull { annotation ->
-            annotation.getArgumentExpression()?.resolveFirstClassType()?.asKtOrPsiClass()
+    return throws.map { it: KtAnnotationEntry ->
+        it.valueArguments.mapNotNull { annotation: ValueArgument ->
+            annotation.getArgumentExpression()?.resolveFirstClassType2()
         }
     }.flatten().nullOnEmpty() ?: listOfNotNull(
         //TODO cache etc.. this is horrible..
-        KtPsiClass.resolve("kotlin.Throwable", project)
+        KtPsiClass.getKotlinThrowable(project)
     )
 }
 
 fun PsiMethod.throwsTypes(): List<KtPsiClass> {
     val throws: List<PsiAnnotation> = annotations.filter { it.isThrowsAnnotation() }
     //TODO varargs!?... :(
-    return throws.mapNotNull { it.resolveFirstClassType()?.asKtOrPsiClass() }
+    val result = throws.mapNotNull { it.resolveFirstClassType2() }
+    if (result.isNotEmpty()) {
+        return result
+    }
+    return listOfNotNull(KtPsiClass.getJavaThrowable(project))
 }
 
 //TODO move and fix

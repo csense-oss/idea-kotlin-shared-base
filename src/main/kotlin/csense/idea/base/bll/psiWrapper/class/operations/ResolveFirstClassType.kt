@@ -8,6 +8,7 @@ import csense.idea.base.bll.psiWrapper.`class`.*
 import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
+
 //TODO better name / replace other function?!
 
 fun PsiElement.resolveFirstClassType2(): KtPsiClass? {
@@ -31,6 +32,7 @@ fun PsiElement.resolveFirstClassType2(): KtPsiClass? {
                     this.type.resolveScope ?: GlobalSearchScope.allScope(project)
                 )?.asKtOrPsiClass()
         }
+
         else -> null
     }
 }
@@ -51,7 +53,9 @@ fun KtProperty.resolveFirstClassType2(): KtPsiClass? {
     return null
 }
 
-tailrec fun KtElement.resolveFirstClassType2(): KtPsiClass? {
+tailrec fun KtElement.resolveFirstClassType2(
+
+): KtPsiClass? {
     return when (this) {
         is KtClass -> asKtOrPsiClass()
         is KtCallExpression -> {
@@ -70,6 +74,9 @@ tailrec fun KtElement.resolveFirstClassType2(): KtPsiClass? {
         is KtReferenceExpression -> resolve()?.resolveFirstClassType2()
         is KtNamedFunction -> getDeclaredReturnType()?.asKtOrPsiClass()
         is KtCallableReferenceExpression -> callableReference.resolveFirstClassType2()
+        is KtClassLiteralExpression -> receiverExpression?.resolveFirstClassType2()
+        is KtTypeAlias -> getTypeReference()?.resolve()?.resolveFirstClassType2()
+
         //TODO should be "first" non null instead of assuming the first is the right one?
         else -> null
     }
