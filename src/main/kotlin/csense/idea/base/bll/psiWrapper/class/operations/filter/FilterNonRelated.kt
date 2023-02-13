@@ -1,6 +1,10 @@
-package csense.idea.base.bll.psiWrapper.`class`.operations
+@file:Suppress("unused")
+
+package csense.idea.base.bll.psiWrapper.`class`.operations.filter
 
 import csense.idea.base.bll.psiWrapper.`class`.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.`is`.*
 
 
 //TODO java and kotlin "common hierachies" not handled correctly in JVM case (where "Exception" != Exception & for throwable..)

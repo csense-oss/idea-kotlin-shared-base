@@ -4,7 +4,7 @@ package csense.idea.base.module
 
 import com.intellij.openapi.module.Module
 import com.intellij.psi.PsiDirectory
-import csense.idea.base.bll.toPsiDirectory
+import csense.idea.base.bll.platform.toPsiDirectory
 import org.jetbrains.kotlin.idea.util.sourceRoots
 import org.jetbrains.kotlin.psi.KtFile
 

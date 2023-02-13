@@ -1,4 +1,4 @@
-package csense.idea.base.bll
+package csense.idea.base.bll.platform
 
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.vfs.VirtualFile

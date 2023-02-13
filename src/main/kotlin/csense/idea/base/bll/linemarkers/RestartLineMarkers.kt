@@ -1,4 +1,6 @@
-package csense.idea.base.bll
+@file:Suppress("unused")
+
+package csense.idea.base.bll.linemarkers
 
 import com.intellij.codeInsight.daemon.*
 import com.intellij.openapi.project.*

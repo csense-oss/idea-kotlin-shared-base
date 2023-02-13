@@ -1,6 +1,9 @@
-package csense.idea.base.bll.psiWrapper.`class`.operations
+@file:Suppress("unused")
+
+package csense.idea.base.bll.psiWrapper.`class`.operations.`is`
 
 import csense.idea.base.bll.psiWrapper.`class`.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import csense.kotlin.extensions.*
 
 fun KtPsiClass.isSubTypeOfAny(other: List<KtPsiClass>): Boolean {

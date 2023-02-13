@@ -11,7 +11,7 @@ import com.intellij.openapi.roots.TestSourcesFilter
 import com.intellij.openapi.vfs.VirtualFile
 import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
-import csense.idea.base.bll.toPsiDirectory
+import csense.idea.base.bll.platform.toPsiDirectory
 import csense.kotlin.extensions.primitives.doesNotEndsWith
 import org.jetbrains.kotlin.idea.caches.project.SourceType
 import org.jetbrains.kotlin.idea.caches.project.sourceType

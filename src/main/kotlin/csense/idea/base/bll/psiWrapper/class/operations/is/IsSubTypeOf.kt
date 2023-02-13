@@ -1,6 +1,9 @@
-package csense.idea.base.bll.psiWrapper.`class`.operations
+@file:Suppress("unused")
+
+package csense.idea.base.bll.psiWrapper.`class`.operations.`is`
 
 import csense.idea.base.bll.psiWrapper.`class`.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.*
 
 
 fun KtPsiClass.isSubTypeOf(baseClass: KtPsiClass): Boolean {
@@ -26,10 +29,3 @@ fun KtPsiClass.isSubTypeOf(fqName: String): Boolean {
     }
     return false
 }
-
-
-//TODO move and refactor to have shared names
-fun KtPsiClass.isSubtypeOfRuntimeException(): Boolean =
-    isSubTypeOf("java.lang.RuntimeException") ||
-            isSubTypeOf("kotlin.RuntimeException")
-

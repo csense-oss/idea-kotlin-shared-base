@@ -38,8 +38,14 @@ fun KtPsiClass.Companion.resolveByKotlin(fqName: String, project: Project): KtPs
 val KtPsiClass.Companion.kotlinThrowableFqName: String
     get() = "kotlin.Throwable"
 
+val KtPsiClass.Companion.kotlinRuntimeExceptionFqName: String
+    get() = "kotlin.RuntimeException"
+
 val KtPsiClass.Companion.javaThrowableFqName: String
     get() = "java.lang.Throwable"
+
+val KtPsiClass.Companion.javaRuntimeExceptionFqName: String
+    get() = "java.lang.RuntimeException"
 
 fun KtPsiClass.Companion.getKotlinThrowable(project: Project): KtPsiClass? {
     val map: MutableMap<String, KtPsiClass> = resolveMap.getOrPut(project, defaultValue = ::mutableMapOf)
