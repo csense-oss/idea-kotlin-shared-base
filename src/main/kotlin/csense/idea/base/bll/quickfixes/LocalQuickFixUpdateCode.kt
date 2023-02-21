@@ -17,7 +17,7 @@ abstract class LocalQuickFixUpdateCode<T : KtElement>(
         if (!element.isWritable) {
             return
         }
-        val updatedElement: PsiElement = project.executeWriteCommand(
+        project.executeWriteCommand(
             name = this::class.simpleName ?: name,
             groupId = familyName
         ) {
@@ -26,11 +26,11 @@ abstract class LocalQuickFixUpdateCode<T : KtElement>(
                 file = file,
                 element = element
             )
-        } ?: return
-        reformat(project = project, element = updatedElement)
+        }
+        reformat(project = project, element = element)
     }
 
-    abstract fun tryUpdate(project: Project, file: PsiFile, element: T): PsiElement?
+    abstract fun tryUpdate(project: Project, file: PsiFile, element: T)
 
     fun reformat(project: Project, element: PsiElement): PsiElement {
         val styleManager: CodeStyleManager = CodeStyleManager.getInstance(project)

@@ -61,6 +61,7 @@ fun PsiElement.getKotlinFqName(): FqName? = when (val element = namedUnwrappedEl
         val prefix = element.containingClass?.qualifiedName
         FqName(if (prefix != null) "$prefix.$name" else name)
     }
+
     is KtNamedDeclaration -> element.fqName
     else -> null
 }
@@ -92,3 +93,8 @@ val PsiElement.startOffset: Int
 val PsiElement.endOffset: Int
     get() = textRange.endOffset
 
+
+fun PsiElement.addFirst(newElement: PsiElement): PsiElement? = addBefore(
+    /* element = */ newElement,
+    /* anchor = */ firstChild
+)
