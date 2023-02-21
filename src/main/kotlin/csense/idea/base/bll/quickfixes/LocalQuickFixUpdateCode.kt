@@ -13,11 +13,16 @@ abstract class LocalQuickFixUpdateCode<T : KtElement>(
     element: T
 ) : LocalQuickFixOnSingleKtElement<T>(element) {
 
+    @Suppress("ActionIsNotPreviewFriendly")
+    val factory: KtPsiFactory by lazy {
+        KtPsiFactory(startElement.project, markGenerated = false)
+    }
+
     final override fun invoke(project: Project, file: PsiFile, element: T) {
         if (!element.isWritable) {
             return
         }
-        project.executeWriteCommand(
+        val toReformat: PsiElement = project.executeWriteCommand(
             name = this::class.simpleName ?: name,
             groupId = familyName
         ) {
@@ -26,11 +31,12 @@ abstract class LocalQuickFixUpdateCode<T : KtElement>(
                 file = file,
                 element = element
             )
-        }
-        reformat(project = project, element = element)
+        } ?: element
+
+        reformat(project = project, element = toReformat)
     }
 
-    abstract fun tryUpdate(project: Project, file: PsiFile, element: T)
+    abstract fun tryUpdate(project: Project, file: PsiFile, element: T): PsiElement?
 
     fun reformat(project: Project, element: PsiElement): PsiElement {
         val styleManager: CodeStyleManager = CodeStyleManager.getInstance(project)
