@@ -41,19 +41,19 @@ fun KtProperty.initalizerOrGetter(): KtExpression? =
 
 
 fun KtProperty.annotationEntriesWithGetterAnnotations(): List<KtAnnotationEntry> {
-    val getterAnnotations = getter?.annotationEntries.orEmpty()
+    val getterAnnotations: List<KtAnnotationEntry> = getter?.annotationEntries.orEmpty()
     return annotationEntries + getterAnnotations
 }
 
 fun KtProperty.annotationEntriesWithSetterAnnotations(): List<KtAnnotationEntry> {
-    val getterAnnotations = setter?.annotationEntries.orEmpty()
+    val getterAnnotations: List<KtAnnotationEntry> = setter?.annotationEntries.orEmpty()
     return annotationEntries + getterAnnotations
 }
 
 fun KtProperty.throwsTypesWithGetter(): List<KtPsiClass> {
-    return annotationEntriesWithGetterAnnotations().throwsTypes(project)
+    return annotationEntriesWithGetterAnnotations().resolveAsThrowTypes(project)
 }
 
 fun KtProperty.throwsTypesWithSetter(): List<KtPsiClass> {
-    return annotationEntriesWithSetterAnnotations().throwsTypes(project)
+    return annotationEntriesWithSetterAnnotations().resolveAsThrowTypes(project)
 }

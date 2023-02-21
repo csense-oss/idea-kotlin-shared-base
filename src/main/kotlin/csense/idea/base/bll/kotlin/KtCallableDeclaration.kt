@@ -82,7 +82,7 @@ fun List<ValueArgument>.fillValueArgumentsInto(
 
         //a special rule: there may be a lambda arg following a method call. (the last argument & it is a lambda)
         //thus the loop should be done after this.
-        val isLambdaOutsideOfFunctionCall = argument is KtLambdaArgument && isLastIndex(parameterIndex)
+        val isLambdaOutsideOfFunctionCall: Boolean = argument is KtLambdaArgument && isLastIndex(parameterIndex)
         if (isLambdaOutsideOfFunctionCall) {
             into.entries.lastOrNull()?.value?.valueArguments = listOfNotNull(argument.getArgumentExpression())
             return@forEach

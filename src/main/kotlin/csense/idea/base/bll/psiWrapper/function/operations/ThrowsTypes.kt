@@ -19,17 +19,6 @@ fun KtPsiFunction.throwsTypes(): List<KtPsiClass> = when (this) {
     is KtPsiFunction.Psi -> function.throwsTypes()
 }
 
-fun KtAnnotated.throwsTypes(): List<KtPsiClass> =
-    annotationEntries.throwsTypes(project)
-
-fun List<KtAnnotationEntry>.throwsTypes(project: Project): List<KtPsiClass> {
-    val throws = filter { it.isThrowsAnnotation() }
-    if (throws.isEmpty()) {
-        return emptyList()
-    }
-    return throws.resolveAsThrowTypes(project)
-}
-
 fun PsiMethod.throwsTypes(): List<KtPsiClass> {
     val throws: List<PsiAnnotation> = annotations.filter { it.isThrowsAnnotation() }
     if (throws.isEmpty()) {

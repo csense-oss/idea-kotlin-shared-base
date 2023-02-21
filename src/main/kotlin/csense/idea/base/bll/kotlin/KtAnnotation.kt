@@ -6,7 +6,6 @@ import com.intellij.openapi.project.Project
 import csense.idea.base.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
-import csense.kotlin.extensions.collections.*
 import org.jetbrains.kotlin.psi.*
 
 fun KtAnnotationEntry.isThrowsAnnotation(): Boolean {
@@ -14,7 +13,7 @@ fun KtAnnotationEntry.isThrowsAnnotation(): Boolean {
 }
 
 
-fun List<KtAnnotationEntry>.filterThrowsAnnotations(): List<KtAnnotationEntry> = filter { it: KtAnnotationEntry ->
+fun List<KtAnnotationEntry>.filterThrowsAnnotation(): KtAnnotationEntry? = firstOrNull { it: KtAnnotationEntry ->
     it.isThrowsAnnotation()
 }
 

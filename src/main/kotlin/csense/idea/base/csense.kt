@@ -1,8 +1,9 @@
-@file:Suppress("NOTHING_TO_INLINE", "unused")
+@file:Suppress("NOTHING_TO_INLINE", "unused", "UnusedReceiverParameter", "RedundantVisibilityModifier")
 @file:OptIn(ExperimentalContracts::class)
 
 package csense.idea.base
 
+import csense.kotlin.extensions.collections.generic.*
 import kotlin.contracts.*
 import kotlin.experimental.*
 
@@ -30,6 +31,33 @@ public inline fun <T, CollectionType : Collection<T>> CollectionType.onEmpty(
     return when (isEmpty()) {
         true -> action()
         false -> this
+    }
+}
+
+
+
+inline fun <T> GenericCollectionExtensions.walkUpFirstOrNull(
+    startingPoint: T,
+    getToNextLevelOrNull: (T) -> T?,
+    predicate: (T) -> Boolean
+): T? {
+    walkUp(startingPoint, getToNextLevelOrNull) {
+        if (predicate(it)) {
+            return@walkUpFirstOrNull it
+        }
+    }
+    return null
+}
+
+inline fun <T> GenericCollectionExtensions.walkUp(
+    startingPoint: T,
+    getToNextLevelOrNull: (T) -> T?,
+    onEachLevel: (T) -> Unit
+) {
+    var currentElement: T? = getToNextLevelOrNull(startingPoint)
+    while (currentElement != null) {
+        onEachLevel(currentElement)
+        currentElement = getToNextLevelOrNull(currentElement)
     }
 }
 
