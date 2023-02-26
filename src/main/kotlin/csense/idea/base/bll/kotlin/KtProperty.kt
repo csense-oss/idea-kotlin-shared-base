@@ -10,6 +10,10 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
 
 
+fun KtProperty.hasCustomCode(): Boolean{
+    return hasDelegate() || hasCustomSetterGetter()
+}
+
 fun KtProperty.hasCustomSetterGetter(): Boolean {
     return getter != null || setter != null
 }
@@ -51,9 +55,9 @@ fun KtProperty.annotationEntriesWithSetterAnnotations(): List<KtAnnotationEntry>
 }
 
 fun KtProperty.throwsTypesWithGetter(): List<KtPsiClass> {
-    return annotationEntriesWithGetterAnnotations().resolveAsThrowTypes(project)
+    return listOfNotNull(annotationEntriesWithGetterAnnotations().filterThrowsAnnotation()).resolveClassTypes()
 }
 
 fun KtProperty.throwsTypesWithSetter(): List<KtPsiClass> {
-    return annotationEntriesWithSetterAnnotations().resolveAsThrowTypes(project)
+    return listOfNotNull(annotationEntriesWithSetterAnnotations().filterThrowsAnnotation()).resolveClassTypes()
 }

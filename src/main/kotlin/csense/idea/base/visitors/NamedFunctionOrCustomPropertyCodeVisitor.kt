@@ -2,20 +2,23 @@
 
 package csense.idea.base.visitors
 
+import csense.idea.base.bll.kotlin.*
 import org.jetbrains.kotlin.psi.*
 
 
-class NamedFunctionOrDelegationVisitor(
+class NamedFunctionOrCustomPropertyCodeVisitor(
     private val onFunctionNamed: (KtNamedFunction) -> Unit,
-    private val onPropertyDelegate: (KtPropertyDelegate) -> Unit
+    private val onPropertyWithInnerCode: (KtProperty) -> Unit
 ) : KtVisitorVoid() {
     override fun visitNamedFunction(function: KtNamedFunction) {
         super.visitNamedFunction(function)
         onFunctionNamed(function)
     }
 
-    override fun visitPropertyDelegate(delegate: KtPropertyDelegate) {
-        super.visitPropertyDelegate(delegate)
-        onPropertyDelegate(delegate)
+    override fun visitProperty(property: KtProperty) {
+        super.visitProperty(property)
+        if (property.hasCustomCode()) {
+            onPropertyWithInnerCode(property)
+        }
     }
 }

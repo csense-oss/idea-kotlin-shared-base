@@ -11,5 +11,5 @@ fun KtAnnotated.throwsAnnotationOrNull(): KtAnnotationEntry? =
 
 fun KtAnnotated.throwsTypes(): List<KtPsiClass> {
     val annotations: KtAnnotationEntry = throwsAnnotationOrNull() ?: return emptyList()
-    return listOf(annotations).resolveAsThrowTypes(project)
+    return listOf(annotations).resolveAsThrowTypesOrThrowable(project)
 }

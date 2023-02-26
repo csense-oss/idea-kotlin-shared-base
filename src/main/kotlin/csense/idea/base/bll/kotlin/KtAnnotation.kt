@@ -17,7 +17,7 @@ fun List<KtAnnotationEntry>.filterThrowsAnnotation(): KtAnnotationEntry? = first
     it.isThrowsAnnotation()
 }
 
-fun List<KtAnnotationEntry>.resolveAsThrowTypes(
+fun List<KtAnnotationEntry>.resolveAsThrowTypesOrThrowable(
     project: Project
 ): List<KtPsiClass> = resolveClassTypes().onEmpty {
     listOfNotNull(
