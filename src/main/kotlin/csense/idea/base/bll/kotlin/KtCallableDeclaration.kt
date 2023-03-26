@@ -11,13 +11,13 @@ import org.jetbrains.kotlin.psi.*
 
 fun KtCallableDeclaration.parametersFromCallWithAnnotations(
     invocationSite: KtCallElement,
-    filter: (ParameterToValueExpression) -> Boolean = { _ -> true }
+    filter: (ParameterToValueExpression) -> Boolean = { _: ParameterToValueExpression -> true }
 ): List<ParameterToValueExpression> {
-    val result: MutableList<ParameterToValueExpression> = mutableListOf()
 
     val parametersToCallValues: LinkedHashMap<String, ParameterToValueExpression> =
         resolveValueParametersTo(invocationSite)
 
+    val result: MutableList<ParameterToValueExpression> = mutableListOf()
     parametersToCallValues.forEach { (_: String, parameterToValueExpression: ParameterToValueExpression) ->
         result.addIf(
             condition = filter(parameterToValueExpression),

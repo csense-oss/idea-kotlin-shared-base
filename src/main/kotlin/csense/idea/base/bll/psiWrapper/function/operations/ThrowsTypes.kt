@@ -3,6 +3,7 @@
 package csense.idea.base.bll.psiWrapper.function.operations
 
 import com.intellij.lang.jvm.*
+import com.intellij.lang.jvm.types.*
 import com.intellij.openapi.project.*
 import com.intellij.psi.*
 import csense.idea.base.bll.kotlin.*
@@ -20,20 +21,14 @@ fun KtPsiFunction.throwsTypes(): List<KtPsiClass> = when (this) {
 }
 
 fun PsiMethod.throwsTypes(): List<KtPsiClass> {
-    val throws: List<PsiAnnotation> = annotations.filter { it.isThrowsAnnotation() }
+    val throws: Array<PsiClassType> = throwsList.referencedTypes
     if (throws.isEmpty()) {
         return emptyList()
     }
-    //TODO
-    //TODO varargs!?... :(
-//    val result: List<KtPsiClass> = throws.map { it: PsiAnnotation ->
-//        parameters.mapNotNull { annotationParameter: JvmParameter ->
-//            annotationParameter.type
-//        }
-//        it.resolveFirstClassType2()
-//    }
-//    if (result.isNotEmpty()) {
-//        return result
-//    }
-    return listOfNotNull(KtPsiClass.getJavaThrowable(project))
+    val throwable: KtPsiClass? = KtPsiClass.getJavaThrowable(project)
+    return throws.mapNotNull { classType: PsiClassType ->
+        val resolvedClass: PsiClass = classType.resolve() ?: return@mapNotNull throwable
+        KtPsiClass(resolvedClass)
+    }
 }
+

@@ -5,6 +5,7 @@ import com.intellij.psi.*
 import com.intellij.psi.search.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import org.jetbrains.kotlin.idea.stubindex.*
+import org.jetbrains.kotlin.psi.*
 
 
 private val resolveMap: MutableMap<Project, MutableMap<String, KtPsiClass>> = mutableMapOf()
@@ -70,3 +71,10 @@ fun KtPsiClass.Companion.getJavaThrowable(project: Project): KtPsiClass? {
 
 }
 
+fun KtPsiClass(it: PsiClass): KtPsiClass.Psi {
+    return KtPsiClass.Psi(it)
+}
+
+fun KtPsiClass(it: KtClass): KtPsiClass.Kt {
+    return KtPsiClass.Kt(it)
+}
