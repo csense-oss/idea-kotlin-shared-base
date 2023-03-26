@@ -55,9 +55,9 @@ fun KtProperty.annotationEntriesWithSetterAnnotations(): List<KtAnnotationEntry>
 }
 
 fun KtProperty.throwsTypesWithGetter(): List<KtPsiClass> {
-    return listOfNotNull(annotationEntriesWithGetterAnnotations().filterThrowsAnnotation()).resolveClassTypes()
+    return listOfNotNull(annotationEntriesWithGetterAnnotations().filterThrowsAnnotation()).resolveAsKClassTypes()
 }
 
 fun KtProperty.throwsTypesWithSetter(): List<KtPsiClass> {
-    return listOfNotNull(annotationEntriesWithSetterAnnotations().filterThrowsAnnotation()).resolveClassTypes()
+    return listOfNotNull(annotationEntriesWithSetterAnnotations().filterThrowsAnnotation()).resolveAsKClassTypes()
 }

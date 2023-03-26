@@ -52,6 +52,7 @@ fun KtElement.resolveFirstClassType2(): KtPsiClass? = when (this) {
     is KtClassLiteralExpression -> resolveFirstClassType2()
     is KtTypeAlias -> resolveFirstClassType2()
     is KtParameter -> resolveFirstClassType2()
+    is KtAnnotationEntry -> resolveFirstClassType2()
     else -> null
 }
 
@@ -122,3 +123,7 @@ fun KtParameter.resolveFirstClassType2(): KtPsiClass? =
 
 fun PsiReference.resolveFirstClassType2(): KtPsiClass? =
     resolve()?.resolveFirstClassType2()
+
+fun KtAnnotationEntry.resolveFirstClassType2(): KtPsiClass? =
+    typeReference?.resolve()?.resolveFirstClassType2()
+
