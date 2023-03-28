@@ -14,7 +14,7 @@ fun List<KtAnnotationEntry>.filterThrowsAnnotation(): KtAnnotationEntry? = first
 }
 
 fun KtAnnotationEntry.isThrowsAnnotation(): Boolean {
-    return fqName() == "kotlin.Throws"
+    return fqName() in setOf("kotlin.Throws", "kotlin.jvm.Throws")
 }
 
 fun List<KtAnnotationEntry>.filterByFqName(fqName: String): List<KtAnnotationEntry> = filter { it: KtAnnotationEntry ->
