@@ -183,15 +183,29 @@ class StringCamelCaseTest {
                 forInput = "aAbB"
             )
         }
+
         @Test
-        fun camelCase(){
-            val testData = listOf(
+        fun camelCase() {
+            val testData: List<Pair<String, Int>> = listOf(
                 "not" to 0,
                 "Cases" to 3
             )
             assertForeachCamelCaseCalledWith(
                 expectedOrder = testData,
                 forInput = "notCases"
+            )
+        }
+
+        @Test
+        fun regularLowercaseText() {
+            val testData: List<Pair<String, Int>> = listOf(
+                "not" to 0,
+                " cases" to 3
+            )
+
+            assertForeachCamelCaseCalledWith(
+                expectedOrder = testData,
+                forInput = "not cases"
             )
         }
 

@@ -50,6 +50,7 @@ inline fun StringCamelCase.getBreakCharOrNull(index: Int): CamelCaseBreakChar? =
  *  - "xNot" -> ("x", "Not")
  *  - "notX" -> ("not", "X")
  *  - "aAbB" -> ("a", "Ab", "B")
+ *  - "not cases" -> ("not", " cases")
  */
 inline fun StringCamelCase.forEachCamelCaseWord(
     onCamelCase: (startingIndex: Int, word: String) -> Unit
@@ -57,7 +58,7 @@ inline fun StringCamelCase.forEachCamelCaseWord(
     var currentBreakChar: CamelCaseBreakChar? = getBreakCharOrNull(index = 0)
     string.forEachSplitIndexed(
         shouldSplit = { index: Int, char: Char ->
-            val shouldSplit = char.camelCase.toCamelCaseBreakChar() != currentBreakChar
+            val shouldSplit: Boolean = char.camelCase.toCamelCaseBreakChar() != currentBreakChar
             if (shouldSplit) {
                 //rational: the second char in a string defines the type (eg, "Run" starts with uppercase, but the reset is lower)
                 // while "RUN" is all uppercase. by looking at the second char you know what the expected case is for the rest of the string.
