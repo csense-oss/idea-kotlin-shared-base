@@ -21,6 +21,10 @@ fun List<KtAnnotationEntry>.filterByFqName(fqName: String): List<KtAnnotationEnt
     it.fqName() == fqName
 }
 
+fun List<KtAnnotationEntry>.anyByFqName(fqName: String): Boolean = any { it: KtAnnotationEntry ->
+    it.fqName() == fqName
+}
+
 fun List<KtAnnotationEntry>.resolveAsThrowTypesOrThrowable(
     project: Project
 ): List<KtPsiClass> = resolveAsKClassTypes().onEmpty {
