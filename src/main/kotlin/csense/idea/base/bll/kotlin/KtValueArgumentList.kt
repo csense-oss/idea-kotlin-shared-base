@@ -2,6 +2,7 @@
 
 package csense.idea.base.bll.kotlin
 
+import com.intellij.psi.PsiFile
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import org.jetbrains.kotlin.psi.KtValueArgument
@@ -38,7 +39,7 @@ fun KtValueArgumentList.addAllArguments(newParameters: List<KtValueArgument>) {
     }
 }
 
-fun KtValueArgumentList.addTypeRefs(types: List<KtPsiClass>) {
-    val newTypesToAdd: List<KtValueArgument> = types.toFqNameRefValueArguments(project)
+fun KtValueArgumentList.addTypeRefs(types: List<KtPsiClass>, forFile: PsiFile) {
+    val newTypesToAdd: List<KtValueArgument> = types.toFqNameRefValueArguments(project = project, forFile = forFile)
     addAllArguments(newTypesToAdd)
 }
