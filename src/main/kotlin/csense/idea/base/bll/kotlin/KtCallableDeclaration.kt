@@ -104,7 +104,6 @@ fun List<ValueArgument>.fillValueArgumentsInto(
         )
     }
 
-    var parameterIndex = 0
     //the rules of argument order can be described as such:
     //-if named then that precedes all (allows to mix'n match all orders)
     //otherwise it must be that up-to eventual all named is index based (you cannot have: a default,  a named followed by some without name)
@@ -112,6 +111,8 @@ fun List<ValueArgument>.fillValueArgumentsInto(
     //- thus position is secondary if not named.
     //- default arguments are thus "last" in the order (either not set, or overwritten)
     //TODO SAM functions..
+
+    var parameterIndex = 0
     forEach { argument: ValueArgument ->
         val argName: String? = argument.getArgumentNameAsString()
         if (argName != null) {
