@@ -23,5 +23,5 @@ fun KtPsiFactory.createCatchClause(
 
 
 fun KtPsiFactory.createThrowsAnnotation(): KtAnnotationEntry {
-    return createAnnotationEntry("@Throws")
+    return createAnnotationEntry("@Throws()")
 }
