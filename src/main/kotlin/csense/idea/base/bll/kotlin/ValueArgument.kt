@@ -2,10 +2,7 @@ package csense.idea.base.bll.kotlin
 
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
-import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.KtClassLiteralExpression
-import org.jetbrains.kotlin.psi.KtCollectionLiteralExpression
-import org.jetbrains.kotlin.psi.ValueArgument
+import org.jetbrains.kotlin.psi.*
 
 //fun ValueArgument.resolveClassLiterals(): List<KtClassLiteralExpression> {
 //    return when (val argumentExpression = getArgumentExpression()) {
@@ -25,3 +22,4 @@ fun List<ValueArgument>.resolveAsKClassTypes(): List<KtPsiClass> {
         annotation.getArgumentExpression()?.resolveFirstClassType2()
     }
 }
+fun ValueArgument.getArgumentNameAsString(): String? = getArgumentName()?.getNameAsString()

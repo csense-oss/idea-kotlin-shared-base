@@ -2,17 +2,11 @@
 
 package csense.idea.base.bll.psiWrapper.function.operations
 
-import com.intellij.lang.jvm.*
-import com.intellij.lang.jvm.types.*
-import com.intellij.openapi.project.*
 import com.intellij.psi.*
 import csense.idea.base.bll.kotlin.*
-import csense.idea.base.bll.psi.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import csense.idea.base.bll.psiWrapper.function.*
-import csense.kotlin.extensions.collections.*
-import org.jetbrains.kotlin.psi.*
 
 
 fun KtPsiFunction.throwsTypes(): List<KtPsiClass> = when (this) {

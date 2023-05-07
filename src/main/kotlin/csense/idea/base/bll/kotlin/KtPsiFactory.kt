@@ -20,3 +20,8 @@ fun KtPsiFactory.createCatchClause(
     val tryExpression: KtTryExpression? = createBlock(wrapperCode).firstStatement as? KtTryExpression
     return tryExpression?.catchClauses?.singleOrNull()
 }
+
+
+fun KtPsiFactory.createThrowsAnnotation(): KtAnnotationEntry {
+    return createAnnotationEntry("@Throws")
+}
