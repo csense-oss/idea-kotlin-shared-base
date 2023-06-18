@@ -2,14 +2,9 @@
 
 package csense.idea.base.bll.kotlin
 
-import com.intellij.openapi.project.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
-import org.jetbrains.kotlin.idea.kdoc.*
-import org.jetbrains.kotlin.idea.util.*
-import org.jetbrains.kotlin.kdoc.parser.*
 import org.jetbrains.kotlin.kdoc.psi.api.*
-import org.jetbrains.kotlin.kdoc.psi.impl.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
 
@@ -40,6 +35,22 @@ fun KtAnnotated.throwsDocumentationOrNull(): List<KtPsiClass> {
     }
     //TODO kotlin in front? hmmmmmmmmm
     return classNames.mapNotNull { className: String ->
-        KtPsiClass.resolve(fqName = className, project = project) ?: KtPsiClass.resolve(fqName = "kotlin.$className", project = project)
+        KtPsiClass.resolve(fqName = className, project = project) ?: KtPsiClass.resolve(
+            fqName = "kotlin.$className",
+            project = project
+        )
+    }
+}
+
+fun KtAnnotated.hasAnnotationBy(predicate: (KtAnnotationEntry) -> Boolean): Boolean {
+    return annotationEntries.any { it: KtAnnotationEntry ->
+        predicate(it)
+    }
+}
+
+fun KtAnnotated.hasAnnotationClass(predicate: (KtPsiClass) -> Boolean): Boolean {
+    return hasAnnotationBy { it: KtAnnotationEntry ->
+        val resolved: KtPsiClass = it.resolveFirstClassType2() ?: return@hasAnnotationBy false
+        predicate(resolved)
     }
 }

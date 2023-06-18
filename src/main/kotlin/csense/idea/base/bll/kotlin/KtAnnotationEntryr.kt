@@ -3,9 +3,9 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.openapi.project.Project
-import csense.idea.base.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
+import csense.idea.base.csense.*
 import org.jetbrains.kotlin.psi.*
 
 

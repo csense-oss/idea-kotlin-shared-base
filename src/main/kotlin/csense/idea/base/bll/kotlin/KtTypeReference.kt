@@ -14,6 +14,7 @@ fun KtTypeReference.isFunctional(): Boolean = typeElement?.isFunctional() ?: fal
  * @receiver KtTypeReference
  * @return PsiElement?
  */
+@Deprecated("use resolveFirstClassType2 instead")
 fun KtTypeReference.resolve(): PsiElement? {
     return (typeElement as? KtUserType)
         ?.referenceExpression
@@ -33,6 +34,7 @@ fun KtTypeReference.isNullableType(): Boolean {
  * @receiver KtTypeReference
  * @return PsiElement?
  */
+@Deprecated("use resolveFirstClassType2 instead")
 fun KtTypeReference.resolveExcludingTypeAlias(): PsiElement? = (typeElement as? KtUserType)
     ?.referenceExpression
     ?.references?.firstOrNull()

@@ -1,10 +1,11 @@
 @file:Suppress("unused")
 
-package csense.idea.base.bll.psiWrapper.`class`.operations
+package csense.idea.base.bll.psiWrapper.`class`.operations.to
 
 import com.intellij.openapi.project.*
 import com.intellij.psi.PsiFile
 import csense.idea.base.bll.psiWrapper.`class`.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import org.jetbrains.kotlin.psi.*
 
 fun List<KtPsiClass>.toFqNameRefValueArguments(

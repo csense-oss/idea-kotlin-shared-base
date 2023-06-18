@@ -2,16 +2,13 @@
 
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiNamedElement
-import csense.idea.base.bll.psi.countDescendantOfType
-import csense.kotlin.extensions.primitives.indexOfOrNull
-import org.jetbrains.kotlin.idea.core.isOverridable
-import org.jetbrains.kotlin.idea.refactoring.isAbstract
+import com.intellij.psi.*
+import csense.idea.base.bll.psi.*
+import csense.kotlin.extensions.primitives.*
+import org.jetbrains.kotlin.idea.core.*
+import org.jetbrains.kotlin.idea.refactoring.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.anyDescendantOfType
-import org.jetbrains.kotlin.psi.psiUtil.containingClassOrObject
-import org.jetbrains.kotlin.psi.psiUtil.findFunctionByName
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 
 fun KtNamedFunction.isOverriding(): Boolean {
@@ -73,22 +70,7 @@ fun KtNamedFunction.findOverridingImpl(): KtNamedFunction? {
     return null
 }
 
-/**
- * Tells if we have a super call that invokes this function name
- *
- * @receiver KtNamedFunction the function name to search for
- * @return Boolean true if there is a super call to this method name, false otherwise.
- */
-fun KtNamedFunction.doesCallSuperFunction(): Boolean {
-    val fncName = name ?: return false
-    return anyDescendantOfType<KtSuperExpression>() {
-        val superExp = it.parent as? KtDotQualifiedExpression
-        val callExp = superExp?.selectorExpression as? KtCallExpression
-        val resolved = callExp?.resolveMainReference() as? PsiNamedElement
-        val name = resolved?.name
-        fncName == name
-    }
-}
+
 
 
 /**
@@ -124,6 +106,7 @@ fun KtNamedFunction.convertToBlockFunction(
 }
 
 
+@Deprecated("use resolveClassType2()")
 fun KtNamedFunction.getDeclaredReturnType(): PsiElement? {
     return typeReference?.resolve()
 }

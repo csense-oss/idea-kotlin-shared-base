@@ -6,7 +6,7 @@ import csense.idea.base.bll.kotlin.*
 import org.jetbrains.kotlin.psi.*
 
 
-sealed interface KtParameterOrValueParameter {
+sealed interface KtParameterOrValueParameter  {
 
     val declaration: KtNamedDeclaration
 

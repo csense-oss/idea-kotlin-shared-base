@@ -18,8 +18,8 @@ import org.jetbrains.kotlin.types.*
  */
 fun KtExpression.isConstant(): Boolean = when (this) {
     is KtNameReferenceExpression -> {
-        val asProp = resolveFirstClassType() as? KtProperty
-        asProp?.isGetterConstant() ?: false
+        val asProp: KtProperty? = resolveFirstClassType() as? KtProperty
+        asProp?.isConstantProperty() ?: false
     }
 
     is KtConstantExpression -> true
@@ -65,3 +65,12 @@ fun KtExpression.resolveAsReferenceToPropertyOrValueParameter(): KtParameterOrVa
 fun KtExpression.resolveExpressionType(
     context: BindingContext = this.analyze(BodyResolveMode.PARTIAL)
 ): KotlinType? = context.getType(this)
+
+
+
+fun KtExpression.tryResolveToCallExpression(): PsiMethod? = when (this) {
+    is KtSuperExpression -> (parent as? KtExpression)?.tryResolveToCallExpression()
+    is KtDotQualifiedExpression -> selectorExpression?.tryResolveToCallExpression()
+    is KtCallExpression -> resolveMainReferenceAsPsiMethod()
+    else -> null
+}

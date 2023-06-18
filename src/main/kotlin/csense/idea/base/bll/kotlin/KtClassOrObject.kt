@@ -34,7 +34,7 @@ val KtClassOrObject.superClass: KtClassOrObject?
         if (superTypes.isEmpty()) {
             return null
         }
-        superTypes.forEach {
+        superTypes.forEach { it: KtSuperTypeListEntry ->
             when (val resolved: PsiElement? = it.typeReference?.resolve()) {
                 is KtLightClassForSourceDeclaration -> return resolved.kotlinOrigin
                 is KtClassOrObject -> return resolved
@@ -53,7 +53,7 @@ fun KtClassOrObject.isUnit(): Boolean =
 
 
 fun KtClassOrObject.getAllClassProperties(): List<KtNamedDeclaration> {
-    val localFields = collectDescendantsOfType<KtProperty> {
+    val localFields: List<KtProperty> = collectDescendantsOfType<KtProperty> {
         !it.isLocal && (it.resolveType()?.isFunctionType ?: false)
     }
     val constructorFields: List<KtNamedDeclaration> = primaryConstructor?.let {

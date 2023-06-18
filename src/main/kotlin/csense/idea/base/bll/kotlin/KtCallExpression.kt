@@ -2,13 +2,9 @@
 
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiMember
-import com.intellij.psi.PsiMethod
-import org.jetbrains.kotlin.idea.references.mainReference
+import com.intellij.psi.*
+import org.jetbrains.kotlin.idea.references.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.uast.UClass
-import org.jetbrains.uast.toUElement
 
 
 /**

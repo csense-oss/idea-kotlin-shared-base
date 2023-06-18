@@ -4,7 +4,7 @@ package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.PsiFile
 import csense.idea.base.bll.psiWrapper.`class`.*
-import csense.idea.base.bll.psiWrapper.`class`.operations.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.to.*
 import org.jetbrains.kotlin.psi.KtValueArgument
 import org.jetbrains.kotlin.psi.KtValueArgumentList
 

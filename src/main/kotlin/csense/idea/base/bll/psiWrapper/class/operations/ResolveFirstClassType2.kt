@@ -9,12 +9,7 @@ import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
 
-//TODO better name / replace other function?!
-
-// only works for kotlin. unless java one day gets a typealias operator / construct...
-fun PsiElement.resolveFirstClassType2(
-
-): KtPsiClass? = when (this) {
+fun PsiElement.resolveFirstClassType2(): KtPsiClass? = when (this) {
     is KtElement -> resolveFirstClassType2()
     is PsiClass -> asKtOrPsiClass()
     is PsiMethod -> {
@@ -40,6 +35,7 @@ fun PsiElement.resolveFirstClassType2(
 
 
 fun KtElement.resolveFirstClassType2(): KtPsiClass? = when (this) {
+    is KtUserType -> resolveFirstClassType2()
     is KtClass -> resolveFirstClassType2()
     is KtCallExpression -> resolveFirstClassType2()
     is KtDotQualifiedExpression -> resolveFirstClassType2()
@@ -53,17 +49,30 @@ fun KtElement.resolveFirstClassType2(): KtPsiClass? = when (this) {
     is KtTypeAlias -> resolveFirstClassType2()
     is KtParameter -> resolveFirstClassType2()
     is KtAnnotationEntry -> resolveFirstClassType2()
+    is KtSuperTypeListEntry -> resolveFirstClassType2()
+    is KtTypeReference -> resolveFirstClassType2()
     else -> null
 }
 
 
+fun KtSuperTypeListEntry.resolveFirstClassType2(): KtPsiClass? {
+    return typeReference?.resolveFirstClassType2()
+}
+
+fun KtTypeReference.resolveFirstClassType2(): KtPsiClass? {
+    return typeElement?.resolveFirstClassType2()
+}
+
+fun KtUserType.resolveFirstClassType2(): KtPsiClass? {
+    return referenceExpression?.resolveFirstClassType2()
+}
+
 fun KtClass.resolveFirstClassType2(): KtPsiClass.Kt = asKtOrPsiClass()
 
 fun KtCallExpression.resolveFirstClassType2(): KtPsiClass? {
-    //TODO?!  ??
     val mainRef: PsiElement? = resolveMainReference()
     val resolved: PsiElement? = mainRef?.resolveTypeAliasOrThis()
-    val result = resolved?.resolveFirstClassType2()
+    val result: KtPsiClass? = resolved?.resolveFirstClassType2()
     if (mainRef is KtTypeAlias && result != null) {
         return result.withTypeAlias(mainRef)
     }

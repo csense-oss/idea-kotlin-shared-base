@@ -2,8 +2,8 @@
 
 package csense.idea.base.bll.kotlin
 
-import csense.idea.base.*
 import csense.idea.base.bll.psi.findParentOfType
+import csense.idea.base.csense.*
 import csense.kotlin.extensions.collections.generic.*
 import org.jetbrains.kotlin.psi.KtClassOrObject
 import org.jetbrains.kotlin.psi.KtElement

@@ -6,6 +6,7 @@ import com.intellij.psi.*
 import csense.idea.base.bll.kotlin.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.to.*
 import csense.idea.base.bll.psiWrapper.function.*
 
 
@@ -22,7 +23,7 @@ fun PsiMethod.throwsTypes(): List<KtPsiClass> {
     val throwable: KtPsiClass? = KtPsiClass.getJavaThrowable(project)
     return throws.mapNotNull { classType: PsiClassType ->
         val resolvedClass: PsiClass = classType.resolve() ?: return@mapNotNull throwable
-        KtPsiClass(resolvedClass)
+        resolvedClass.toKtPsiClass()
     }
 }
 

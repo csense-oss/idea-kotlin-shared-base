@@ -2,8 +2,8 @@
 
 package csense.idea.base.bll.kotlin
 
-import csense.idea.base.*
 import csense.idea.base.bll.kotlin.models.*
+import csense.idea.base.csense.*
 import csense.kotlin.extensions.collections.*
 import org.jetbrains.kotlin.psi.*
 
