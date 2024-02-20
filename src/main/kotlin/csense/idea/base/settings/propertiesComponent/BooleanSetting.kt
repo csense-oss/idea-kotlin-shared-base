@@ -12,16 +12,20 @@ class BooleanSetting(
     private val postfixName: String = "",
     private val defaultValue: Boolean = true
 ) {
+    private fun nameFor(property: KProperty<*>): String {
+        return settingsNamePrefix + property.name + postfixName
+    }
+    
     operator fun getValue(prop: Any, property: KProperty<*>): Boolean {
         return backend.getBoolean(
-            /* name = */ settingsNamePrefix + property.name + postfixName,
+            /* name = */ nameFor(property),
             /* defaultValue = */defaultValue
         )
     }
 
     operator fun setValue(prop: Any, property: KProperty<*>, newValue: Boolean) {
         backend.setValue(
-            /* p0 = */ settingsNamePrefix + property.name + postfixName,
+            /* p0 = */ nameFor(property),
             /* p1 = */ newValue,
             /* p2 = */ defaultValue
         )

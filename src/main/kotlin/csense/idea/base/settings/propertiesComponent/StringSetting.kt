@@ -12,19 +12,23 @@ class StringSetting(
     private val postfixName: String = "",
     private val defaultValue: String = ""
 ) {
+
+    private fun nameFor(property: KProperty<*>): String {
+        return settingsNamePrefix + property.name + postfixName
+    }
+
     operator fun getValue(prop: Any, property: KProperty<*>): String {
         return backend.getValue(
-            /* name = */ settingsNamePrefix + property.name + postfixName,
-            /* defaultValue = */
-            defaultValue
+            /* name = */ nameFor(property),
+            /* defaultValue = */ defaultValue
         )
     }
 
     operator fun setValue(prop: Any, property: KProperty<*>, newValue: String) {
         backend.setValue(
-            /* p0 = */ settingsNamePrefix + property.name + postfixName,
-            /* p1 = */ newValue,
-            /* p2 = */ defaultValue
+            /* name = */ nameFor(property),
+            /* newValue = */ newValue,
+            /* defaultValue = */ defaultValue
         )
     }
 }
