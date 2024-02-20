@@ -17,6 +17,10 @@ fun KtAnnotationEntry.isThrowsAnnotation(): Boolean {
     return fqName() in setOf("kotlin.Throws", "kotlin.jvm.Throws")
 }
 
+fun KtAnnotationEntry.isDeprecatedAnnotation(): Boolean {
+    return fqName() == "kotlin.Deprecated"
+}
+
 fun List<KtAnnotationEntry>.filterByFqName(fqName: String): List<KtAnnotationEntry> = filter { it: KtAnnotationEntry ->
     it.fqName() == fqName
 }
