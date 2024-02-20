@@ -4,7 +4,6 @@
 package csense.idea.base.csense
 
 import csense.kotlin.extensions.collections.*
-import csense.kotlin.extensions.collections.generic.*
 import kotlin.contracts.*
 import kotlin.experimental.*
 
@@ -100,4 +99,24 @@ inline fun <T, R> Array<T>.filterMapped(
 fun <T> Class<T>.tryCast(other: Any): T? = when {
     other::class.java.isAssignableFrom(this) -> other as T
     else -> null
+}
+
+
+/**
+ * TODO?
+ * An alternative to "?.let"
+ * @receiver T?
+ * @param action Function0<R>
+ * @return R?
+ */
+inline fun <T, R> T?.onNotNull(
+    action: (T) -> R,
+): R? {
+    contract {
+        callsInPlace(action, InvocationKind.AT_MOST_ONCE)
+    }
+    return when (this) {
+        null -> null
+        else -> action(this)
+    }
 }

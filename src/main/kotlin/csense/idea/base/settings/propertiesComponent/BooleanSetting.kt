@@ -15,7 +15,7 @@ class BooleanSetting(
     private fun nameFor(property: KProperty<*>): String {
         return settingsNamePrefix + property.name + postfixName
     }
-    
+
     operator fun getValue(prop: Any, property: KProperty<*>): Boolean {
         return backend.getBoolean(
             /* name = */ nameFor(property),

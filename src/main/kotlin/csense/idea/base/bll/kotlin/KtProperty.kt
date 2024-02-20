@@ -1,9 +1,9 @@
 @file:Suppress("unused")
-@file:OptIn(ExperimentalContracts::class)
 
 package csense.idea.base.bll.kotlin
 
 import csense.idea.base.bll.psiWrapper.`class`.*
+import csense.idea.base.csense.*
 import org.jetbrains.kotlin.idea.core.*
 import org.jetbrains.kotlin.idea.refactoring.*
 import org.jetbrains.kotlin.psi.*
@@ -66,23 +66,4 @@ fun KtProperty.throwsTypesWithGetter(): List<KtPsiClass> {
 
 fun KtProperty.throwsTypesWithSetter(): List<KtPsiClass> {
     return listOfNotNull(annotationEntriesWithSetterAnnotations().filterThrowsAnnotation()).resolveAsKClassTypes()
-}
-
-
-/**
- * An alternative to "?.let"
- * @receiver T?
- * @param action Function0<R>
- * @return R?
- */
-inline fun <T, R> T?.onNotNull(
-    action: (T) -> R,
-): R? {
-    contract {
-        callsInPlace(action, InvocationKind.AT_MOST_ONCE)
-    }
-    return when (this) {
-        null -> null
-        else -> action(this)
-    }
 }
