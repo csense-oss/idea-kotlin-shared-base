@@ -12,9 +12,9 @@ import com.intellij.psi.*
 fun restartLineMarkers(forProject: Project, forFile: PsiFile? = null) {
     if (forFile != null) {
         DaemonCodeAnalyzer.getInstance(forProject).restart(forFile)
-    } else {
-        DaemonCodeAnalyzer.getInstance(forProject).restart()
+        return
     }
+    DaemonCodeAnalyzer.getInstance(forProject).restart()
 }
 
 fun restartLineMarkersForAllProjects() {
