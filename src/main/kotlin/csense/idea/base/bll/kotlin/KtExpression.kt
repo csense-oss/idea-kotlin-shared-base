@@ -39,7 +39,7 @@ fun KtStringTemplateExpression.isConstant(): Boolean =
  * @return String?
  */
 fun KtExpression.computeTypeAsString(): String? {
-    val type = resolveExpressionType()
+    val type: KotlinType? = resolveExpressionType()
     return type?.nameIfStandardType?.asString()
 }
 
@@ -48,8 +48,8 @@ fun KtExpression.isTypeReference(): Boolean {
 }
 
 fun KtExpression.resolveAsReferenceToPropertyOrValueParameter(): KtParameterOrValueParameter? {
-    val asReference = this as? KtNameReferenceExpression ?: return null
-    return asReference.references.firstNotNullOfOrNull {
+    val asReference: KtNameReferenceExpression = this as? KtNameReferenceExpression ?: return null
+    return asReference.references.firstNotNullOfOrNull { it: PsiReference ->
         when (val resolved: PsiElement? = it.resolve()) {
             is KtParameter -> KtParameterOrValueParameter.ValueParameter(resolved)
             is KtProperty -> KtParameterOrValueParameter.Property(resolved)
@@ -63,9 +63,8 @@ fun KtExpression.resolveAsReferenceToPropertyOrValueParameter(): KtParameterOrVa
  * Only usable on "expressions" not say [KtDeclaration]s (where you should use [KtDeclaration.resolveType] instead)
  */
 fun KtExpression.resolveExpressionType(
-    context: BindingContext = this.analyze(BodyResolveMode.PARTIAL)
+    context: BindingContext = this.analyze(BodyResolveMode.PARTIAL),
 ): KotlinType? = context.getType(this)
-
 
 
 fun KtExpression.tryResolveToCallExpression(): PsiMethod? = when (this) {

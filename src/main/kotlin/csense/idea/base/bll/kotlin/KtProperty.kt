@@ -4,7 +4,6 @@
 package csense.idea.base.bll.kotlin
 
 import csense.idea.base.bll.psiWrapper.`class`.*
-import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import org.jetbrains.kotlin.idea.core.*
 import org.jetbrains.kotlin.idea.refactoring.*
 import org.jetbrains.kotlin.psi.*
@@ -25,8 +24,8 @@ fun KtProperty.hasConstantCustomGetterOnly(): Boolean {
 }
 
 fun KtProperty.isConstantProperty(): Boolean {
-    getterBody.onNotNull { expression: KtExpression ->
-        return@isConstantProperty expression.isConstant()
+    getterBody.onNotNull<KtExpression, Nothing> { expression: KtExpression ->
+        return@isConstantProperty expression != this && expression.isConstant()
     }
     return isVal
 }
@@ -70,7 +69,6 @@ fun KtProperty.throwsTypesWithSetter(): List<KtPsiClass> {
 }
 
 
-
 /**
  * An alternative to "?.let"
  * @receiver T?
@@ -78,7 +76,7 @@ fun KtProperty.throwsTypesWithSetter(): List<KtPsiClass> {
  * @return R?
  */
 inline fun <T, R> T?.onNotNull(
-    action: (T) -> R
+    action: (T) -> R,
 ): R? {
     contract {
         callsInPlace(action, InvocationKind.AT_MOST_ONCE)

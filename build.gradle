@@ -1,7 +1,7 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.0-Beta'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
 
-    id "org.jetbrains.kotlin.plugin.serialization" version "1.9.0-Beta"
+    id "org.jetbrains.kotlin.plugin.serialization" version "1.9.22"
 }
 
 ext.csenseUserOrg = "csense-oss"
@@ -40,9 +40,10 @@ dependencies {
 
     implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.0-Beta"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
 
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
+    //https://github.com/Kotlin/kotlinx.serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
 
 
     //extracted from the maven artifact of intellij ce/ the dir names.
@@ -57,7 +58,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs/kotlin/')
 
 
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.1")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
 
     testImplementation("csense.kotlin:csense-kotlin-tests:0.0.60")
 

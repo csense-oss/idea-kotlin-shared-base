@@ -3,6 +3,7 @@
 
 package csense.idea.base.csense
 
+import csense.kotlin.extensions.collections.*
 import csense.kotlin.extensions.collections.generic.*
 import kotlin.contracts.*
 import kotlin.experimental.*
@@ -34,3 +35,62 @@ public inline fun <T, CollectionType : Collection<T>> CollectionType.onEmpty(
     }
 }
 
+
+fun <T, R> Iterable<T>.filterMapped(
+    predicate: (R) -> Boolean,
+    transform: (T) -> R
+): List<R> = createListBy { result: MutableList<R> ->
+    forEach { it: T ->
+        val transformed: R = transform(it)
+        result.addIf(
+            condition = predicate(transformed),
+            item = transformed
+        )
+    }
+}
+
+inline fun <T> createListBy(builder: (result: MutableList<T>) -> Unit): List<T> {
+    contract {
+        callsInPlace(builder, InvocationKind.EXACTLY_ONCE)
+    }
+    val result: MutableList<T> = mutableListOf()
+    builder(result)
+    return result
+}
+
+inline fun <T, R> Array<T>.filterMapped(
+    predicate: (R) -> Boolean,
+    transform: (T) -> R
+): List<R> {
+//    return GenericCollectionExtensions.filterMapped(
+//        this::forEach,
+//        predicate,
+//        transform
+//    )
+    return createListBy { result: MutableList<R> ->
+        forEach { it: T ->
+            val transformed: R = transform(it)
+            result.addIf(
+                condition = predicate(transformed),
+                item = transformed
+            )
+        }
+    }
+}
+
+
+//public inline fun <T, R> GenericCollectionExtensions.filterMapped(
+//    forEach: ((item: T) -> Unit) -> Unit,
+//    predicate: (R) -> Boolean,
+//     transform: (T) -> R
+//): List<R> {
+//    val result: MutableList<R> = mutableListOf()
+//    forEach { item: T ->
+//        val transformed: R =transform(item)
+//        result.addIf(
+//            condition = predicate(transformed),
+//            item = transformed
+//        )
+//    }
+//    return result
+//}

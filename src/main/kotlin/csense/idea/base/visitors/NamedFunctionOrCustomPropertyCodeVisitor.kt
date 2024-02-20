@@ -6,7 +6,7 @@ import csense.idea.base.bll.kotlin.*
 import org.jetbrains.kotlin.psi.*
 
 
-class NamedFunctionOrCustomPropertyCodeVisitor(
+open class NamedFunctionOrCustomPropertyCodeVisitor(
     private val onFunctionNamed: (KtNamedFunction) -> Unit,
     private val onPropertyWithInnerCode: (KtProperty) -> Unit
 ) : KtVisitorVoid() {

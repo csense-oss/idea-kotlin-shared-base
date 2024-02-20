@@ -3,7 +3,6 @@
 package csense.idea.base.bll.psiWrapper.`class`.operations.filter
 
 import csense.idea.base.bll.psiWrapper.`class`.*
-import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.`is`.*
 
 

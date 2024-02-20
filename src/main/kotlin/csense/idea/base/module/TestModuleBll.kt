@@ -59,11 +59,10 @@ fun Module.findMostPropableTestModule(): Module? {
 
 
 fun PsiElement.findMostPropableTestSourceRoot(): PsiDirectory? {
-    val module = ModuleUtil.findModuleForPsiElement(this) ?: return null
-    //step 2 is to find the test file in the test root
-    if (module.isTestModule()) {
-        return null
-    }
+    val module: Module = ModuleUtil.findModuleForPsiElement(this) ?: return null
+//    if (module.isTestModule()) {
+//        return null
+//    }
     return module.findMostPropableTestSourceRootDir()
 }
 

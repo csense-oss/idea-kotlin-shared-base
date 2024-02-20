@@ -33,3 +33,11 @@ fun KtPsiFunction.Psi.containsAnnotationBy(
         predicate(KtPsiAnnotation.Psi(it))
     }
 }
+
+fun KtPsiFunction.containsAnyAnnotation(
+    fqNames: Set<String>
+): Boolean {
+    return containsAnnotationBy { it: KtPsiAnnotation ->
+        it.fqName in fqNames
+    }
+}

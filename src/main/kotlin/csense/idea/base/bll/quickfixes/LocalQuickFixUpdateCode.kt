@@ -15,7 +15,7 @@ abstract class LocalQuickFixUpdateCode<T : KtElement>(
 
     @Suppress("ActionIsNotPreviewFriendly")
     val factory: KtPsiFactory by lazy {
-        KtPsiFactory(startElement.project, markGenerated = false)
+        KtPsiFactory(project, markGenerated = false)
     }
 
     final override fun invoke(project: Project, file: PsiFile, element: T) {
