@@ -94,3 +94,10 @@ inline fun <T, R> Array<T>.filterMapped(
 //    }
 //    return result
 //}
+
+//TODO use from csense 0.1.0
+@Suppress("UNCHECKED_CAST")
+fun <T> Class<T>.tryCast(other: Any): T? = when {
+    other::class.java.isAssignableFrom(this) -> other as T
+    else -> null
+}

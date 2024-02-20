@@ -6,6 +6,7 @@ import com.intellij.codeInsight.daemon.*
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.*
 import csense.idea.base.bll.annotator.*
+import csense.idea.base.csense.*
 
 abstract class AbstractSafeRelatedItemLineMarkerProvider<T : PsiElement>(
     private val classType: Class<T>

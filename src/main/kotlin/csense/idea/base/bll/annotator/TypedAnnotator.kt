@@ -4,8 +4,7 @@ package csense.idea.base.bll.annotator
 
 import com.intellij.lang.annotation.*
 import com.intellij.psi.*
-import csense.kotlin.extensions.*
-import kotlin.contracts.*
+import csense.idea.base.csense.*
 
 abstract class TypedAnnotator<T : PsiElement> : Annotator {
 
@@ -23,11 +22,4 @@ abstract class TypedAnnotator<T : PsiElement> : Annotator {
         typedElement: T,
         holder: AnnotationHolder
     )
-}
-
-//TODO use from csense 0.1.0
-@Suppress("UNCHECKED_CAST")
-fun <T> Class<T>.tryCast(other: Any): T? = when {
-    other::class.java.isAssignableFrom(this) -> other as T
-    else -> null
 }
