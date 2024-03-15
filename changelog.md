@@ -1,3 +1,7 @@
+## 0.1.60
+- kotlin 1.9.22
+- added a lot of methods and removed some unnused stuff and moved alot around.
+- should resolve types much better
 ## 0.1.50
 
 - uses IDEA 213 as base now

@@ -3,7 +3,10 @@ package csense.idea.base.bll.psiWrapper.imports.operations
 import csense.idea.base.bll.psiWrapper.imports.*
 
 private val builtInKotlinImports: Set<String> = setOf(
-    "kotlin" // by default all things in the "kotlin" namespace are imported
+    "kotlin"
+)
+private val builtInJavaImports: Set<String> = setOf(
+    "java.lang"
 )
 
 
@@ -13,7 +16,11 @@ fun KtPsiImports.contains(fqName: String, className: String): Boolean = when (th
 }
 
 fun KtPsiImports.Psi.contains(fqName: String, className: String): Boolean {
-    TODO()
+    val namespace: String = fqName.removeSuffix(className).removeSuffix(".")
+    if (namespace in builtInJavaImports) {
+        return true
+    }
+    return import == "$namespace.*" || import == fqName
 }
 
 fun KtPsiImports.Kt.contains(fqName: String, className: String): Boolean {

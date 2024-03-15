@@ -19,7 +19,7 @@ import org.jetbrains.kotlin.idea.util.projectStructure.allModules
 import org.jetbrains.kotlin.idea.util.sourceRoots
 
 fun PsiElement.isInTestModule(): Boolean {
-    //works for android.. & idea 203 + 213
+    //works for android & idea 203 + 213
     return TestSourcesFilter.isTestSources(
         /* file = */ containingFile.virtualFile,
         /* project = */ project
@@ -32,16 +32,16 @@ fun Module.isTestModule(): Boolean {
     if (sourceType == SourceType.TEST) {
         return true
     }
-    val rootMgr = ModuleRootManager.getInstance(this)
+    val rootMgr: ModuleRootManager = ModuleRootManager.getInstance(this)
     return rootMgr.getSourceRoots(false).isEmpty() &&
             rootMgr.getSourceRoots(true).isNotEmpty()
 }
 
 
 fun Module.findMostPropableTestModule(): Module? {
-    val searchingFor = this.name
+    val searchingFor: String = this.name
     return this.project.allModules().find { mod: Module ->
-        val modName = mod.name
+        val modName: String = mod.name
         //if the name starts with the same and ends with test
         if (modName.doesNotEndsWith("test", true) || modName.length < 4) {
             return@find false
@@ -51,8 +51,8 @@ fun Module.findMostPropableTestModule(): Module? {
             return@find false
         }
 
-        val withoutTestIndex = modName.length - 4
-        val withoutTest = modName.substring(0, withoutTestIndex)
+        val withoutTestIndex: Int = modName.length - 4
+        val withoutTest: String = modName.substring(startIndex = 0, endIndex = withoutTestIndex)
         searchingFor.startsWith(withoutTest)
     }
 }
@@ -60,9 +60,6 @@ fun Module.findMostPropableTestModule(): Module? {
 
 fun PsiElement.findMostPropableTestSourceRoot(): PsiDirectory? {
     val module: Module = ModuleUtil.findModuleForPsiElement(this) ?: return null
-//    if (module.isTestModule()) {
-//        return null
-//    }
     return module.findMostPropableTestSourceRootDir()
 }
 
@@ -72,8 +69,7 @@ fun Module.findMostPropableTestSourceRootDir(): PsiDirectory? {
 }
 
 fun Module.findMostPropableTestSourceRoot(): VirtualFile? {
-    //strategy for sourceRoot searching
-    val testSourceRoots = sourceRoots.filterTestSourceRoots(project)
+    val testSourceRoots: List<VirtualFile> = sourceRoots.filterTestSourceRoots(project)
     return testSourceRoots.findMostPreferedTestSourceRootForKotlin()
 }
 
@@ -83,17 +79,16 @@ fun Module.findMostPropableTestSourceRoot(): VirtualFile? {
  * @return VirtualFile?
  */
 fun List<VirtualFile>.findMostPreferedTestSourceRootForKotlin(): VirtualFile? {
-    return firstOrNull {
-        it.name.equals("kotlin", true)
-    } ?: firstOrNull {
-        it.name.equals("java", true)
+    return firstOrNull { it: VirtualFile ->
+        it.name.equals(other = "kotlin", ignoreCase = true)
+    } ?: firstOrNull { it: VirtualFile ->
+        it.name.equals(other = "java", ignoreCase = true)
     } ?: firstOrNull()
 }
 
 fun Array<VirtualFile>.filterTestSourceRoots(project: Project): List<VirtualFile> {
-    val inst = ProjectFileIndex.SERVICE.getInstance(project)
-    return filter {
+    val inst: ProjectFileIndex = ProjectFileIndex.SERVICE.getInstance(project)
+    return filter { it: VirtualFile ->
         inst.isInTestSourceContent(it)
     }
 }
-

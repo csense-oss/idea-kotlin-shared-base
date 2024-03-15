@@ -4,6 +4,7 @@ package csense.idea.base.bll.psi
 
 import com.intellij.pom.*
 import com.intellij.psi.*
+import csense.idea.base.bll.kotlin.*
 import csense.kotlin.*
 import csense.kotlin.extensions.*
 import org.jetbrains.kotlin.asJava.*
@@ -98,3 +99,8 @@ fun PsiElement.addFirst(newElement: PsiElement): PsiElement? = addBefore(
     /* element = */ newElement,
     /* anchor = */ firstChild
 )
+
+fun PsiElement.resolveTypeAliasOrThis(): PsiElement? = when (this) {
+    is KtTypeAlias -> getTypeReference()?.resolve()
+    else -> this
+}

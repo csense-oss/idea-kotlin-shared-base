@@ -43,7 +43,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
 
     //https://github.com/Kotlin/kotlinx.serialization
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
 
 
     //extracted from the maven artifact of intellij ce/ the dir names.
@@ -58,7 +58,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs/kotlin/')
 
 
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
 
     testImplementation("csense.kotlin:csense-kotlin-tests:0.0.60")
 

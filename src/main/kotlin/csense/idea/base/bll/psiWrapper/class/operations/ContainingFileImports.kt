@@ -5,6 +5,7 @@ import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.imports.*
 import csense.idea.base.bll.psiWrapper.imports.operations.*
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 
 fun KtPsiClass.containingFileImports(): List<KtPsiImports> = when (this) {
@@ -18,7 +19,7 @@ fun KtPsiClass.Kt.containingFileImports(): List<KtPsiImports.Kt> {
 }
 
 
-fun KtPsiClass.Psi.containingFileImports(): List<KtPsiImports.Psi> {
+fun KtPsiClass.Psi.containingFileImports(): List<KtPsiImports> {
     val file: PsiFile = psiClass.containingFile
-    return emptyList()
+    return file.ktPsiImports()
 }

@@ -8,7 +8,7 @@ import org.jetbrains.kotlin.idea.references.*
 import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
-
+@Deprecated("use resolveFirstClassType2 instead")
 fun PsiElement.resolveFirstClassType(): PsiElement? {
     return when (this) {
         is KtElement -> resolveFirstClassType()
@@ -34,7 +34,7 @@ fun PsiElement.resolveFirstClassType(): PsiElement? {
         else -> null
     }
 }
-
+@Deprecated("use resolveFirstClassType2 instead")
 fun KtProperty.resolveFirstClassType(): PsiElement? {
     val type = typeReference
     if (type != null) {
@@ -50,7 +50,7 @@ fun KtProperty.resolveFirstClassType(): PsiElement? {
     }
     return null
 }
-
+@Deprecated("use resolveFirstClassType2 instead")
 tailrec fun KtElement.resolveFirstClassType(): PsiElement? {
     return when (this) {
         is KtClass -> return this
@@ -81,5 +81,5 @@ tailrec fun KtElement.resolveFirstClassType(): PsiElement? {
         else -> null
     }
 }
-
+@Deprecated("use resolveFirstClassType2 instead")
 fun PsiReference.resolveFirstClassType(): PsiElement? = resolve()?.resolveFirstClassType()

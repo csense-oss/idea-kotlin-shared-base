@@ -4,18 +4,6 @@ import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import org.jetbrains.kotlin.psi.*
 
-//fun ValueArgument.resolveClassLiterals(): List<KtClassLiteralExpression> {
-//    return when (val argumentExpression = getArgumentExpression()) {
-//        is KtClassLiteralExpression -> listOf(argumentExpression)
-//        is KtCollectionLiteralExpression -> argumentExpression.getInnerExpressions().filterIsInstance(
-//            KtClassLiteralExpression::class.java
-//        )
-//        is KtCallExpression -> argumentExpression.valueArguments.mapNotNull { it.getArgumentExpression() as? KtClassLiteralExpression }
-//        else -> emptyList()
-//    }
-//}
-
-
 fun List<ValueArgument>.resolveAsKClassTypes(): List<KtPsiClass> {
     return mapNotNull { annotation: ValueArgument ->
         //TODO. if for some cool reason the code contains "arrayOf" or alike (with star operator etc) then this will fail badly.

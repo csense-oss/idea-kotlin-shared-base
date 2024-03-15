@@ -3,6 +3,7 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.*
+import csense.idea.base.bll.psi.*
 import org.jetbrains.kotlin.idea.references.*
 import org.jetbrains.kotlin.psi.*
 
@@ -48,11 +49,6 @@ fun KtCallExpression.resolveMainReference(): PsiElement? {
 
 fun KtCallExpression.resolveMainReferenceWithTypeAlias(): PsiElement? {
     return resolveMainReference()?.resolveTypeAliasOrThis()
-}
-//TODO move?
-fun PsiElement.resolveTypeAliasOrThis(): PsiElement? = when (this) {
-    is KtTypeAlias -> getTypeReference()?.resolve()
-    else -> this
 }
 
 /**

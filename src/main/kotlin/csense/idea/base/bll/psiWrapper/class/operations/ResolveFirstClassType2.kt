@@ -4,6 +4,7 @@ import com.intellij.psi.*
 import com.intellij.psi.impl.source.*
 import com.intellij.psi.search.*
 import csense.idea.base.bll.kotlin.*
+import csense.idea.base.bll.psi.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
@@ -135,4 +136,3 @@ fun PsiReference.resolveFirstClassType2(): KtPsiClass? =
 
 fun KtAnnotationEntry.resolveFirstClassType2(): KtPsiClass? =
     typeReference?.resolve()?.resolveFirstClassType2()
-

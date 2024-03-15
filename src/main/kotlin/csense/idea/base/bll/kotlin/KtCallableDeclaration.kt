@@ -96,7 +96,7 @@ fun List<ValueArgument>.fillValueArgumentsInto(
         argumentExpression: KtExpression?,
         onIncrementParameterIndex: () -> Unit
     ) {
-        val expression: MutableParameterToValueExpressions = expression ?: return
+        expression ?: return
         appendArg(
             expression = expression,
             argumentExpression = argumentExpression,
