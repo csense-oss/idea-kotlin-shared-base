@@ -3,7 +3,7 @@
 package csense.idea.base.bll.kotlin
 
 import org.jetbrains.kotlin.lexer.KtTokens
-import org.jetbrains.kotlin.psi.KtFunction
+import org.jetbrains.kotlin.psi.*
 
 /**
  * Tells if this function have the inline keyword in the declaration
@@ -18,7 +18,11 @@ fun KtFunction.isInlineWithInlineParameters(): Boolean {
     if (!isInline()) {
         return false
     }
-    return valueParameters.any {
+    return valueParameters.any { it: KtParameter ->
         it.isFunctionalAndNotNoInline()
     }
+}
+
+fun KtFunction.isAnnotatedDeprecated(): Boolean = hasAnnotationBy { it: KtAnnotationEntry ->
+    it.isDeprecatedAnnotation()
 }

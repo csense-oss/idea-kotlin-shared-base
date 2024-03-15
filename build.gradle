@@ -1,8 +1,7 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.5.10'
-    id("org.jetbrains.dokka") version "1.4.32"
-    id "maven-publish"
-    id "net.linguica.maven-settings" version "0.5"
+    id 'org.jetbrains.kotlin.jvm' version '1.9.22'
+
+    id "org.jetbrains.kotlin.plugin.serialization" version "1.9.22"
 }
 
 ext.csenseUserOrg = "csense-oss"
@@ -12,12 +11,12 @@ ext.csenseLicenseUrl = "https://mit-license.org/"
 
 ext.csenseArtifactId = "csense-idea-base"
 ext.csenseGroupId = "csense.idea.base"
-ext.csenseVersionName = "0.1.30"
+ext.csenseVersionName = "0.1.60"
 ext.csenseDeveloperAlias = "tvede-dk"
 ext.csenseDeveloperName = "Kasper Tvede"
 ext.csenseDeveloperEmail = "csenseoss@tvedesys.dk"
 
-ext.ideaVersion = "2019.2"
+ext.ideaVersion = "2021.3"
 ext.csenseArtifactDescription = ""
 ext.csenseWebsite = "https://github.com/csense-oss/idea-kotlin-shared-base"
 
@@ -27,6 +26,7 @@ project.version = ext.csenseVersionName
 
 repositories {
     mavenCentral()
+    mavenLocal()
     maven {
         url 'https://pkgs.dev.azure.com/csense-oss/csense-oss/_packaging/csense-oss/maven/v1'
         name 'csense-oss'
@@ -34,25 +34,55 @@ repositories {
 }
 
 dependencies {
-    implementation("csense.kotlin:csense-kotlin-jvm:0.0.46")
-    implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.41")
+    implementation("csense.kotlin:csense-kotlin-jvm:0.0.60")
+
+    implementation("csense.kotlin:csense-kotlin-annotations-jvm:0.0.63")
+
     implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+
+    //https://github.com/Kotlin/kotlinx.serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
+
+
+    //extracted from the maven artifact of intellij ce/ the dir names.
+    //eg your local maven: <localuser>/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2020.3/
+
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/')
-    implementation fileTree(include: ['*.jar'], dir: 'libs/java-lib/')
-    implementation fileTree(include: ['*.jar'], dir: 'libs/kotlin-lib/')
+    implementation fileTree(include: ['*.jar'], dir: 'libs/idea/ant/lib')
+    implementation fileTree(include: ['*.jar'], dir: 'libs/idea/cds/')
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs/java/')
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs/kotlin/')
+
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+
+    testImplementation("csense.kotlin:csense-kotlin-tests:0.0.60")
+
+    testImplementation("csense.idea.test:csense-idea-test:0.3.0")
 }
 
-compileKotlin {
-    kotlinOptions.jvmTarget = "1.8"
-}
-compileTestKotlin {
-    kotlinOptions.jvmTarget = "1.8"
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+    withJavadocJar()
+    withSourcesJar()
 }
 
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+    }
+}
 kotlin.sourceSets.all {
     languageSettings.progressiveMode = true
 }
+
 
 apply from: "$rootDir/gradle/publish.gradle"
 

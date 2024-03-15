@@ -1,16 +1,16 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll.psi
 
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiMember
-import com.intellij.psi.PsiPackage
-import csense.kotlin.Function0
-import csense.kotlin.extensions.isNotNull
-import org.jetbrains.kotlin.asJava.namedUnwrappedElement
-import org.jetbrains.kotlin.name.FqName
-import org.jetbrains.kotlin.psi.KtNamedDeclaration
-import org.jetbrains.kotlin.psi.psiUtil.findDescendantOfType
-import org.jetbrains.kotlin.psi.psiUtil.forEachDescendantOfType
+import com.intellij.pom.*
+import com.intellij.psi.*
+import csense.idea.base.bll.kotlin.*
+import csense.kotlin.*
+import csense.kotlin.extensions.*
+import org.jetbrains.kotlin.asJava.*
+import org.jetbrains.kotlin.name.*
+import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 inline fun <reified T : PsiElement> PsiElement.findParentOfType(): T? {
     return findParentAndBeforeFromType<T>()?.first
@@ -62,6 +62,7 @@ fun PsiElement.getKotlinFqName(): FqName? = when (val element = namedUnwrappedEl
         val prefix = element.containingClass?.qualifiedName
         FqName(if (prefix != null) "$prefix.$name" else name)
     }
+
     is KtNamedDeclaration -> element.fqName
     else -> null
 }
@@ -75,4 +76,31 @@ inline fun PsiElement.goUpUntil(parent: PsiElement, action: Function0<PsiElement
         action(current)
         current = current.parent
     }
+}
+
+fun PsiElement.tryNavigate(requestFocus: Boolean) {
+    if (this is Navigatable) {
+        this.navigate(requestFocus)
+    } else {
+        val navElement = navigationElement as? Navigatable ?: return
+        navElement.tryNavigate(requestFocus)
+    }
+
+}
+
+val PsiElement.startOffset: Int
+    get() = textRange.startOffset
+
+val PsiElement.endOffset: Int
+    get() = textRange.endOffset
+
+
+fun PsiElement.addFirst(newElement: PsiElement): PsiElement? = addBefore(
+    /* element = */ newElement,
+    /* anchor = */ firstChild
+)
+
+fun PsiElement.resolveTypeAliasOrThis(): PsiElement? = when (this) {
+    is KtTypeAlias -> getTypeReference()?.resolve()
+    else -> this
 }

@@ -1,0 +1,18 @@
+package csense.idea.base.bll.psiWrapper.imports.operations
+
+import com.intellij.psi.*
+import csense.idea.base.bll.psiWrapper.imports.*
+import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.*
+
+fun KtFile.ktPsiImports(): List<KtPsiImports.Kt> {
+    return importList?.imports?.mapNotNull(KtImportDirective::toKtPsiImportsOrNull).orEmpty()
+}
+
+
+fun PsiFile.ktPsiImports(): List<KtPsiImports> {
+    if (this is KtFile) {
+        return ktPsiImports()
+    }
+    return allImportsFqNames()
+}

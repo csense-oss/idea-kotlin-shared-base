@@ -6,8 +6,7 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.search.searches.ClassInheritorsSearch
 import org.jetbrains.kotlin.asJava.toLightClass
 import org.jetbrains.kotlin.idea.core.isOverridable
-import org.jetbrains.kotlin.psi.KtClass
-import org.jetbrains.kotlin.psi.KtEnumEntry
+import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
 import org.jetbrains.kotlin.psi.psiUtil.isAbstract
 
@@ -20,5 +19,5 @@ fun KtClass.getEnumValues(): List<KtEnumEntry> {
 }
 
 fun KtClass.findSealedClassInheritors(): List<PsiClass> {
-    return ClassInheritorsSearch.search(toLightClass() as PsiClass).mapNotNull { it }
+    return ClassInheritorsSearch.search(toLightClass() as PsiClass).toList()
 }

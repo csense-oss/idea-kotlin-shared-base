@@ -1,5 +1,8 @@
+@file:Suppress("unused")
+
 package csense.idea.base.bll.kotlin
 
+import com.intellij.psi.*
 import org.jetbrains.kotlin.asJava.classes.KtLightClassForSourceDeclaration
 import org.jetbrains.kotlin.builtins.isFunctionType
 import org.jetbrains.kotlin.lexer.KtTokens
@@ -27,14 +30,16 @@ fun KtClassOrObject.getAllFunctions(): List<KtNamedFunction> = collectDescendant
  */
 val KtClassOrObject.superClass: KtClassOrObject?
     get() {
-        val superTypes = superTypeListEntries
+        val superTypes: List<KtSuperTypeListEntry> = superTypeListEntries
         if (superTypes.isEmpty()) {
             return null
         }
-        superTypes.forEach {
-            when (val resolved = it.typeReference?.resolve()) {
+        superTypes.forEach { it: KtSuperTypeListEntry ->
+            when (val resolved: PsiElement? = it.typeReference?.resolve()) {
                 is KtLightClassForSourceDeclaration -> return resolved.kotlinOrigin
                 is KtClassOrObject -> return resolved
+                is KtSecondaryConstructor -> return resolved.getContainingClassOrObject()
+                is KtPrimaryConstructor -> return resolved.getContainingClassOrObject()
             }
         }
         return null
@@ -48,7 +53,7 @@ fun KtClassOrObject.isUnit(): Boolean =
 
 
 fun KtClassOrObject.getAllClassProperties(): List<KtNamedDeclaration> {
-    val localFields = collectDescendantsOfType<KtProperty> {
+    val localFields: List<KtProperty> = collectDescendantsOfType<KtProperty> {
         !it.isLocal && (it.resolveType()?.isFunctionType ?: false)
     }
     val constructorFields: List<KtNamedDeclaration> = primaryConstructor?.let {

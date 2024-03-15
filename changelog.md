@@ -1,3 +1,37 @@
+## 0.1.60
+- kotlin 1.9.22
+- added a lot of methods and removed some unnused stuff and moved alot around.
+- should resolve types much better
+## 0.1.50
+
+- uses IDEA 213 as base now
+- added restartLineMarkers
+- kotlin 1.8.0
+- updated resolveRealType and renamed it to resolveFirstClassType
+- added
+    - PsiElement.endOffset
+    - PsiElement.startOffset
+- improved isInTestModule drastically
+- isNumberType should be more "stable"
+- added resolveType (which does not use on !!)
+
+## 0.1.41
+
+- improved Module.isTestModule()
+- added tryNavigate (for PsiElement and for Navigateable)
+- other minor functions
+- fix sources not included by default / visible in IDEA
+
+## 0.1.40
+
+- attempt at sources
+- added resolveRealType
+- added toUExceptionClass
+
+## 0.1.30
+
+- reupload
+
 ## 0.1.23
 
 - updated KtExpression.isConstant & KtProperty.isGetterConstant

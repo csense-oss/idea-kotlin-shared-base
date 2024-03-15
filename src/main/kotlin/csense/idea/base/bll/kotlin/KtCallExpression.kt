@@ -2,13 +2,10 @@
 
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiMember
-import com.intellij.psi.PsiMethod
-import org.jetbrains.kotlin.idea.references.mainReference
+import com.intellij.psi.*
+import csense.idea.base.bll.psi.*
+import org.jetbrains.kotlin.idea.references.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.uast.UClass
-import org.jetbrains.uast.toUElement
 
 
 /**
@@ -32,9 +29,11 @@ tailrec fun KtExpression.resolvePotentialArgumentName(): String? = when (this) {
     is KtDotQualifiedExpression -> {
         (selectorExpression ?: receiverExpression).resolvePotentialArgumentName()
     }
+
     is KtCallExpression -> {
         calleeExpression?.resolvePotentialArgumentName()
     }
+
     else -> null
 }
 
@@ -49,22 +48,7 @@ fun KtCallExpression.resolveMainReference(): PsiElement? {
 }
 
 fun KtCallExpression.resolveMainReferenceWithTypeAlias(): PsiElement? {
-    val resolved = calleeExpression?.mainReference?.resolve()
-    return if (resolved is KtTypeAlias) {
-        resolved.getTypeReference()?.resolve()
-    } else {
-        resolved
-    }
-}
-
-fun KtCallExpression.resolveMainReferenceWithTypeAliasForClass(): UClass? {
-    val resolved = resolveMainReferenceWithTypeAlias()
-    val clz = if (resolved is PsiMember) {
-        resolved.containingClass
-    } else {
-        resolved
-    }
-    return clz?.toUElement(UClass::class.java)
+    return resolveMainReference()?.resolveTypeAliasOrThis()
 }
 
 /**
@@ -86,7 +70,7 @@ fun KtCallExpression.resolveMainReferenceAsPsiMethod(): PsiMethod? {
 }
 
 fun KtCallExpression.findArgumentNames(): List<String?> {
-    return valueArguments.map {
+    return valueArguments.map { it: KtValueArgument? ->
         it?.getArgumentName()?.text
     }
 }
