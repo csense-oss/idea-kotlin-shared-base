@@ -48,11 +48,3 @@ fun KtAnnotationEntry.resolveValueParametersAsKClassTypes(): List<KtPsiClass> =
 fun KtAnnotationEntry.fqName(): String? {
     return resolveFirstClassType2()?.fqName
 }
-
-//
-//fun List<KtAnnotationEntry>.anyTextContains(
-//    name: String,
-//    ignoreCase: Boolean = false
-//) = any {
-//    it.text?.contains(name, ignoreCase) ?: false
-//}
