@@ -1,4 +1,4 @@
-## 0.1.60
+## 0.1.61
 - fixed issues with type alias in resolving isSubTypeOfAny
 - also added more operations on KtPsiClass (allFqNames())
 
