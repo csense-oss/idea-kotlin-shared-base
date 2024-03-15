@@ -4,23 +4,20 @@ package csense.idea.base.bll.psiWrapper.`class`.operations.`is`
 
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.any.*
+import csense.idea.base.csense.*
 import csense.kotlin.extensions.*
+import kotlin.collections.filterNotNull
 
 fun KtPsiClass.isSubTypeOfAny(other: List<KtPsiClass>): Boolean {
-    val fqNames: Set<String?> = other.mapToSet { it.fqName }
-
-    if (fqNames.isEmpty()) {
+    val allFqName: Set<String?> = other.allFqNames()
+    if (allFqName.isEmpty()) {
         return false
     }
-
-    if (this.fqName in fqNames) {
+    if (this.fqName in allFqName) {
         return true
     }
-
-    forEachSuperClassType { superClass: KtPsiClass ->
-        if (superClass.fqName in fqNames) {
-            return@isSubTypeOfAny true
-        }
+    return anySuperClassType { superClass: KtPsiClass ->
+        superClass.fqName in allFqName
     }
-    return false
 }

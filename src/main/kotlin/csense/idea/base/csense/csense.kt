@@ -120,3 +120,13 @@ inline fun <T, R> T?.onNotNull(
         else -> action(this)
     }
 }
+
+fun <T> Set<T?>.filterNotNullSet(): Set<T> {
+    val result: MutableSet<T> = mutableSetOf()
+    forEach { it: T? ->
+        if(it != null){
+            result.add(it)
+        }
+    }
+    return result
+}

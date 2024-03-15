@@ -1,4 +1,8 @@
 ## 0.1.60
+- fixed issues with type alias in resolving isSubTypeOfAny
+- also added more operations on KtPsiClass (allFqNames())
+
+## 0.1.60
 - kotlin 1.9.22
 - added a lot of methods and removed some unnused stuff and moved alot around.
 - should resolve types much better
