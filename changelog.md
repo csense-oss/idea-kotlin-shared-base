@@ -1,3 +1,6 @@
+## 0.1.62
+- bump of deps
+- published to maven
 ## 0.1.61
 - fixed issues with type alias in resolving isSubTypeOfAny
 - also added more operations on KtPsiClass (allFqNames())
