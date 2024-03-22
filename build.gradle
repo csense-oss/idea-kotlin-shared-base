@@ -40,7 +40,7 @@ dependencies {
 
     implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23"
 
     //https://github.com/Kotlin/kotlinx.serialization
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
