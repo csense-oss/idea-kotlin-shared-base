@@ -10,9 +10,3 @@ fun KtCallableReferenceExpression.resolveKtPsiFunctionOrNull(): KtPsiFunction? {
         it?.resolve()?.toKtPsiFunction()
     }
 }
-
-//fun KtCallExpression.resolveKtPsiFunctionOrNull(): KtPsiFunction? {
-//    return callableReference.references.firstNotNullOfOrNull { it: PsiReference? ->
-//        it?.resolve()?.toKtPsiFunction()
-//    }
-//}
