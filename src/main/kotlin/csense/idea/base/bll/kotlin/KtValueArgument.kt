@@ -4,16 +4,15 @@ import org.jetbrains.kotlin.psi.KtConstantExpression
 import org.jetbrains.kotlin.psi.KtValueArgument
 
 fun KtValueArgument.getFloatValueFromExpression(): Float? {
-    val exp = this.getArgumentExpression() as? KtConstantExpression ?: return null
-    return exp.text.toFloatOrNull()
+    return asConstantExpression()?.text?.toFloatOrNull()
 }
 
 fun KtValueArgument.getLongValueFromExpression(): Long? {
-    val exp = this.getArgumentExpression() as? KtConstantExpression ?: return null
-    return exp.text.toLongOrNull()
+    return asConstantExpression()?.text?.toLongOrNull()
 }
 
 fun KtValueArgument.getIntValueFromExpression(): Int? {
-    val exp = this.getArgumentExpression() as? KtConstantExpression ?: return null
-    return exp.text.toIntOrNull()
+    return asConstantExpression()?.text?.toIntOrNull()
 }
+
+fun KtValueArgument.asConstantExpression(): KtConstantExpression? = this.getArgumentExpression() as? KtConstantExpression
