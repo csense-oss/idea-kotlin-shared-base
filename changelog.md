@@ -1,3 +1,6 @@
+## 0.1.63
+- added cachedFileInMemory
+- 
 ## 0.1.62
 - bump of deps
 - published to maven

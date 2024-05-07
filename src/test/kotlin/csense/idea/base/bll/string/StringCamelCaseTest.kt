@@ -209,6 +209,18 @@ class StringCamelCaseTest {
             )
         }
 
+        @Test
+        fun bugWithSpaces(){
+            val testString = "//not testName"
+            val testData = listOf(
+                "//" to 0,
+                "not" to 2,
+                "test" to 6,
+                "Name" to 10
+            )
+            assertForeachCamelCaseCalledWith(testData, testString)
+        }
+
         private fun assertForeachCamelCaseCalledWith(
             expectedOrder: List<Pair<String, Int>>,
             forInput: String
@@ -230,5 +242,6 @@ class StringCamelCaseTest {
         'a'.camelCase.toCamelCaseBreakChar().assert(CamelCaseBreakChar.LowerCase)
         'A'.camelCase.toCamelCaseBreakChar().assert(CamelCaseBreakChar.UpperCase)
         '1'.camelCase.toCamelCaseBreakChar().assert(CamelCaseBreakChar.Symbol)
+        ' '.camelCase.toCamelCaseBreakChar().assert(CamelCaseBreakChar.Symbol)
     }
 }
