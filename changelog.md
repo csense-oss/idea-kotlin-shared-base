@@ -1,6 +1,14 @@
+## 0.1.64
+- added cachedFileInMemory
+
+## 0.1.63
+- more extension
+- better thrown expression evaluation
+
 ## 0.1.62
 - bump of deps
 - published to maven
+
 ## 0.1.61
 - fixed issues with type alias in resolving isSubTypeOfAny
 - also added more operations on KtPsiClass (allFqNames())
