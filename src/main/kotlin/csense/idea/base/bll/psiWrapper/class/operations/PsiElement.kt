@@ -15,3 +15,9 @@ fun PsiClass.asKtOrPsiClass(): KtPsiClass.Psi =
 
 fun KtClassOrObject.asKtOrPsiClass(): KtPsiClass.Kt =
     KtPsiClass.Kt(this)
+
+
+fun KtPsiClass.psiElement(): PsiElement = when (this) {
+    is KtPsiClass.Kt -> ktClassOrObject
+    is KtPsiClass.Psi -> psiClass
+}

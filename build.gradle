@@ -1,7 +1,6 @@
 plugins {
-    id 'org.jetbrains.kotlin.jvm' version '1.9.23'
-
-    id "org.jetbrains.kotlin.plugin.serialization" version "1.9.23"
+    id 'org.jetbrains.kotlin.jvm' version '2.0.0'
+    id "org.jetbrains.kotlin.plugin.serialization" version "2.0.0"
 }
 
 ext.csenseUserOrg = "csense-oss"
@@ -11,7 +10,7 @@ ext.csenseLicenseUrl = "https://mit-license.org/"
 
 ext.csenseArtifactId = "csense-idea-base"
 ext.csenseGroupId = "csense.idea.base"
-ext.csenseVersionName = "0.1.65"
+ext.csenseVersionName = "0.1.70-Beta"
 ext.csenseDeveloperAlias = "tvede-dk"
 ext.csenseDeveloperName = "Kasper Tvede"
 ext.csenseDeveloperEmail = "csenseoss@tvedesys.dk"
@@ -40,14 +39,15 @@ dependencies {
 
     implementation("csense.kotlin:csense-kotlin-datastructures-algorithms:0.0.41")
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.23"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:2.0.0"
 
     //https://github.com/Kotlin/kotlinx.serialization
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.1"
 
 
     //extracted from the maven artifact of intellij ce/ the dir names.
-    //eg your local maven: <localuser>/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2020.3/
+    //or use the navigation feature of IDEA to locate where gradle has stored the files...
+    //eg your local maven: <localuser>/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/
 
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/')
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/ant/lib')
@@ -68,7 +68,7 @@ dependencies {
 
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
     withJavadocJar()
     withSourcesJar()
@@ -76,14 +76,14 @@ java {
 
 kotlin {
     jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(11))
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
-kotlin.sourceSets.all {
+kotlin.sourceSets.configureEach {
     languageSettings.progressiveMode = true
 }
 
 
 apply from: "$rootDir/gradle/publish.gradle"
 
-task uploadProd(dependsOn: ["assemble", "test", "publish"])
+tasks.register('uploadProd') { dependsOn["assemble", "test", "publish"] }
