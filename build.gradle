@@ -46,8 +46,12 @@ dependencies {
 
 
     //extracted from the maven artifact of intellij ce/ the dir names.
-    //or use the navigation feature of IDEA to locate where gradle has stored the files...
-    //eg your local maven: <localuser>/.gradle/caches/modules-2/files-2.1/com.jetbrains.intellij.idea/ideaIC/2021.3/
+    //use the navigation feature of IDEA to locate where gradle has stored the files... and then copy the plugins/kotlin folder into libs/kotlin,
+    //the same for java (as that is a plugin as well)
+    // and then copy the "lib" folder of idea into libs/idea
+    // yes, its around 500Mb...
+    //last path was something like "<user folder>/.gradle/caches/8.10/transforms/83d3486869da139fa58b30c4c8842698/transformed/ideaIC-2022.3/
+
 
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/')
     implementation fileTree(include: ['*.jar'], dir: 'libs/idea/ant/lib')

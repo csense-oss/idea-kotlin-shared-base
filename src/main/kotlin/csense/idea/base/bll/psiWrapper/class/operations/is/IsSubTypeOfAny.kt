@@ -5,9 +5,6 @@ package csense.idea.base.bll.psiWrapper.`class`.operations.`is`
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.any.*
-import csense.idea.base.csense.*
-import csense.kotlin.extensions.*
-import kotlin.collections.filterNotNull
 
 fun KtPsiClass.isSubTypeOfAny(other: List<KtPsiClass>): Boolean {
     val allFqName: Set<String?> = other.allFqNames()
@@ -17,7 +14,13 @@ fun KtPsiClass.isSubTypeOfAny(other: List<KtPsiClass>): Boolean {
     if (this.fqName in allFqName) {
         return true
     }
+
+    val alias: String? = this.typeAlias?.getTypeReference()?.resolveFirstClassType2()?.fqName
+    if (alias in allFqName) {
+        return true
+    }
+
     return anySuperClassType { superClass: KtPsiClass ->
-        superClass.fqName in allFqName
+        superClass.fqName in allFqName || superClass.typeAlias?.getTypeReference()?.resolveFirstClassType2()?.fqName in allFqName
     }
 }

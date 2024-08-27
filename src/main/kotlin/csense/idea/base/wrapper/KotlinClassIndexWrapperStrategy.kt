@@ -1,17 +1,13 @@
 package csense.idea.base.wrapper
 
-import com.intellij.openapi.project.Project
-import com.intellij.psi.search.GlobalSearchScope
-import csense.idea.base.bll.psiWrapper.`class`.KtPsiClass
-import csense.idea.base.bll.psiWrapper.`class`.operations.asKtOrPsiClass
-import csense.idea.base.csense.findByNameAndParameterTypes
-import org.jetbrains.kotlin.psi.KtClassOrObject
-import org.jetbrains.kotlin.psi.KtTypeAlias
-import kotlin.reflect.KClass
-import kotlin.reflect.KFunction
-import kotlin.reflect.full.companionObject
-import kotlin.reflect.full.companionObjectInstance
-import kotlin.reflect.full.functions
+import com.intellij.openapi.project.*
+import com.intellij.psi.search.*
+import csense.idea.base.bll.psiWrapper.`class`.*
+import csense.idea.base.bll.psiWrapper.`class`.operations.*
+import csense.idea.base.csense.*
+import org.jetbrains.kotlin.psi.*
+import kotlin.reflect.*
+import kotlin.reflect.full.*
 
 
 sealed interface KotlinClassIndexWrapperStrategy {
@@ -47,17 +43,31 @@ sealed interface KotlinClassIndexWrapperStrategy {
         override fun resolveClassAndAlias(
             fqName: String,
             project: Project,
-            globalSearchScope: GlobalSearchScope,
+            scope: GlobalSearchScope,
         ): List<KtPsiClass> {
-            val classes: Collection<KtClassOrObject> = tryResolveViaClass(fqName, project, globalSearchScope)
-            val aliases: Collection<KtTypeAlias> = tryResolveViaAlias(fqName, project, globalSearchScope)
+            val classes: Collection<KtClassOrObject> = tryResolveViaClass(
+                fqName = fqName,
+                project = project,
+                globalSearchScope = scope
+            )
+            val aliases: Collection<KtTypeAlias> = tryResolveViaAlias(
+                fqName = fqName,
+                project = project,
+                globalSearchScope = scope
+            )
+
             if (aliases.isEmpty()) {
                 return resolveClasses(classes)
             }
+
             if (classes.isEmpty()) {
                 return resolveAliases(aliases)
             }
-            return emptyList()
+
+            return resolveWithBoth(
+                classes = classes,
+                alias = aliases
+            )
         }
 
         private fun resolveClasses(classes: Collection<KtClassOrObject>): List<KtPsiClass> {
@@ -76,10 +86,15 @@ sealed interface KotlinClassIndexWrapperStrategy {
             classes: Collection<KtClassOrObject>,
             alias: Collection<KtTypeAlias>,
         ): List<KtPsiClass> {
-            //            else -> (classesPsi.asSequence() + typeAliasesPsi.asSequence()).minWithOrNull(Comparator { o1, o2 ->
-//                scope.compare(o1.containingFile.virtualFile, o2.containingFile.virtualFile)
-//            })
-            return emptyList()
+            val zipped: List<Pair<KtClassOrObject, KtTypeAlias>> = classes.zip(alias)
+            //TODO use sortedByFalseFirst (csense)
+            val sorted: List<Pair<KtClassOrObject, KtTypeAlias>> =
+                zipped.sortedBy { it: Pair<KtClassOrObject, KtTypeAlias> ->
+                    it.second.containingFile.virtualFile == null
+                }
+            return sorted.map { it: Pair<KtClassOrObject, KtTypeAlias> ->
+                KtPsiClass.Kt(ktClassOrObject = it.first, typeAlias = it.second)
+            }
         }
 
         private fun tryResolveViaClass(

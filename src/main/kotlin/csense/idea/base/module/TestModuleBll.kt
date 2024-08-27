@@ -13,6 +13,9 @@ import com.intellij.psi.PsiDirectory
 import com.intellij.psi.PsiElement
 import csense.idea.base.bll.platform.toPsiDirectory
 import csense.kotlin.extensions.primitives.doesNotEndsWith
+import org.jetbrains.kotlin.config.KotlinSourceRootType
+import org.jetbrains.kotlin.config.TestSourceKotlinRootType
+import org.jetbrains.kotlin.idea.base.facet.kotlinSourceRootType
 import org.jetbrains.kotlin.idea.caches.project.SourceType
 import org.jetbrains.kotlin.idea.caches.project.sourceType
 import org.jetbrains.kotlin.idea.util.projectStructure.allModules
@@ -29,7 +32,7 @@ fun PsiElement.isInTestModule(): Boolean {
 
 fun Module.isTestModule(): Boolean {
     //TODO use testSourcesFilter or study isInTestSourceContent's docs..
-    if (sourceType == SourceType.TEST) {
+    if (kotlinSourceRootType == TestSourceKotlinRootType) {
         return true
     }
     val rootMgr: ModuleRootManager = ModuleRootManager.getInstance(this)

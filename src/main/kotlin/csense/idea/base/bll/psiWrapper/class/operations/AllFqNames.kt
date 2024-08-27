@@ -6,6 +6,7 @@ import csense.kotlin.extensions.*
 
 fun List<KtPsiClass>.allFqNames(): Set<String> {
 
+    //TODO this might be wrong, as typealias fqname is the same as the kotlin name, not the pointed to name
     val aliasFqNames: Set<String?> = mapToSet { it.typeAlias?.fqName?.asString() }
 
     val fqNames: Set<String?> = mapToSet { it.fqName }

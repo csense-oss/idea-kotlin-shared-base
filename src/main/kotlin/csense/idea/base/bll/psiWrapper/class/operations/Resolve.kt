@@ -2,10 +2,9 @@ package csense.idea.base.bll.psiWrapper.`class`.operations
 
 import com.intellij.openapi.project.*
 import com.intellij.psi.*
-import com.intellij.psi.search.*
+import com.intellij.psi.search.GlobalSearchScope
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.wrapper.KotlinClassIndexWrapperStrategy
-import org.jetbrains.kotlin.idea.search.allScope
 import org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex
 import org.jetbrains.kotlin.name.FqName
 import kotlin.reflect.full.staticFunctions
@@ -42,7 +41,7 @@ private fun resolveClass(fqName: FqName, project: Project): List<KtPsiClass>? {
     return KotlinFullClassNameIndexWrapper().resolveClass(
         fqName = fqName.asString(),
         project = project,
-        globalSearchScope = project.allScope()
+        globalSearchScope = GlobalSearchScope.allScope(project)
     )
 }
 
