@@ -220,7 +220,7 @@ object KotlinClassAndTypeAliasResolver {
 
     private fun resolveAliases(alias: Collection<KtTypeAlias>): List<KtPsiClass> {
         return alias.mapNotNull { it: KtTypeAlias ->
-            it.asKtOrPsiClass()
+            it.resolveFirstClassType2()
         }
     }
 
