@@ -7,6 +7,7 @@ import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.wrapper.KotlinClassIndexWrapperStrategy
 import org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex
 import org.jetbrains.kotlin.name.FqName
+import kotlin.reflect.full.functions
 import kotlin.reflect.full.staticFunctions
 
 
@@ -38,7 +39,7 @@ fun KtPsiClass.Companion.resolveByKotlin(
 
 
 private fun resolveClass(fqName: FqName, project: Project): List<KtPsiClass>? {
-    return KotlinFullClassNameIndexWrapper().resolveClass(
+    return KotlinFullClassNameIndexWrapper.resolveClass(
         fqName = fqName.asString(),
         project = project,
         globalSearchScope = GlobalSearchScope.allScope(project)
@@ -114,7 +115,7 @@ fun KtPsiClass.Companion.getJavaThrowable(project: Project): KtPsiClass? {
 }
 
 
-class KotlinFullClassNameIndexWrapper {
+object KotlinFullClassNameIndexWrapper {
 
     private val strategy: KotlinClassIndexWrapperStrategy
 
@@ -138,6 +139,6 @@ class KotlinFullClassNameIndexWrapper {
     }
 
     private fun isPreIdea2024(): Boolean {
-        return KotlinFullClassNameIndex::class.staticFunctions.any { it.name == "getInstance" }
+        return Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin.functions.any { it.name == "getInstance" }
     }
 }
