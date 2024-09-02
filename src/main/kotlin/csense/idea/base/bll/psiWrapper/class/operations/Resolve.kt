@@ -2,13 +2,11 @@ package csense.idea.base.bll.psiWrapper.`class`.operations
 
 import com.intellij.openapi.project.*
 import com.intellij.psi.*
-import com.intellij.psi.search.GlobalSearchScope
+import com.intellij.psi.search.*
 import csense.idea.base.bll.psiWrapper.`class`.*
-import csense.idea.base.wrapper.KotlinClassIndexWrapperStrategy
-import org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex
-import org.jetbrains.kotlin.name.FqName
-import kotlin.reflect.full.functions
-import kotlin.reflect.full.staticFunctions
+import csense.idea.base.wrapper.*
+import org.jetbrains.kotlin.name.*
+import kotlin.reflect.full.*
 
 
 private val resolveMap: MutableMap<Project, MutableMap<String, KtPsiClass>> = mutableMapOf()
@@ -139,6 +137,10 @@ object KotlinFullClassNameIndexWrapper {
     }
 
     private fun isPreIdea2024(): Boolean {
-        return Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin.functions.any { it.name == "getInstance" }
+        return try {
+            Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin.functions.any { it.name == "getInstance" }
+        } catch (exception: ClassNotFoundException) {
+            false
+        }
     }
 }
