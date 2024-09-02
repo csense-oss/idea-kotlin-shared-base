@@ -44,40 +44,6 @@ private fun resolveClass(fqName: FqName, project: Project): List<KtPsiClass>? {
     )
 }
 
-//
-//private fun resolveFqName(
-//    fqName: FqName,
-//    project: Project,
-//    contextElement: PsiElement?
-//): PsiElement? {
-//    if (fqName.isRoot) return null
-//    return constructImportDirectiveWithContext(fqName, project, contextElement)
-//        .getChildOfType<KtDotQualifiedExpression>()
-//        ?.selectorExpression
-//        ?.references
-//        ?.firstNotNullOfOrNull(PsiReference::resolve)
-//}
-//
-//private fun constructImportDirectiveWithContext(
-//    fqName: FqName,
-//    project: Project,
-//    contextElement: PsiElement?
-//): KtImportDirective {
-//    val importDirective = KtPsiFactory(project).createImportDirective(ImportPath(fqName, false))
-//    importDirective.containingKtFile.analysisContext = contextElement?.containingFile
-//    return importDirective
-//}
-//
-////private fun resolveFqNameOfJavaClassByIndex(fqName: FqName, project: Project): PsiClass? {
-////    val scope = GlobalSearchScope.allScope(project)
-////    val fqNameString = fqName.asString()
-////    return JavaFullClassNameIndex.getInstance().getClasses(fqNameString, project, scope)
-////        .firstOrNull {
-////            it.qualifiedName == fqNameString
-////        }
-////}
-//
-
 val KtPsiClass.Companion.kotlinThrowableFqName: String
     get() = "kotlin.Throwable"
 
@@ -119,8 +85,8 @@ object KotlinFullClassNameIndexWrapper {
 
     init {
         strategy = when {
-            isPreIdea2024() -> KotlinClassIndexWrapperStrategy.PreIdea2024()
-            else -> KotlinClassIndexWrapperStrategy.PostIdea2024()
+            isPreIdea2024() -> KotlinClassIndexWrapperStrategy.PreIdea2024
+            else -> KotlinClassIndexWrapperStrategy.PostIdea2024
         }
     }
 
@@ -132,7 +98,7 @@ object KotlinFullClassNameIndexWrapper {
         return strategy.resolveClassAndAlias(
             fqName = fqName,
             project = project,
-            globalSearchScope = globalSearchScope
+            scope = globalSearchScope
         )
     }
 

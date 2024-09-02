@@ -5,6 +5,7 @@ import com.intellij.psi.search.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import csense.idea.base.csense.*
+import csense.kotlin.extensions.*
 import org.jetbrains.kotlin.psi.*
 import kotlin.reflect.*
 import kotlin.reflect.full.*
@@ -15,10 +16,10 @@ sealed interface KotlinClassIndexWrapperStrategy {
     fun resolveClassAndAlias(
         fqName: String,
         project: Project,
-        globalSearchScope: GlobalSearchScope,
+        scope: GlobalSearchScope,
     ): List<KtPsiClass>
 
-    class PreIdea2024 : KotlinClassIndexWrapperStrategy {
+    data object PreIdea2024 : KotlinClassIndexWrapperStrategy {
 
         override fun resolveClassAndAlias(
             fqName: String,
@@ -60,21 +61,18 @@ sealed interface KotlinClassIndexWrapperStrategy {
             return method.call(getKotlinTopLevelTypeAliasCompanionObject(), fqName, project, globalSearchScope)
         }
 
-        private fun getKotlinFullClassNameIndexCompanionObject(): Any? {
-            val kClass: KClass<out Any> =
-                Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin
-            return kClass.objectInstance
+        private fun getKotlinFullClassNameIndexCompanionObject(): Any? = tryAndLog {
+            Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin.objectInstance
         }
 
-        private fun getKotlinTopLevelTypeAliasCompanionObject(): Any? {
-            val kClass: KClass<out Any> =
-                Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinTopLevelTypeAliasFqNameIndex").kotlin
-            return kClass.objectInstance
+        private fun getKotlinTopLevelTypeAliasCompanionObject(): Any? = tryAndLog {
+            Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinTopLevelTypeAliasFqNameIndex").kotlin.objectInstance
         }
 
         private fun kotlinFullClassNameIndexLookup(): KFunction<Collection<KtClassOrObject>>? {
-            val kClass: KClass<out Any> =
+            val kClass: KClass<out Any> = tryAndLog {
                 Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin
+            } ?: return null
             return kClass.functions.findByNameAndParameterTypes(
                 name = "get",
                 typesFqNames = arrayOf(
@@ -87,8 +85,9 @@ sealed interface KotlinClassIndexWrapperStrategy {
         }
 
         private fun kotlinTopLevelTypeAliasLookup(): KFunction<Collection<KtTypeAlias>>? {
-            val kClass: KClass<out Any> =
+            val kClass: KClass<out Any> = tryAndLog {
                 Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinTopLevelTypeAliasFqNameIndex").kotlin
+            } ?: return null
             return kClass.functions.findByNameAndParameterTypes(
                 name = "get",
                 typesFqNames = arrayOf(
@@ -102,7 +101,7 @@ sealed interface KotlinClassIndexWrapperStrategy {
 
     }
 
-    class PostIdea2024 : KotlinClassIndexWrapperStrategy {
+    data object PostIdea2024 : KotlinClassIndexWrapperStrategy {
         override fun resolveClassAndAlias(
             fqName: String,
             project: Project,
@@ -143,21 +142,20 @@ sealed interface KotlinClassIndexWrapperStrategy {
             return method.call(getKotlinTopLevelTypeAliasCompanionObject(), fqName, project, globalSearchScope)
         }
 
-        private fun getKotlinFullClassNameIndexCompanionObject(): Any? {
-            val kClass: KClass<out Any> =
-                Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin
-            return kClass.companionObjectInstance
+        private fun getKotlinFullClassNameIndexCompanionObject(): Any? = tryAndLog {
+            Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin.companionObjectInstance
         }
 
-        private fun getKotlinTopLevelTypeAliasCompanionObject(): Any? {
-            val kClass: KClass<out Any> =
-                Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinTopLevelTypeAliasFqNameIndex").kotlin
-            return kClass.companionObjectInstance
+        private fun getKotlinTopLevelTypeAliasCompanionObject(): Any? = tryAndLog {
+            Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinTopLevelTypeAliasFqNameIndex").kotlin.companionObjectInstance
         }
 
         private fun kotlinFullClassNameIndexLookup(): KFunction<Collection<KtClassOrObject>>? {
-            val kClass: KClass<out Any> =
+            val kClass: KClass<out Any> = try {
                 Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin
+            } catch (exception: ClassNotFoundException) {
+                return null
+            }
             val companion: KClass<*>? = kClass.companionObject
             if (companion == null || companion.simpleName != "Helper") {
                 return null
@@ -174,8 +172,11 @@ sealed interface KotlinClassIndexWrapperStrategy {
         }
 
         private fun kotlinTopLevelTypeAliasLookup(): KFunction<Collection<KtTypeAlias>>? {
-            val kClass: KClass<out Any> =
+            val kClass: KClass<out Any> = try {
                 Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinTopLevelTypeAliasFqNameIndex").kotlin
+            } catch (exception: ClassNotFoundException) {
+                return null
+            }
             val companion: KClass<*>? = kClass.companionObject
             if (companion == null || companion.simpleName != "Helper") {
                 return null
