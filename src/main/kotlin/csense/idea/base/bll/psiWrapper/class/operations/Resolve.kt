@@ -14,7 +14,7 @@ private val resolveMap: MutableMap<Project, MutableMap<String, KtPsiClass>> = mu
 fun KtPsiClass.Companion.resolve(
     fqName: String,
     project: Project,
-    useKotlin: Boolean = true,
+    useKotlin: Boolean = true
 ): KtPsiClass? = when (useKotlin) {
     true -> resolveByKotlin(fqName = fqName, project = project)
     false -> resolveByJava(fqName = fqName, project = project)
@@ -32,11 +32,11 @@ fun KtPsiClass.Companion.resolveByKotlin(
     fqName: String,
     project: Project
 ): KtPsiClass? {
-    return resolveClass(FqName(fqName), project)?.firstOrNull()
+    return resolveClass(FqName(fqName), project).firstOrNull()
 }
 
 
-private fun resolveClass(fqName: FqName, project: Project): List<KtPsiClass>? {
+private fun resolveClass(fqName: FqName, project: Project): List<KtPsiClass> {
     return KotlinFullClassNameIndexWrapper.resolveClass(
         fqName = fqName.asString(),
         project = project,
@@ -93,7 +93,7 @@ object KotlinFullClassNameIndexWrapper {
     fun resolveClass(
         fqName: String,
         project: Project,
-        globalSearchScope: GlobalSearchScope,
+        globalSearchScope: GlobalSearchScope
     ): List<KtPsiClass> {
         return strategy.resolveClassAndAlias(
             fqName = fqName,
