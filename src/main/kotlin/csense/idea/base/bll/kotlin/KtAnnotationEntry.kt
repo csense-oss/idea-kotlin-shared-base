@@ -48,3 +48,11 @@ fun KtAnnotationEntry.resolveValueParametersAsKClassTypes(): List<KtPsiClass> =
 fun KtAnnotationEntry.fqName(): String? {
     return resolveFirstClassType2()?.fqName
 }
+
+fun List<KtAnnotationEntry>.anyByFqNames(fqNames: Set<String>): Boolean = any { it: KtAnnotationEntry ->
+    it.fqName() in fqNames
+}
+
+fun List<KtAnnotationEntry>.filterByFqNames(fqNames: Set<String>): List<KtAnnotationEntry> = filter { it: KtAnnotationEntry ->
+    it.fqName() in fqNames
+}

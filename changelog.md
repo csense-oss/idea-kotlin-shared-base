@@ -1,5 +1,16 @@
+## 0.1.70
+- bump to kotlin 2.0
+- added KotlinFullClassNameIndexWrapper
+- updated resolution of Ktclass from name
+- bump idea to 223
+- added sources to release
+- fixed a few bugs
+- improved isSubTypeOfAny
+- added anyByFqNames
+- added containsNotToken
+
 ## 0.1.65
-- reupload of 0.1.64
+- re-upload of 0.1.64
 
 ## 0.1.64
 - added cachedFileInMemory

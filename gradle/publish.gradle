@@ -9,6 +9,9 @@ publishing {
             version = csenseVersionName
             from components.java
 
+            artifacts {
+                archives sourcesJar
+            }
             pom {
                 name = csenseArtifactId
                 description = csenseArtifactDescription

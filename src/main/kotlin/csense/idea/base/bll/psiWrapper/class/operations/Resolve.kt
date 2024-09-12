@@ -4,8 +4,9 @@ import com.intellij.openapi.project.*
 import com.intellij.psi.*
 import com.intellij.psi.search.*
 import csense.idea.base.bll.psiWrapper.`class`.*
-import org.jetbrains.kotlin.idea.stubindex.*
-import org.jetbrains.kotlin.psi.*
+import csense.idea.base.wrapper.*
+import org.jetbrains.kotlin.name.*
+import kotlin.reflect.full.*
 
 
 private val resolveMap: MutableMap<Project, MutableMap<String, KtPsiClass>> = mutableMapOf()
@@ -27,13 +28,20 @@ fun KtPsiClass.Companion.resolveByJava(fqName: String, project: Project): KtPsiC
     )?.asKtOrPsiClass()
 }
 
-fun KtPsiClass.Companion.resolveByKotlin(fqName: String, project: Project): KtPsiClass? {
-    //!??! mpp, expected actual etc!?
-    return KotlinFullClassNameIndex.getInstance().get(
-        /* fqName = */ fqName,
-        /* project = */ project,
-        /* scope = */  GlobalSearchScope.allScope(project)
-    ).firstNotNullOfOrNull { it.asKtOrPsiClass() }
+fun KtPsiClass.Companion.resolveByKotlin(
+    fqName: String,
+    project: Project
+): KtPsiClass? {
+    return resolveClass(FqName(fqName), project).firstOrNull()
+}
+
+
+private fun resolveClass(fqName: FqName, project: Project): List<KtPsiClass> {
+    return KotlinFullClassNameIndexWrapper.resolveClass(
+        fqName = fqName.asString(),
+        project = project,
+        globalSearchScope = GlobalSearchScope.allScope(project)
+    )
 }
 
 val KtPsiClass.Companion.kotlinThrowableFqName: String
@@ -68,6 +76,37 @@ fun KtPsiClass.Companion.getJavaThrowable(project: Project): KtPsiClass? {
             useKotlin = false
         ) ?: return@getJavaThrowable null
     }
-
 }
 
+
+object KotlinFullClassNameIndexWrapper {
+
+    private val strategy: KotlinClassIndexWrapperStrategy
+
+    init {
+        strategy = when {
+            isPreIdea2024() -> KotlinClassIndexWrapperStrategy.PreIdea2024
+            else -> KotlinClassIndexWrapperStrategy.PostIdea2024
+        }
+    }
+
+    fun resolveClass(
+        fqName: String,
+        project: Project,
+        globalSearchScope: GlobalSearchScope
+    ): List<KtPsiClass> {
+        return strategy.resolveClassAndAlias(
+            fqName = fqName,
+            project = project,
+            scope = globalSearchScope
+        )
+    }
+
+    private fun isPreIdea2024(): Boolean {
+        return try {
+            Class.forName("org.jetbrains.kotlin.idea.stubindex.KotlinFullClassNameIndex").kotlin.functions.any { it.name == "getInstance" }
+        } catch (exception: ClassNotFoundException) {
+            false
+        }
+    }
+}

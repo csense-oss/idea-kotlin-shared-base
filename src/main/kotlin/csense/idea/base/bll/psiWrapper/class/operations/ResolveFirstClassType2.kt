@@ -123,9 +123,7 @@ fun KtClassLiteralExpression.resolveFirstClassType2(): KtPsiClass? =
     receiverExpression?.resolveFirstClassType2()
 
 fun KtTypeAlias.resolveFirstClassType2(): KtPsiClass? {
-    val ref: PsiElement? = getTypeReference()?.resolve()
-    val result: KtPsiClass = ref?.resolveFirstClassType2() ?: return null
-    return result.withTypeAlias(typeAlias = this)
+    return getTypeReference()?.resolveFirstClassType2()?.withTypeAlias(this)
 }
 
 fun KtParameter.resolveFirstClassType2(): KtPsiClass? =

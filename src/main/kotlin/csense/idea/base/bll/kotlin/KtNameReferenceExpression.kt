@@ -1,6 +1,7 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.PsiElement
+import csense.kotlin.extensions.tryAndLog
 import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
 import org.jetbrains.kotlin.js.resolve.diagnostics.findPsi
 import org.jetbrains.kotlin.nj2k.postProcessing.resolve
@@ -8,7 +9,9 @@ import org.jetbrains.kotlin.psi.*
 
 
 fun KtNameReferenceExpression.isFunction(): Boolean {
-    return this.resolveMainReferenceToDescriptors().firstOrNull()?.findPsi() as? KtFunction != null
+    return tryAndLog{
+        this.resolveMainReferenceToDescriptors().firstOrNull()?.findPsi() as? KtFunction != null
+    } == true
 }
 
 fun KtNameReferenceExpression.isProperty(): Boolean = findPsi() as? KtProperty != null
