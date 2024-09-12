@@ -2,24 +2,17 @@
 
 package csense.idea.base.module
 
-import com.intellij.openapi.module.Module
-import com.intellij.openapi.module.ModuleUtil
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.roots.ModuleRootManager
-import com.intellij.openapi.roots.ProjectFileIndex
-import com.intellij.openapi.roots.TestSourcesFilter
-import com.intellij.openapi.vfs.VirtualFile
-import com.intellij.psi.PsiDirectory
-import com.intellij.psi.PsiElement
-import csense.idea.base.bll.platform.toPsiDirectory
-import csense.kotlin.extensions.primitives.doesNotEndsWith
-import org.jetbrains.kotlin.config.KotlinSourceRootType
-import org.jetbrains.kotlin.config.TestSourceKotlinRootType
-import org.jetbrains.kotlin.idea.base.facet.kotlinSourceRootType
-import org.jetbrains.kotlin.idea.caches.project.SourceType
-import org.jetbrains.kotlin.idea.caches.project.sourceType
-import org.jetbrains.kotlin.idea.util.projectStructure.allModules
-import org.jetbrains.kotlin.idea.util.sourceRoots
+import com.intellij.openapi.module.*
+import com.intellij.openapi.project.*
+import com.intellij.openapi.roots.*
+import com.intellij.openapi.vfs.*
+import com.intellij.psi.*
+import csense.idea.base.bll.platform.*
+import csense.kotlin.extensions.primitives.*
+import org.jetbrains.kotlin.config.*
+import org.jetbrains.kotlin.idea.base.facet.*
+import org.jetbrains.kotlin.idea.util.*
+import org.jetbrains.kotlin.idea.util.projectStructure.*
 
 fun PsiElement.isInTestModule(): Boolean {
     //works for android & idea 203 + 213
