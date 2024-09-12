@@ -1,17 +1,14 @@
 package csense.idea.base.bll.psiWrapper.`class`.operations
 
 import com.intellij.psi.*
-import com.intellij.psi.impl.source.PsiClassReferenceType
-import com.intellij.psi.search.GlobalSearchScope
-import csense.idea.base.bll.kotlin.getDeclaredReturnType
-import csense.idea.base.bll.kotlin.resolve
-import csense.idea.base.bll.kotlin.resolveMainReference
-import csense.idea.base.bll.kotlin.rightMostSelectorExpression
-import csense.idea.base.bll.psi.resolveTypeAliasOrThis
-import csense.idea.base.bll.psiWrapper.`class`.KtPsiClass
-import org.jetbrains.kotlin.nj2k.postProcessing.resolve
+import com.intellij.psi.impl.source.*
+import com.intellij.psi.search.*
+import csense.idea.base.bll.kotlin.*
+import csense.idea.base.bll.psi.*
+import csense.idea.base.bll.psiWrapper.`class`.*
+import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.containingClass
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 fun PsiElement.resolveFirstClassType2(): KtPsiClass? = when (this) {
     is KtElement -> resolveFirstClassType2()
