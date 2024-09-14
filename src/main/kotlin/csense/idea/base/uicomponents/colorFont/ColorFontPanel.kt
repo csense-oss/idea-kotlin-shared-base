@@ -1,20 +1,17 @@
-@file:Suppress("unused")
+@file:Suppress("unused", "UnstableApiUsage")
 @file:JvmName("ColorFontPanel")
 
 package csense.idea.base.uicomponents.colorFont
 
+import com.intellij.*
 import com.intellij.openapi.editor.markup.*
 import com.intellij.openapi.ui.*
 import com.intellij.ui.*
 import com.intellij.uiDesigner.core.*
-import com.intellij.util.xmlb.annotations.*
-import csense.idea.base.uicomponents.colorFont.*
 import csense.kotlin.extensions.*
-import org.intellij.lang.annotations.*
 import java.awt.*
-import java.beans.*
+import java.util.*
 import javax.swing.*
-import javax.swing.border.*
 
 class ColorFontPanel : JPanel() {
 
@@ -33,7 +30,7 @@ class ColorFontPanel : JPanel() {
     private val effectsBox: JCheckBox = JCheckBox()
     private val effectsColorBox: ColorPanel = ColorPanel()
 
-    private val effectTypeBox: ComboBox<EffectType> = ComboBox()
+    private val effectTypeBox: ComboBox<OurEffectType> = ComboBox()
 
     init {
         effectTypeBox.model = EnumComboBoxModel(type())
@@ -41,6 +38,8 @@ class ColorFontPanel : JPanel() {
     }
 
     private fun setupGui() {
+        val bundle: ResourceBundle =
+            DynamicBundle.getResourceBundle(this::class.java.classLoader, "texts/ColorFontPanel")
         val panel1 = JPanel()
         val panel2 = JPanel()
         val hSpacer1 = Spacer()
@@ -48,7 +47,7 @@ class ColorFontPanel : JPanel() {
         this.layout = GridLayoutManager(1, 1, Insets(0, 0, 0, 0), -1, -1)
         panel1.layout = GridLayoutManager(6, 2, Insets(0, 0, 0, 0), -1, -1)
         panel2.layout = GridLayoutManager(1, 4, Insets(0, 0, 0, 0), -1, -1)
-        boldBox.text = "Bold"
+        boldBox.text = bundle.getString("bold")
         panel2.add(
             boldBox, GridConstraints(
                 0, 1, 1, 1,
@@ -59,7 +58,7 @@ class ColorFontPanel : JPanel() {
             )
         )
 
-        italicBox.text = "Italic"
+        italicBox.text = bundle.getString("italic")
         panel2.add(
             italicBox, GridConstraints(
                 0, 2, 1, 1,
@@ -96,7 +95,7 @@ class ColorFontPanel : JPanel() {
                 null, null, null
             )
         )
-        foregroundBox.text = "Foreground"
+        foregroundBox.text = bundle.getString("foreground")
         panel1.add(
             foregroundBox, GridConstraints(
                 1, 0, 1, 1,
@@ -106,7 +105,7 @@ class ColorFontPanel : JPanel() {
                 null, null, null
             )
         )
-        backgroundBox.text = "Background"
+        backgroundBox.text = bundle.getString("background")
         panel1.add(
             backgroundBox, GridConstraints(
                 2, 0, 1, 1,
@@ -116,7 +115,7 @@ class ColorFontPanel : JPanel() {
                 null, null, null
             )
         )
-        errorStripeBox.text = "Error stripe mark"
+        errorStripeBox.text = bundle.getString("error_stripe_mark")
         panel1.add(
             errorStripeBox, GridConstraints(
                 3, 0, 1, 1,
@@ -126,7 +125,7 @@ class ColorFontPanel : JPanel() {
                 null, null, null
             )
         )
-        effectsBox.text = "Effects"
+        effectsBox.text = bundle.getString("effects")
         panel1.add(
             effectsBox, GridConstraints(
                 4, 0, 1, 1,
@@ -175,20 +174,20 @@ class ColorFontPanel : JPanel() {
         )
         panel1.add(
             foregroundColorBox, GridConstraints(
-                1, 1, 1, 1,
-                GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_NONE,
-                GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
-                GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
-                null, null, null
+                /* row = */ 1, /* column = */ 1, /* rowSpan = */ 1, /* colSpan = */ 1,
+                /* anchor = */ GridConstraints.ANCHOR_CENTER, /* fill = */ GridConstraints.FILL_NONE,
+                /* HSizePolicy = */ GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
+                /* VSizePolicy = */ GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
+                /* minimumSize = */ null, /* preferredSize = */ null, /* maximumSize = */ null
             )
         )
         this.add(
             panel1, GridConstraints(
-                0, 0, 1, 1,
-                GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH,
-                GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
-                GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
-                null, null, null
+                /* row = */ 0, /* column = */ 0, /* rowSpan = */ 1, /* colSpan = */ 1,
+                /* anchor = */ GridConstraints.ANCHOR_CENTER, /* fill = */ GridConstraints.FILL_BOTH,
+                /* HSizePolicy = */ GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
+                /* VSizePolicy = */ GridConstraints.SIZEPOLICY_CAN_SHRINK or GridConstraints.SIZEPOLICY_CAN_GROW,
+                /* minimumSize = */ null, /* preferredSize = */ null, /* maximumSize = */ null
             )
         )
     }
@@ -236,7 +235,11 @@ class ColorFontPanel : JPanel() {
     }
 
     private fun updateEffectType(effectType: EffectType?) {
-        effectTypeBox.model.selectedItem = effectType
+        if (effectType == null) {
+            effectTypeBox.model.selectedItem = null
+            return
+        }
+        effectTypeBox.model.selectedItem = OurEffectType.fromEffectType(effectType)
     }
 
 
@@ -262,11 +265,13 @@ class ColorFontPanel : JPanel() {
     private fun selectedEffectsColor(): Color? =
         effectsColorBox.colorOrNullBy(effectsBox)
 
-    private fun selectedEffectsType(): EffectType? =
-        effectTypeBox.model.selectedItem as? EffectType
+    private fun selectedEffectsType(): EffectType? {
+        val our: OurEffectType? = effectTypeBox.model.selectedItem as? OurEffectType
+        return our?.toEffectType()
+    }
 
     private fun selectedFontTypes(): Int {
-        var result = Font.PLAIN
+        var result: Int = Font.PLAIN
         if (italicBox.isSelected) {
             result = result.or(Font.ITALIC)
         }
@@ -277,3 +282,51 @@ class ColorFontPanel : JPanel() {
     }
 }
 
+
+enum class OurEffectType {
+    LINE_UNDERSCORE,
+    WAVE_UNDERSCORE,
+    BOXED,
+    STRIKEOUT,
+    BOLD_LINE_UNDERSCORE,
+    BOLD_DOTTED_LINE,
+    SEARCH_MATCH,
+    ROUNDED_BOX,
+    SLIGHTLY_WIDER_BOX;
+
+
+    private val bundle: ResourceBundle = DynamicBundle.getResourceBundle(
+        this::class.java.classLoader,
+        "texts/ColorFontPanel"
+    )
+
+    override fun toString(): String {
+        return bundle.getString("EffectType.$name")
+    }
+
+    fun toEffectType(): EffectType = when (this) {
+        LINE_UNDERSCORE -> EffectType.LINE_UNDERSCORE
+        WAVE_UNDERSCORE -> EffectType.WAVE_UNDERSCORE
+        BOXED -> EffectType.BOXED
+        STRIKEOUT -> EffectType.STRIKEOUT
+        BOLD_LINE_UNDERSCORE -> EffectType.BOLD_LINE_UNDERSCORE
+        BOLD_DOTTED_LINE -> EffectType.BOLD_DOTTED_LINE
+        SEARCH_MATCH -> EffectType.SEARCH_MATCH
+        ROUNDED_BOX -> EffectType.ROUNDED_BOX
+        SLIGHTLY_WIDER_BOX -> EffectType.SLIGHTLY_WIDER_BOX
+    }
+
+    companion object {
+        fun fromEffectType(type: EffectType): OurEffectType = when (type) {
+            EffectType.LINE_UNDERSCORE -> LINE_UNDERSCORE
+            EffectType.WAVE_UNDERSCORE -> WAVE_UNDERSCORE
+            EffectType.BOXED -> BOXED
+            EffectType.STRIKEOUT -> STRIKEOUT
+            EffectType.BOLD_LINE_UNDERSCORE -> BOLD_LINE_UNDERSCORE
+            EffectType.BOLD_DOTTED_LINE -> BOLD_DOTTED_LINE
+            EffectType.SEARCH_MATCH -> SEARCH_MATCH
+            EffectType.ROUNDED_BOX -> ROUNDED_BOX
+            EffectType.SLIGHTLY_WIDER_BOX -> SLIGHTLY_WIDER_BOX
+        }
+    }
+}
