@@ -1,3 +1,6 @@
+## 0.1.71
+- (some) translations for color panel (zh_CN)
+
 ## 0.1.70
 - bump to kotlin 2.0
 - added KotlinFullClassNameIndexWrapper
