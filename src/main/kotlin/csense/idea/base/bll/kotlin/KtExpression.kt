@@ -2,7 +2,11 @@ package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.*
 import csense.idea.base.bll.kotlin.models.*
+import org.jetbrains.kotlin.analysis.api.*
+import org.jetbrains.kotlin.codegen.optimization.common.*
+import org.jetbrains.kotlin.idea.base.plugin.*
 import org.jetbrains.kotlin.idea.caches.resolve.analyze
+import org.jetbrains.kotlin.idea.core.*
 import org.jetbrains.kotlin.js.descriptorUtils.nameIfStandardType
 
 import org.jetbrains.kotlin.psi.*
@@ -62,9 +66,14 @@ fun KtExpression.resolveAsReferenceToPropertyOrValueParameter(): KtParameterOrVa
 /**
  * Only usable on "expressions" not say [KtDeclaration]s (where you should use [KtDeclaration.resolveType] instead)
  */
+
 fun KtExpression.resolveExpressionType(
     context: BindingContext = this.analyze(BodyResolveMode.PARTIAL),
-): KotlinType? = context.getType(this)
+): KotlinType? {
+    //TODO k2 analysis api
+
+    return context.getType(this)
+}
 
 
 fun KtExpression.tryResolveToCallExpression(): PsiMethod? = when (this) {
