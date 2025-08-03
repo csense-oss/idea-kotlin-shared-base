@@ -2,13 +2,11 @@
 
 package csense.idea.base.bll.kotlin
 
-import org.jetbrains.kotlin.lexer.KtTokens
-import org.jetbrains.kotlin.psi.KtBinaryExpression
-
-//TODO THIS IS SEMANTICALLY WRONG: ITS NOT "EQUAL" ( == ) but Assignment (=)....
+import org.jetbrains.kotlin.lexer.*
+import org.jetbrains.kotlin.psi.*
 
 inline val KtBinaryExpression.isEqual: Boolean
-    get() = this.operationToken == KtTokens.EQ
+    get() = this.operationToken == KtTokens.EQEQ
 
 inline val KtBinaryExpression.isNotEqual: Boolean
     get() = !isEqual

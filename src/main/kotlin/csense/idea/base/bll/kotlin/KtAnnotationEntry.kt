@@ -2,7 +2,7 @@
 
 package csense.idea.base.bll.kotlin
 
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import csense.idea.base.csense.*
@@ -14,7 +14,7 @@ fun List<KtAnnotationEntry>.filterThrowsAnnotation(): KtAnnotationEntry? = first
 }
 
 fun KtAnnotationEntry.isThrowsAnnotation(): Boolean {
-    return fqName() in setOf("kotlin.Throws", "kotlin.jvm.Throws")
+    return fqName() in setOf("kotlin.Throws", "kotlin.jvm.Throws") || shortName?.asString() == "@Throws"
 }
 
 fun KtAnnotationEntry.isDeprecatedAnnotation(): Boolean {
@@ -53,6 +53,7 @@ fun List<KtAnnotationEntry>.anyByFqNames(fqNames: Set<String>): Boolean = any { 
     it.fqName() in fqNames
 }
 
-fun List<KtAnnotationEntry>.filterByFqNames(fqNames: Set<String>): List<KtAnnotationEntry> = filter { it: KtAnnotationEntry ->
-    it.fqName() in fqNames
-}
+fun List<KtAnnotationEntry>.filterByFqNames(fqNames: Set<String>): List<KtAnnotationEntry> =
+    filter { it: KtAnnotationEntry ->
+        it.fqName() in fqNames
+    }

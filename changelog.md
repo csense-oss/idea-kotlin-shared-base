@@ -1,7 +1,15 @@
+## 0.2.0
+- now uses ideaIC-2024.3 (allows K2 mode)
+  - removed old dead methods related to k2 (they just throws....)
+- (some) translations for color panel (zh_CN)
+- started on catching processCancellationExceptions
+- type resolution deprecations fixed 
+
 ## 0.1.70
+
 - bump to kotlin 2.0
 - added KotlinFullClassNameIndexWrapper
-- updated resolution of Ktclass from name
+- updated resolution of KtClass from name
 - bump idea to 223
 - added sources to release
 - fixed a few bugs
@@ -10,27 +18,34 @@
 - added containsNotToken
 
 ## 0.1.65
+
 - re-upload of 0.1.64
 
 ## 0.1.64
+
 - added cachedFileInMemory
 
 ## 0.1.63
+
 - more extension
 - better thrown expression evaluation
 
 ## 0.1.62
+
 - bump of deps
 - published to maven
 
 ## 0.1.61
+
 - fixed issues with type alias in resolving isSubTypeOfAny
 - also added more operations on KtPsiClass (allFqNames())
 
 ## 0.1.60
+
 - kotlin 1.9.22
 - added a lot of methods and removed some unnused stuff and moved alot around.
 - should resolve types much better
+
 ## 0.1.50
 
 - uses IDEA 213 as base now

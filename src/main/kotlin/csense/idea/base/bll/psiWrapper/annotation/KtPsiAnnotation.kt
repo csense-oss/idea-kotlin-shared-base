@@ -1,8 +1,8 @@
 package csense.idea.base.bll.psiWrapper.annotation
 
-import com.intellij.psi.PsiAnnotation
+import com.intellij.psi.*
 import csense.idea.base.bll.kotlin.*
-import org.jetbrains.kotlin.psi.KtAnnotationEntry
+import org.jetbrains.kotlin.psi.*
 
 sealed interface KtPsiAnnotation {
 
@@ -17,4 +17,3 @@ sealed interface KtPsiAnnotation {
     }
 
 }
-

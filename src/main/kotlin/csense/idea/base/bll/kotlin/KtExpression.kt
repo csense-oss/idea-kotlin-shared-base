@@ -1,15 +1,11 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.*
+import csense.idea.base.bll.ka.*
 import csense.idea.base.bll.kotlin.models.*
-import org.jetbrains.kotlin.idea.caches.resolve.analyze
-import org.jetbrains.kotlin.js.descriptorUtils.nameIfStandardType
-
+import org.jetbrains.kotlin.analysis.api.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.isPlainWithEscapes
-import org.jetbrains.kotlin.resolve.*
-import org.jetbrains.kotlin.resolve.lazy.*
-import org.jetbrains.kotlin.types.*
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 /**
  * Simple heuristic / not fully done.
@@ -39,8 +35,9 @@ fun KtStringTemplateExpression.isConstant(): Boolean =
  * @return String?
  */
 fun KtExpression.computeTypeAsString(): String? {
-    val type: KotlinType? = resolveExpressionType()
-    return type?.nameIfStandardType?.asString()
+    return analyze(this){
+        fqClassNameAsString(expressionType)
+    }
 }
 
 fun KtExpression.isTypeReference(): Boolean {
@@ -57,14 +54,6 @@ fun KtExpression.resolveAsReferenceToPropertyOrValueParameter(): KtParameterOrVa
         }
     }
 }
-
-
-/**
- * Only usable on "expressions" not say [KtDeclaration]s (where you should use [KtDeclaration.resolveType] instead)
- */
-fun KtExpression.resolveExpressionType(
-    context: BindingContext = this.analyze(BodyResolveMode.PARTIAL),
-): KotlinType? = context.getType(this)
 
 
 fun KtExpression.tryResolveToCallExpression(): PsiMethod? = when (this) {

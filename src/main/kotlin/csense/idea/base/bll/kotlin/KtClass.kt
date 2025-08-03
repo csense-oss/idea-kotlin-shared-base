@@ -2,12 +2,12 @@
 
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiClass
-import com.intellij.psi.search.searches.ClassInheritorsSearch
-import org.jetbrains.kotlin.asJava.toLightClass
-import org.jetbrains.kotlin.idea.core.isOverridable
+import com.intellij.psi.*
+import com.intellij.psi.search.searches.*
+import org.jetbrains.kotlin.asJava.*
+import org.jetbrains.kotlin.idea.core.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
+import org.jetbrains.kotlin.psi.psiUtil.*
 import org.jetbrains.kotlin.psi.psiUtil.isAbstract
 
 fun KtClass.isAbstractOrOpen(): Boolean {

@@ -16,6 +16,12 @@ fun PsiMethod.findCallsInPlaceContracts(): List<KtCallExpression> =
 
 fun KtFunction.findCallsInPlaceContracts(
 
-): List<KtCallExpression> = collectDescendantsOfType { callExpression: KtCallExpression ->
-    callExpression.resolveMainReferenceAsKtFunction()?.fqName?.asString() == "kotlin.contracts.ContractBuilder.callsInPlace"
+): List<KtCallExpression> {
+    if(containingKtFile.isStubbed()){
+        //it might be possible to extract contracts via say annotations etc.
+        return emptyList()
+    }
+    return collectDescendantsOfType { callExpression: KtCallExpression ->
+        callExpression.resolveMainReferenceAsKtFunction()?.fqName?.asString() == "kotlin.contracts.ContractBuilder.callsInPlace"
+    }
 }

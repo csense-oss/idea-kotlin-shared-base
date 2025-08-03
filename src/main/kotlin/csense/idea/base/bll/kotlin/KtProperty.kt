@@ -8,7 +8,6 @@ import org.jetbrains.kotlin.idea.core.*
 import org.jetbrains.kotlin.idea.refactoring.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
-import kotlin.contracts.*
 
 
 fun KtProperty.hasCustomCode(): Boolean {

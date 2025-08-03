@@ -6,7 +6,7 @@ import com.intellij.psi.search.*
 import csense.idea.base.bll.kotlin.*
 import csense.idea.base.bll.psi.*
 import csense.idea.base.bll.psiWrapper.`class`.*
-import org.jetbrains.kotlin.nj2k.postProcessing.*
+import org.jetbrains.kotlin.idea.references.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
 
@@ -110,7 +110,7 @@ fun KtNameReferenceExpression.resolveFirstClassType2(): KtPsiClass? =
     }
 
 fun KtReferenceExpression.resolveFirstClassType2(): KtPsiClass? =
-    resolve()?.resolveFirstClassType2()
+    mainReference.resolve()?.resolveFirstClassType2()
 
 fun KtNamedFunction.resolveFirstClassType2(): KtPsiClass? =
     getDeclaredReturnType()?.asKtOrPsiClass()
@@ -127,10 +127,10 @@ fun KtTypeAlias.resolveFirstClassType2(): KtPsiClass? {
 }
 
 fun KtParameter.resolveFirstClassType2(): KtPsiClass? =
-    typeReference?.resolve()?.resolveFirstClassType2()
+    typeReference?.resolveFirstClassType2()
 
 fun PsiReference.resolveFirstClassType2(): KtPsiClass? =
     resolve()?.resolveFirstClassType2()
 
 fun KtAnnotationEntry.resolveFirstClassType2(): KtPsiClass? =
-    typeReference?.resolve()?.resolveFirstClassType2()
+    typeReference?.resolveFirstClassType2()

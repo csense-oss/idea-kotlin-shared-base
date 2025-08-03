@@ -1,8 +1,7 @@
 package csense.idea.base.bll.psiWrapper.`class`.operations
 
-import com.intellij.openapi.project.Project
+import com.intellij.openapi.project.*
 import csense.idea.base.bll.psiWrapper.`class`.*
-import csense.idea.base.bll.psiWrapper.function.*
 
 val KtPsiClass.project: Project
     get() = when (this) {

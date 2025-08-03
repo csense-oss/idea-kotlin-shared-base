@@ -4,11 +4,8 @@ package csense.idea.base.bll.kotlin
 
 import csense.idea.base.bll.kotlin.models.*
 import csense.idea.base.bll.psi.*
-import csense.idea.base.bll.psiWrapper.function.*
 import csense.idea.base.bll.psiWrapper.function.operations.*
-import csense.kotlin.extensions.collections.*
 import org.jetbrains.kotlin.psi.*
-
 
 
 fun KtLambdaExpression.toLamdaArgumentLookup(): LambdaArgumentLookup? {

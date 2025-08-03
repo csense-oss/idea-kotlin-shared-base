@@ -3,11 +3,10 @@ package csense.idea.base.bll.kotlin
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.*
 import com.intellij.psi.search.*
-import csense.idea.base.bll.psiWrapper.`class`.operations.*
-import org.jetbrains.kotlin.idea.references.*
 import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
+
 @Deprecated("use resolveFirstClassType2 instead")
 fun PsiElement.resolveFirstClassType(): PsiElement? {
     return when (this) {

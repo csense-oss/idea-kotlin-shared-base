@@ -3,12 +3,11 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.*
-import org.jetbrains.kotlin.asJava.classes.KtLightClassForSourceDeclaration
-import org.jetbrains.kotlin.builtins.isFunctionType
-import org.jetbrains.kotlin.lexer.KtTokens
+import org.jetbrains.kotlin.analysis.api.*
+import org.jetbrains.kotlin.asJava.classes.*
+import org.jetbrains.kotlin.lexer.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.collectDescendantsOfType
-import org.jetbrains.kotlin.psi.psiUtil.isObjectLiteral
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 fun KtClassOrObject.getProperties() = body?.properties.orEmpty()
 
@@ -54,9 +53,12 @@ fun KtClassOrObject.isUnit(): Boolean =
 
 fun KtClassOrObject.getAllClassProperties(): List<KtNamedDeclaration> {
     val localFields: List<KtProperty> = collectDescendantsOfType<KtProperty> {
-        !it.isLocal && (it.resolveType()?.isFunctionType ?: false)
+        val isFunctionalType: Boolean = analyze(it) {
+            expressionType?.isFunctionType ?: false
+        }
+        !it.isLocal && isFunctionalType
     }
-    val constructorFields: List<KtNamedDeclaration> = primaryConstructor?.let {
+    val constructorFields: List<KtNamedDeclaration> = primaryConstructor?.let { it: KtPrimaryConstructor ->
         it.collectDescendantsOfType { param: KtParameter ->
             param.hasValOrVar() && param.isFunctionalType()
         }

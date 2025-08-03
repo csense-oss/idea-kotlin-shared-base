@@ -1,26 +1,20 @@
 package csense.idea.base.externalAnnotations
 
-import com.intellij.codeInsight.ExternalAnnotationsManager
-import com.intellij.codeInsight.ExternalAnnotationsManager.CanceledConfigurationException
-import com.intellij.codeInsight.ExternalAnnotationsManagerImpl
-import com.intellij.codeInsight.daemon.DaemonCodeAnalyzer
-import com.intellij.codeInsight.intention.AddAnnotationPsiFix
-import com.intellij.codeInsight.intention.impl.BaseIntentionAction
-import com.intellij.openapi.editor.Editor
-import com.intellij.openapi.project.Project
-import com.intellij.openapi.ui.DialogBuilder
-import com.intellij.openapi.ui.Messages
+import com.intellij.codeInsight.*
+import com.intellij.codeInsight.ExternalAnnotationsManager.*
+import com.intellij.codeInsight.daemon.*
+import com.intellij.codeInsight.intention.*
+import com.intellij.codeInsight.intention.impl.*
+import com.intellij.openapi.editor.*
+import com.intellij.openapi.project.*
+import com.intellij.openapi.ui.*
 import com.intellij.psi.*
-import com.intellij.ui.DocumentAdapter
-import com.intellij.ui.components.JBTextField
-import com.intellij.util.ui.GridBag
-import com.intellij.util.ui.JBUI
-import java.awt.GridBagConstraints
-import java.awt.GridBagLayout
-import javax.swing.JLabel
-import javax.swing.JPanel
-import javax.swing.JTextPane
-import javax.swing.event.DocumentEvent
+import com.intellij.ui.*
+import com.intellij.ui.components.*
+import com.intellij.util.ui.*
+import java.awt.*
+import javax.swing.*
+import javax.swing.event.*
 
 
 abstract class BaseExternalRangeAnnotation<Min, Max> : BaseIntentionAction() {

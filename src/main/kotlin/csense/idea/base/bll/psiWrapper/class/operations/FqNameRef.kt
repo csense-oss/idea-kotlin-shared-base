@@ -1,6 +1,6 @@
 package csense.idea.base.bll.psiWrapper.`class`.operations
 
-import com.intellij.psi.PsiFile
+import com.intellij.psi.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 
 fun KtPsiClass.fqNameRef(): String =

@@ -2,11 +2,11 @@
 
 package csense.idea.base.module
 
-import com.intellij.openapi.module.Module
-import com.intellij.psi.PsiDirectory
-import csense.idea.base.bll.platform.toPsiDirectory
-import org.jetbrains.kotlin.idea.util.sourceRoots
-import org.jetbrains.kotlin.psi.KtFile
+import com.intellij.openapi.module.*
+import com.intellij.psi.*
+import csense.idea.base.bll.platform.*
+import org.jetbrains.kotlin.idea.util.*
+import org.jetbrains.kotlin.psi.*
 
 
 fun Module.findPackageDir(containingFile: KtFile): PsiDirectory? {

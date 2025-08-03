@@ -2,10 +2,10 @@
 
 package csense.idea.base.module
 
-import com.intellij.psi.PsiDirectory
-import com.intellij.util.IncorrectOperationException
-import csense.kotlin.extensions.tryAndLog
-import org.jetbrains.kotlin.psi.KtFile
+import com.intellij.psi.*
+import com.intellij.util.*
+import csense.kotlin.extensions.*
+import org.jetbrains.kotlin.psi.*
 
 
 fun PsiDirectory.findPackage(packageName: String): PsiDirectory? {

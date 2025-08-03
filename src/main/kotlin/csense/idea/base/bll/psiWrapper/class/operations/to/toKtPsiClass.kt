@@ -1,6 +1,6 @@
 package csense.idea.base.bll.psiWrapper.`class`.operations.to
 
-import com.intellij.psi.PsiClass
+import com.intellij.psi.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import org.jetbrains.kotlin.psi.*
 

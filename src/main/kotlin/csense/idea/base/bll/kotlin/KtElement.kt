@@ -2,13 +2,10 @@
 
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.*
-import csense.idea.base.bll.psi.findParentOfType
+import csense.idea.base.bll.psi.*
 import csense.idea.base.csense.*
 import csense.kotlin.extensions.collections.generic.*
-import org.jetbrains.kotlin.psi.KtClassOrObject
-import org.jetbrains.kotlin.psi.KtElement
-import org.jetbrains.kotlin.psi.KtObjectDeclaration
+import org.jetbrains.kotlin.psi.*
 
 fun KtElement.isInObject(): Boolean =
     this.findParentOfType<KtClassOrObject>() is KtObjectDeclaration

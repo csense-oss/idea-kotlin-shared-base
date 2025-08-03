@@ -2,14 +2,11 @@
 
 package csense.idea.base.bll.kotlin
 
-import org.jetbrains.kotlin.lexer.KtTokens
-import org.jetbrains.kotlin.nj2k.postProcessing.*
-import org.jetbrains.kotlin.psi.KtAnnotationEntry
-import org.jetbrains.kotlin.psi.KtFunctionType
-import org.jetbrains.kotlin.psi.KtNameReferenceExpression
-import org.jetbrains.kotlin.psi.KtParameter
-import org.jetbrains.kotlin.psi.psiUtil.anyDescendantOfType
-import org.jetbrains.kotlin.types.typeUtil.*
+import csense.idea.base.bll.ka.*
+import org.jetbrains.kotlin.analysis.api.*
+import org.jetbrains.kotlin.lexer.*
+import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.*
 
 
 fun KtParameter.isFunctionalAndNotNoInline(): Boolean {
@@ -29,8 +26,13 @@ fun KtParameter.isFunctionalType(): Boolean {
 fun KtParameter.isNumberTypeWithDefaultValue(): Boolean =
     isNumberType() && hasDefaultValue()
 
-fun KtParameter.isNumberType(): Boolean =
-    resolveType()?.isPrimitiveNumberOrNullableType() == true
+fun KtParameter.isNumberType(): Boolean {
+    return analyze(this) {
+        val expressionType = expressionType ?: return false
+        isPrimitiveNumberOrNullableType(expressionType)
+    }
+}
+
 
 fun KtParameter.allAnnotations(): List<KtAnnotationEntry> =
     annotationEntries + typeReference?.annotationEntries.orEmpty()

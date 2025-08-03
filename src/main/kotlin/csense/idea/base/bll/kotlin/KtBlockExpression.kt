@@ -1,7 +1,7 @@
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.psi.KtBlockExpression
+import com.intellij.psi.*
+import org.jetbrains.kotlin.psi.*
 
 /**
  * Adds the given element as the first element inside of this block (so not outside the scope)

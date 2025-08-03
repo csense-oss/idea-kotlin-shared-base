@@ -3,7 +3,6 @@
 package csense.idea.base.uicomponents.colorFont
 
 import com.intellij.util.xmlb.*
-import csense.idea.base.uicomponents.colorFont.*
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 

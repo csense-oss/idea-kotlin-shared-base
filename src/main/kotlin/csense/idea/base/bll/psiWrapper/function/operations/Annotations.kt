@@ -1,6 +1,6 @@
 package csense.idea.base.bll.psiWrapper.function.operations
 
-import com.intellij.psi.PsiAnnotation
+import com.intellij.psi.*
 import csense.idea.base.bll.psiWrapper.annotation.*
 import csense.idea.base.bll.psiWrapper.function.*
 import org.jetbrains.kotlin.psi.*
