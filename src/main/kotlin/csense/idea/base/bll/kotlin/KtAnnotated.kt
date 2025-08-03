@@ -12,7 +12,7 @@ fun KtAnnotated.throwsAnnotationOrNull(): KtAnnotationEntry? =
     annotationEntries.filterThrowsAnnotation()
 
 fun KtAnnotated.throwsTypes(): List<KtPsiClass> {
-    val fromDocumentation: List<KtPsiClass> = throwsDocumentationOrNull()
+    val fromDocumentation: List<KtPsiClass> = throwsDocumentation()
     val fromAnnotations: List<KtPsiClass> = throwsAnntationTypes()
     return fromDocumentation + fromAnnotations
 }
@@ -22,8 +22,11 @@ fun KtAnnotated.throwsAnntationTypes(): List<KtPsiClass> {
     return listOf(annotations).resolveAsThrowTypesOrThrowable(project)
 }
 
-fun KtAnnotated.throwsDocumentationOrNull(): List<KtPsiClass> {
-
+fun KtAnnotated.throwsDocumentation(): List<KtPsiClass> {
+    if(containingKtFile.isStubbed()){
+        //stubs does not have comments
+        return emptyList()
+    }
     val docsThrows = "@throws"
     val kdocs: List<KDoc> = collectDescendantsOfType()
     val kdocsText: List<String> = kdocs.map { it: KDoc ->

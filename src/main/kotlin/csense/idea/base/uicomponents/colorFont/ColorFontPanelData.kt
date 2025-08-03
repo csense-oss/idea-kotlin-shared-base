@@ -10,7 +10,7 @@ import org.intellij.lang.annotations.*
 import java.awt.*
 
 @Suppress("PROVIDED_RUNTIME_TOO_LOW")
-@Serializable
+@Serializable(with = ColorFontPanelDataSerializer::class)
 data class ColorFontPanelData(
 
     var foregroundColor: Color? = null,
@@ -23,7 +23,7 @@ data class ColorFontPanelData(
 
     var effectType: EffectType? = null,
 
-    @MagicConstant(flags = [Font.PLAIN.toLong(), Font.BOLD.toLong(), Font.ITALIC.toLong()])
+    @param:MagicConstant(flags = [Font.PLAIN.toLong(), Font.BOLD.toLong(), Font.ITALIC.toLong()])
     var fontType: Int = Font.PLAIN
 )
 

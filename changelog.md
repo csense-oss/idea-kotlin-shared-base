@@ -1,9 +1,9 @@
-## 0.1.71
-
+## 0.2.0
+- now uses ideaIC-2024.3 (allows K2 mode)
+  - removed old dead methods related to k2 (they just throws....)
 - (some) translations for color panel (zh_CN)
 - started on catching processCancellationExceptions
-- type resolution deprecations fixed
-
+- type resolution deprecations fixed 
 
 ## 0.1.70
 
