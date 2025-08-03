@@ -81,11 +81,10 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+    sourceSets.configureEach {
+        languageSettings.progressiveMode = true
+    }
 }
-kotlin.sourceSets.configureEach {
-    languageSettings.progressiveMode = true
-}
-
 
 apply from: "$rootDir/gradle/publish.gradle"
 
