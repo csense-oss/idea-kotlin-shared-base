@@ -38,8 +38,6 @@ fun KtExpression.computeTypeAsString(): String? {
     return analyze(this){
         fqClassNameAsString(expressionType)
     }
-//    return type?.symbol?.classId?.asSingleFqName()?.asString()
-//    return type?.nameIfStandardType?.asString()
 }
 
 fun KtExpression.isTypeReference(): Boolean {
