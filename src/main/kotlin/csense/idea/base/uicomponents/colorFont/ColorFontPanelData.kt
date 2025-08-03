@@ -4,7 +4,6 @@
 package csense.idea.base.uicomponents.colorFont
 
 import com.intellij.openapi.editor.markup.*
-import com.intellij.util.xmlb.annotations.*
 import kotlinx.serialization.*
 import org.intellij.lang.annotations.*
 import java.awt.*

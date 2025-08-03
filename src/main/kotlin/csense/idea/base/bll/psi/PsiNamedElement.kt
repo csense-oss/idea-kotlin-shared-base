@@ -1,8 +1,7 @@
 package csense.idea.base.bll.psi
 
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiNamedElement
-import org.jetbrains.kotlin.psi.KtClass
+import com.intellij.psi.*
+import org.jetbrains.kotlin.psi.*
 
 fun PsiNamedElement.isInterfaceClass(): Boolean = when (this) {
     is KtClass -> isInterface()

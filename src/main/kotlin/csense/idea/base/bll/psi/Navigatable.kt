@@ -2,8 +2,8 @@
 
 package csense.idea.base.bll.psi
 
-import kotlin.internal.*
 import com.intellij.pom.*
+import kotlin.internal.*
 
 @LowPriorityInOverloadResolution
 fun Navigatable.tryNavigate(requestFocus: Boolean) {

@@ -1,7 +1,6 @@
 package csense.idea.base.bll.kotlin
 
 import csense.kotlin.extensions.*
-import org.jetbrains.kotlin.analysis.api.analyze
 import org.jetbrains.kotlin.name.*
 import org.jetbrains.kotlin.types.*
 

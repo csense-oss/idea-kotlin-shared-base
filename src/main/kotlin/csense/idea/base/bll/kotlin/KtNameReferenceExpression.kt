@@ -1,10 +1,10 @@
 package csense.idea.base.bll.kotlin
 
-import com.intellij.psi.PsiElement
-import csense.kotlin.extensions.tryAndLog
-import org.jetbrains.kotlin.idea.references.resolveMainReferenceToDescriptors
-import org.jetbrains.kotlin.js.resolve.diagnostics.findPsi
-import org.jetbrains.kotlin.nj2k.postProcessing.resolve
+import com.intellij.psi.*
+import csense.kotlin.extensions.*
+import org.jetbrains.kotlin.idea.references.*
+import org.jetbrains.kotlin.js.resolve.diagnostics.*
+import org.jetbrains.kotlin.nj2k.postProcessing.*
 import org.jetbrains.kotlin.psi.*
 
 

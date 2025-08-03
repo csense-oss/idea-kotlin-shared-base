@@ -3,7 +3,7 @@
 package csense.idea.base.bll
 
 import com.intellij.lang.annotation.*
-import com.intellij.openapi.editor.markup.TextAttributes
+import com.intellij.openapi.editor.markup.*
 import com.intellij.openapi.util.*
 
 fun AnnotationHolder.highlightTextRange(

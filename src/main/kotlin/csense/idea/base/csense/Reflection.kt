@@ -1,8 +1,6 @@
 package csense.idea.base.csense
 
-import kotlin.reflect.KFunction
-import kotlin.reflect.KParameter
-import kotlin.reflect.javaType
+import kotlin.reflect.*
 
 
 @OptIn(ExperimentalStdlibApi::class)

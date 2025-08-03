@@ -1,8 +1,8 @@
 package csense.idea.base.externalAnnotations
 
-import com.intellij.codeInsight.externalAnnotation.AnnotationProvider
-import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiModifierListOwner
+import com.intellij.codeInsight.externalAnnotation.*
+import com.intellij.openapi.project.*
+import com.intellij.psi.*
 
 
 abstract class ExternalMultiplePsiAnnotationProvider(private val name: String) : AnnotationProvider {

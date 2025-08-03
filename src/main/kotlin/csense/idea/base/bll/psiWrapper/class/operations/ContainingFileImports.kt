@@ -5,7 +5,6 @@ import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.imports.*
 import csense.idea.base.bll.psiWrapper.imports.operations.*
 import org.jetbrains.kotlin.psi.*
-import org.jetbrains.kotlin.psi.psiUtil.*
 
 
 fun KtPsiClass.containingFileImports(): List<KtPsiImports> = when (this) {

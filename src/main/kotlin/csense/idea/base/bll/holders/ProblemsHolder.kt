@@ -3,9 +3,9 @@
 package csense.idea.base.bll
 
 import com.intellij.codeInspection.*
-import com.intellij.psi.PsiElement
-import org.jetbrains.kotlin.psi.KtCallExpression
-import org.jetbrains.kotlin.psi.stubs.elements.KtNameReferenceExpressionElementType
+import com.intellij.psi.*
+import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.stubs.elements.*
 
 
 /**

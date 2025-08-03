@@ -3,7 +3,7 @@
 package csense.idea.base.bll.psiWrapper.`class`.operations.to
 
 import com.intellij.openapi.project.*
-import com.intellij.psi.PsiFile
+import com.intellij.psi.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import org.jetbrains.kotlin.psi.*

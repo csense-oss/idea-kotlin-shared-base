@@ -3,7 +3,6 @@
 package csense.idea.base.bll.linemarkers
 
 import com.intellij.codeInsight.daemon.*
-import com.intellij.openapi.progress.*
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.*
 import csense.idea.base.bll.*

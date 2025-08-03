@@ -1,8 +1,7 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.*
-import com.intellij.psi.impl.source.tree.LeafPsiElement
-import com.intellij.psi.util.*
+import com.intellij.psi.impl.source.tree.*
 import org.jetbrains.kotlin.lexer.*
 import org.jetbrains.kotlin.psi.*
 

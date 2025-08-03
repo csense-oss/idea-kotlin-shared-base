@@ -1,10 +1,7 @@
 package csense.idea.base.bll.psi
 
-import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.psi.SmartPointerManager
-import com.intellij.psi.SmartPsiElementPointer
+import com.intellij.openapi.project.*
+import com.intellij.psi.*
 
 fun <E : PsiElement> E.smartPsiElementPointer(): SmartPsiElementPointer<E> =
     smartPsiElementPointer(project, containingFile)

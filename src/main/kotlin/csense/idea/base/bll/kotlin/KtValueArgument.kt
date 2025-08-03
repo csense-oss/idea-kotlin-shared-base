@@ -1,7 +1,6 @@
 package csense.idea.base.bll.kotlin
 
-import org.jetbrains.kotlin.psi.KtConstantExpression
-import org.jetbrains.kotlin.psi.KtValueArgument
+import org.jetbrains.kotlin.psi.*
 
 fun KtValueArgument.getFloatValueFromExpression(): Float? {
     return asConstantExpression()?.text?.toFloatOrNull()
