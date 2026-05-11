@@ -1,4 +1,5 @@
 ## 0.2.1
+- Fixed k2 api issue(s) in functions
 
 ## 0.2.0
 - now uses ideaIC-2024.3 (allows K2 mode)

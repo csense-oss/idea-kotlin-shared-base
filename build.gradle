@@ -58,8 +58,8 @@ dependencies {
 
     implementation fileTree(include: ['*.jar'], dir: 'libs/kotlin/')
 
-
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    //https://github.com/Kotlin/kotlinx.coroutines
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.11.0")
 
     testImplementation("csense.kotlin:csense-kotlin-tests:0.0.60")
 
