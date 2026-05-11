@@ -15,7 +15,3 @@ fun KaTypeInformationProvider.isPrimitiveNumberOrNullableType(type: KaType): Boo
             type.isUByteType ||
             type.isUShortType
 }
-
-fun KaTypeInformationProvider.fqClassNameAsString(type: KaType?): String? {
-    return type?.symbol?.classId?.asString()
-}

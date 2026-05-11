@@ -4,6 +4,7 @@ import com.intellij.psi.*
 import csense.idea.base.bll.ka.*
 import csense.idea.base.bll.kotlin.models.*
 import org.jetbrains.kotlin.analysis.api.*
+import org.jetbrains.kotlin.analysis.api.types.*
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.psi.psiUtil.*
 
@@ -35,9 +36,7 @@ fun KtStringTemplateExpression.isConstant(): Boolean =
  * @return String?
  */
 fun KtExpression.computeTypeAsString(): String? {
-    return analyze(this){
-        fqClassNameAsString(expressionType)
-    }
+    return analyzeTypeName()
 }
 
 fun KtExpression.isTypeReference(): Boolean {
@@ -61,4 +60,16 @@ fun KtExpression.tryResolveToCallExpression(): PsiMethod? = when (this) {
     is KtDotQualifiedExpression -> selectorExpression?.tryResolveToCallExpression()
     is KtCallExpression -> resolveMainReferenceAsPsiMethod()
     else -> null
+}
+
+fun KtExpression.analyzeTypeName(): String? {
+    return analyze(useSiteElement = this) {
+        expressionType?.fqClassNameAsString()
+    }
+}
+
+fun KtExpression.analyzeIsFunctionalType(): Boolean {
+    return analyze(this) {
+        expressionType?.isFunctionType ?: false
+    }
 }

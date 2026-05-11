@@ -3,7 +3,7 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.*
-import org.jetbrains.kotlin.analysis.api.*
+import csense.idea.base.analysis.*
 import org.jetbrains.kotlin.asJava.classes.*
 import org.jetbrains.kotlin.lexer.*
 import org.jetbrains.kotlin.psi.*
@@ -52,10 +52,8 @@ fun KtClassOrObject.isUnit(): Boolean =
 
 
 fun KtClassOrObject.getAllClassProperties(): List<KtNamedDeclaration> {
-    val localFields: List<KtProperty> = collectDescendantsOfType<KtProperty> {
-        val isFunctionalType: Boolean = analyze(it) {
-            expressionType?.isFunctionType ?: false
-        }
+    val localFields: List<KtProperty> = collectDescendantsOfType<KtProperty> { it: KtProperty ->
+        val isFunctionalType: Boolean = it.analyzeIsFunctionalType()
         !it.isLocal && isFunctionalType
     }
     val constructorFields: List<KtNamedDeclaration> = primaryConstructor?.let { it: KtPrimaryConstructor ->
