@@ -2,7 +2,6 @@
 
 package csense.idea.base.bll.kotlin
 
-import csense.idea.base.analysis.*
 import csense.idea.base.bll.psiWrapper.`class`.*
 import csense.idea.base.bll.psiWrapper.`class`.operations.*
 import org.jetbrains.kotlin.psi.*

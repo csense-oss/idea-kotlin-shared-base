@@ -3,7 +3,6 @@
 package csense.idea.base.bll.kotlin
 
 import com.intellij.psi.*
-import csense.idea.base.analysis.*
 import org.jetbrains.kotlin.asJava.classes.*
 import org.jetbrains.kotlin.lexer.*
 import org.jetbrains.kotlin.psi.*
